@@ -1,0 +1,62 @@
+package com.zeepn.bean;
+
+public class NumLevelFee {
+	private int nlf_id;
+	private NumLevel nl_id;
+	private String nlf_paytime;
+	private String nlf_mattime;
+	private Club club_id;
+	public NumLevelFee() {
+	}
+	public NumLevelFee(NumLevel nl_id, String nlf_paytime, String nlf_mattime,
+			Club club_id) {
+		this.nl_id = nl_id;
+		this.nlf_paytime = nlf_paytime;
+		this.nlf_mattime = nlf_mattime;
+		this.club_id = club_id;
+	}
+	public NumLevelFee(int nlf_id, NumLevel nl_id, String nlf_paytime,
+			String nlf_mattime, Club club_id) {
+		this.nlf_id = nlf_id;
+		this.nl_id = nl_id;
+		this.nlf_paytime = nlf_paytime;
+		this.nlf_mattime = nlf_mattime;
+		this.club_id = club_id;
+	}
+	public int getNlf_id() {
+		return nlf_id;
+	}
+	public void setNlf_id(int nlf_id) {
+		this.nlf_id = nlf_id;
+	}
+	public NumLevel getNl_id() {
+		return nl_id;
+	}
+	public void setNl_id(NumLevel nl_id) {
+		this.nl_id = nl_id;
+	}
+	public String getNlf_paytime() {
+		return nlf_paytime;
+	}
+	public void setNlf_paytime(String nlf_paytime) {
+		this.nlf_paytime = nlf_paytime;
+	}
+	public String getNlf_mattime() {
+		return nlf_mattime;
+	}
+	public void setNlf_mattime(String nlf_mattime) {
+		this.nlf_mattime = nlf_mattime;
+	}
+	public Club getClub_id() {
+		return club_id;
+	}
+	public void setClub_id(Club club_id) {
+		this.club_id = club_id;
+	}
+	@Override
+	public String toString() {
+		return "NumLevelFee [nlf_id=" + nlf_id + ", nl_id=" + nl_id
+				+ ", nlf_paytime=" + nlf_paytime + ", nlf_mattime="
+				+ nlf_mattime + ", club_id=" + club_id + "]";
+	}
+}

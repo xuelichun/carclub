@@ -1,0 +1,108 @@
+package com.zeepn.controller;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.zeepn.bean.DynPic;
+import com.zeepn.bean.PersonDyn;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.service.UserDynService;
+import com.zeepn.utils.DateFormat;
+import com.zeepn.utils.Upload;
+@Controller
+@RequestMapping("/userDyn")
+public class UserDynController {
+	@Autowired
+	UserDynService userDynService;
+	
+	
+	@RequestMapping(value="/publishimage",method=RequestMethod.POST)
+	@ResponseBody
+	public Object userPublishimage(@RequestParam MultipartFile[] img,PersonDyn personDyn,HttpServletRequest request) throws IOException{
+		HttpSession session=request.getSession();
+		UserInfo userinfo=(UserInfo) session.getAttribute("user");
+		String pd_time=DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_MSEC);
+		int u_id=userinfo.getU_id();
+		int pd_num=0;
+		personDyn.setU_id(u_id);
+		personDyn.setPd_num(pd_num);
+		personDyn.setPd_time(pd_time);
+		ArrayList<String > list=new ArrayList<String>();
+		if(userDynService.userPublishDyn(personDyn)){
+			int pd_id=userDynService.selectDynByTime(u_id, pd_time);
+			String dp_msg="";
+			for(MultipartFile file:img){
+				dp_msg=Upload.uploadPicture(file, request,"picture");
+				if(dp_msg!=null){
+					if(userDynService.userDynPic(pd_id, dp_msg)){
+						list.add(dp_msg);  //成功上传一张图片
+					}else{
+						Upload.deletePicture(dp_msg); //在传图片时，操作数据库失败
+					}
+				}
+				dp_msg="";
+			}	
+				if(list.size()==img.length){
+					return "{\"rs\":\"ok\"}";
+				}else{   //如果上传图片有一张失败，则删除其他图片，动态发表不成功
+					for(String image:list){
+						Upload.deletePicture(image);  //删除其他上传成功的图片
+						userDynService.deletePicByTimeAndPdId(pd_id, image); // 删除数据库记录
+					}
+					return "{\"rs\":\"imageno\"}";
+				}
+		}else{
+			return "{\"rs\":\"no\"}";  //发表失败
+		}		
+	}
+	@RequestMapping("/publishdyn")
+	@ResponseBody
+	public Object userPublicDyn(PersonDyn personDyn,HttpServletRequest request){
+		HttpSession session=request.getSession();
+		UserInfo userinfo=(UserInfo) session.getAttribute("user");
+		String pd_time=DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_MSEC);
+		int u_id=userinfo.getU_id();
+		int pd_num=0;
+		personDyn.setU_id(u_id);
+		personDyn.setPd_num(pd_num);
+		personDyn.setPd_time(pd_time);
+		if(userDynService.userPublishDyn(personDyn)){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+		}
+	@RequestMapping("/showDyn")
+	@ResponseBody
+	public Map<PersonDyn,List<DynPic>> showDyn(int u_id){
+		System.out.println(u_id);
+		Map<PersonDyn,List<DynPic>> map=userDynService.showDyn(u_id,1);
+//		Set<PersonDyn> set=map.keySet();
+//		for (PersonDyn personDyn : set) {
+//			System.out.println(personDyn);
+//		}
+		System.out.println(map);
+		return map;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+}

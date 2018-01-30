@@ -1,0 +1,42 @@
+package com.zeepn.bean;
+
+public class TourSta {
+	private int ts_id;
+	private DraTravel dt_id;
+	private UserInfo u_id;
+	public TourSta() {
+	}
+	public TourSta(int ts_id, DraTravel dt_id, UserInfo u_id) {
+		this.ts_id = ts_id;
+		this.dt_id = dt_id;
+		this.u_id = u_id;
+	}
+	public TourSta(DraTravel dt_id, UserInfo u_id) {
+		this.dt_id = dt_id;
+		this.u_id = u_id;
+	}
+	public int getTs_id() {
+		return ts_id;
+	}
+	public void setTs_id(int ts_id) {
+		this.ts_id = ts_id;
+	}
+	public DraTravel getDt_id() {
+		return dt_id;
+	}
+	public void setDt_id(DraTravel dt_id) {
+		this.dt_id = dt_id;
+	}
+	public UserInfo getU_id() {
+		return u_id;
+	}
+	public void setU_id(UserInfo u_id) {
+		this.u_id = u_id;
+	}
+	@Override
+	public String toString() {
+		return "TourSta [ts_id=" + ts_id + ", dt_id=" + dt_id + ", u_id="
+				+ u_id + "]";
+	}
+	
+}

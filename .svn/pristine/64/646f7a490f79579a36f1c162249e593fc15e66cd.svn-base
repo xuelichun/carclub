@@ -1,0 +1,15 @@
+package com.zeepn.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.sun.tools.javac.util.List;
+import com.zeepn.bean.InteAcqrec;
+
+@Repository("inteAcqrecDao")
+public interface InteAcqrecDao {
+	
+	public int insertInteAcqrec(InteAcqrec inteAcqrec);
+	
+	public List<InteAcqrec> selectInteAcqrecs(int u_id);
+
+}

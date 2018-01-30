@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/activity.css" rel="stylesheet" type="text/css" />
+<link href="css/message.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<div class="top11">
+	<ul>
+		<li class="top22" >
+		<a href='#' href="javascript:void(0);" class="showbox">登录</a><span>|</span>
+		<a href='#' >注册</a><span>|</span>
+		<a href='#' >消息</a>
+		</li>
+	</ul>
+</div>
+<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="index.html">网站首页</a></li>
+                   <li class="navthis1"><a href="photo.html"  rel='dropmenu1'>活动</a>
+                       <ul>
+                           <li><a href="#">官方活动</a></li>
+                           <li><a href="#">线下活动</a></li>
+                       </ul>
+                   </li> 
+                    <li class="navthis22"><a href="join.html" >全国车友会</a></li>
+                   <li class="navthis8"><a href="activity.html" target="aaa" rel='dropmenu8'>最近活动</a>
+                   </li>
+                   <li class="navthis25"><a href="contact.html" >联系我们</a></li>
+               </ul>
+		</div>
+  	</div>
+ </div>
+<div class="cjbj">
+	<div class="cjbj001">
+		<div class="cjbj002">
+			<div class="cjbj002_1">创建车友会>>车友会信息</div>
+		</div>
+		<div class="">
+			<ul>
+          <li><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">车友会名称：</td>
+                <td width="57%"><input type="text" name="textfield" id="textfield" / class="yanse"></td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">个性域名：http://localhost:8080:</td>
+                <td>
+                <input type="test" name="textfield2" id="textfield2" /class="yanse"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">地址：</td>
+                <td width="57%"><select name="province" id="p" style="width: 100px" size="1" onchange="initC()">
+					    		<option value="-1">请选择</option>
+					    	</select>省
+					    	<select name="city" id="c" style="width:100px" size="1">
+					    		<option value="-1">请选择</option>
+					    	</select>市
+					    	</td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">地址：</td>
+                <td width="57%"><select name="province" id="p" style="width: 100px" size="1" onchange="initC()">
+					    		<option value="-1">请选择</option>
+					    	</select>省
+					    	<select name="city" id="c" style="width:100px" size="1">
+					    		<option value="-1">请选择</option>
+					    	</select>市
+					    	</td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">描述：</td>
+                <td><textarea rows="3" cols="29"></textarea></td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">会标：</td>
+                <td width="57%"><div style="height:0px; width:0;">
+					<input type="file"   /></div>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+                	<tr>
+                    <td width="89">&nbsp;</td>
+                    <td width="6">&nbsp;</td>
+                    <td width="10" align="center" style="color:#999">&nbsp;</td>
+                    <td width="12">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td width="89"><div class="login"><a href="createCarClub2.html">下一步</a></div></td>
+                    <td width="6">&nbsp;</td>
+                    <td width="10" align="center" style="color:#999">&nbsp;</td>
+                    <td width="12">&nbsp;</td>
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table></li>
+ 		</ul>
+		</div>
+	</div>
+</div>   
+</body>
+</html>

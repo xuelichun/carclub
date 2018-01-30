@@ -1,0 +1,96 @@
+package com.zeepn.service.impl;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.Message;
+import com.zeepn.bean.MessageType;
+import com.zeepn.bean.Notice;
+import com.zeepn.dao.FnetAntDao;
+import com.zeepn.dao.MessageDao;
+import com.zeepn.service.MessageService;
+@Component("messageService")
+public class MessageServiceImpl implements MessageService {
+	@Autowired
+	MessageDao messageDao;
+	@Override
+	public int createMessage(Message message){
+	
+		message.setM_time(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+		message.setMt_id(0);
+		System.out.println(message);
+		return 	messageDao.createMessage(message);
+	
+	}
+
+	@Override
+	public int deleteMessage(int m_id) {
+		messageDao.deleteMessage(m_id);
+		return messageDao.deleteMessage(m_id);
+	}
+
+	@Override
+	public List<Message> selectMessageByPage(Map<String , Integer> map) {
+		List<Message> message=messageDao.selectMessageByPage(map);
+		return message;
+		
+	}
+
+	@Override
+	public int createMessageType(MessageType messageType) {
+		
+		return messageDao.createMessageType(messageType);
+	}
+
+	@Override
+	public int deleteMessageType(int mt_id) {
+	
+		return messageDao.deleteMessageType(mt_id);
+	}
+
+	@Override
+	public int updateMessageType(MessageType messageType) {
+		
+		return messageDao.updateMessageType(messageType);
+	}
+
+	@Override
+	public List<MessageType> selectMessageType() {
+	
+		return messageDao.selectMessageType();
+	}
+
+	@Override
+	public int selectMessagePage() {
+                 	
+		return messageDao.selectMessagePage();
+	}
+
+	@Override
+	public Message selectOneMessageById(int m_id) {
+	
+		return messageDao.selectOneMessageById(m_id);
+	}
+
+	@Override
+	public List<Message> selectMessageByType(int mt_id) {
+	
+		return messageDao.selectMessageByType(mt_id);
+	}
+
+	@Override
+	public MessageType selectMessageTypeById(int mt_id) {
+		
+		return messageDao.selectMessageTypeById(mt_id);
+	}
+	@Override
+	public int updateMessage(Message message){
+		return messageDao.updateMessage(message);
+	}
+
+}

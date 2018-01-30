@@ -1,0 +1,62 @@
+$(function(){
+	showActivity(1);
+	showshowActivityAttendeeByClubId(1);
+});
+
+function showActivity(club_id){
+	var content="";
+	$.getJSON("../clubAdmink.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			content+="<div class='biaoti'>"+
+        				"<h1>"+data[i].act_name+"</h1>"+
+        			"</div>"+
+        			"<div class='content'>"+
+				"<div class='m'>"+
+                    "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"+
+                     "<tr>"+
+                        "<td><a href='carClubActivityDetail.html?act_id="+data[i].act_id+"'><img src='images/img_22.jpg' width='206' height='61' /></a></td>"+
+                      "</tr>"+
+                      "<tr>"+
+                        "<td height='20'></td>"+
+                      "</tr>"+
+                      "<tr>"+
+                        "<td align='center' class='baomi'>活动地点："+data[i].act_pro+"&nbsp;"+data[i].act_city+"</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                        "<td height='20'></td>"+
+                      "</tr>"+
+                      "<tr>"+
+                        "<td align='center' class='baomi'>报名人数：40人</td>"+
+                      "</tr>"+
+                      "<tr>"+
+                        "<td height='30'></td>"+
+                      "</tr>"+
+                      "<tr>"+
+                        "<td align='center' class='shuzi'>¥"+data[i].act_money+" </td>"+
+                      "</tr>"+
+                      "<tr>"+
+                        "<td>&nbsp;</td>"+
+                     "</tr>"+
+                    "</table>"+
+                    "</div>"+
+                    "<div class='n'><img src=../"+data[i].act_img+" width='458' height='279' /></div>"+
+                    "</div>";
+		}
+		$("#clubActivities").html(content);
+	});
+}
+
+function showshowActivityAttendeeByClubId(club_id){
+	var content="";
+	$.getJSON("../clubHomeg.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			content+="<div class='divcss'>"+
+		                        "<div class='tip11'><a href='user.html'><img src=../"+data[i].u_head+" width='50px' height='50px'></a></div>"+
+		                     "<div class='scrt11'>"+
+	                        	"<div class='zt11'><a href='#'>"+data[i].u_nick+"</a></div>"+
+	                    	"</div>"+
+	              		"</div>";
+		}
+		$("#clubActivityAttendeeByClubId").html(content);
+	});
+}

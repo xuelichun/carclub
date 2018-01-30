@@ -1,0 +1,29 @@
+package com.zeepn.utils;
+
+import com.zeepn.bean.AppliNotice;
+
+/**
+ * 包装AppliNotice类的工具类
+ * @author scc
+ *
+ */
+public class PacketAppliNotice {
+	public AppliNotice packAn(AUJSON aujson){
+		String an_time=new DateFormat().
+				getCurrentTime(new DateFormat().DEFAULT_DATE_FORMAT_SEC);
+		String an_status="已提交";
+		AppliNotice appliNotice=new AppliNotice();
+		int ga_id=0;
+		int club_del=1;
+		appliNotice.setAn_time(an_time);
+		appliNotice.setAn_status(an_status);
+		appliNotice.setP_id(aujson.getAj_pid());
+		appliNotice.setGa_id(ga_id);
+		appliNotice.setClub_name(aujson.getAj_clubname());
+		appliNotice.setClub_domname(aujson.getAj_clubdomn());
+		appliNotice.setClub_city(aujson.getAj_clubcity());
+		appliNotice.setClub_del(club_del);
+		appliNotice.setCd_id(aujson.getAj_cd());
+		return appliNotice;
+	}
+}

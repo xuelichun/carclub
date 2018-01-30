@@ -1,0 +1,43 @@
+package com.zeepn.service;
+
+import java.util.List;
+
+import com.zeepn.bean.Club;
+import com.zeepn.utils.EasyJSON;
+
+public interface BackClubService {
+	/**
+	 * 查询所有的车友会
+	 * @return 包含记录条数的车友会集合
+	 */
+	public EasyJSON selectAllClubRank(int pageIndex);
+	/**
+	 * 查询前7位的车友会
+	 * @return 车友会集合
+	 */
+	public List<Club> seleFrontClub();
+	/**
+	 * 根据编号查询车友会
+	 * @param pageIndex 页数索引
+	 * @return 包含记录条数的车友会集合
+	 */
+	public EasyJSON selectAllClubById(int pageIndex);
+	/**
+	 * 根据时间查询车友会
+	 * @param pageIndex 页数索引
+	 * @return 包含记录条数的车友会集合
+	 */
+	public EasyJSON selectAllClubByTime(int pageIndex);
+	/**
+	 * 根据车友会编号查询车友会
+	 * @param club_id 车友会编号
+	 * @return 包含记录条数的车友会集合
+	 */
+	public EasyJSON selectOneClub(int club_id);
+	/**
+	 * 根据省份、城市、车的品牌、车系查询车友会
+	 * @param pageIndex 页数索引
+	 * @return 包含记录条数的车友会集合
+	 */
+	public EasyJSON selectAllClubLianDong(int pageIndex,String c);
+}

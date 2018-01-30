@@ -1,0 +1,28 @@
+package com.zeepn.service;
+
+import java.util.HashMap;
+import java.util.List;
+
+import com.zeepn.utils.AUJSON;
+
+public interface AppliNoticeService {
+	/**
+	 * 添加申请通知记录
+	 * @param aujson 创建车友会信息封装的类对象
+	 * @return 添加成功，返回true；添加失败，返回false
+	 */
+	public boolean insertAppliNotice(AUJSON aujson);
+	/**
+	 * 根据申请通知编号组成的字符串修改申请通知（状态+处理人）
+	 * @param str 申请通知编号组成的字符串
+	 * @return 修改成功，返回true；修改失败，返回false
+	 */
+	public boolean updateAppliNotice(String str);
+	/**
+	 * 根据页数索引和读取状态查询申请通知
+	 * @param pageIndex 页数索引
+	 * @param readStatus 读取状态（“0”表示未读，“1”表示已读）
+	 * @return 包含记录条数的申请通知集合
+	 */
+	public HashMap<Integer, Object> selectApplicNoticeByReadSign(int pageIndex,int readStatus);
+}

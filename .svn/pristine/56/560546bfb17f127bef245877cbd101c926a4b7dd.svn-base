@@ -1,0 +1,38 @@
+package com.zeepn.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.bean.ChaEvent;
+import com.zeepn.service.ChaEventService;
+@Controller
+public class ChaEventController {
+	
+	@Autowired
+	ChaEventService chaEventService;
+	
+	@RequestMapping("/chaEventa")
+	@ResponseBody
+	public int insertChaEvent(ChaEvent chaEvent){
+		return chaEventService.insertChaEvent(chaEvent);
+	}
+	
+	@RequestMapping("/chaEventb")
+	public int deleteChaEvent(int ce_id){
+		return chaEventService.deleteChaEvent(ce_id);
+	}
+	
+	@RequestMapping("/chaEventc")
+	@ResponseBody
+	public int updateChaEvent(ChaEvent chaEvent){
+		return chaEventService.updateChaEvent(chaEvent);
+	}
+	
+	@RequestMapping("/chatEventd")
+	@ResponseBody
+	public ChaEvent selectChaEventById(int ce_id){
+		return chaEventService.selectChaEventById(ce_id);
+	}
+}

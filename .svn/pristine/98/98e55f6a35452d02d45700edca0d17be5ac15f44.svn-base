@@ -1,0 +1,143 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>活动推送</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href="<%=basePath%>back/style/authority/style2.css"
+	rel="stylesheet" type="text/css" media="all" />
+<link href="<%=basePath%>back/style/authority/mystyle.css"
+	rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript"
+	src="<%=basePath%>back/scripts/jquery/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<%=basePath%>back/scripts/myjs/laydate/laydate.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event) {
+			event.preventDefault();
+			$('html,body').animate({
+				scrollTop : $(this.hash).offset().top
+			}, 1200);
+		});
+	});
+</script>
+
+</head>
+<body>
+	<div class="main">
+		<div class="contact-form" style="margin-bottom: 10px;">
+		<h2>选择活动类型</h2>
+		<br/>
+			<div>
+				活动类型：<select name="fangyuanEntity.fyXqCode" id="fyXq"
+					class="ui_select01" onchange="getFyDhListByFyXqCode();">
+					<option value="">--请选择--</option>
+					<option value="6">慈善</option>
+					<option value="77">旅游</option>
+				</select>
+			</div>
+			<div>
+				<span>
+					<input type="button" class="" value="上一步">
+					<input type="button" class="" value="下一步">	
+				</span>
+			</div>
+		</div>
+		<div class="contact-form">
+			<h2>填写慈善活动信息</h2>
+			<br/>
+			<div>
+				<span>活动名称：<input name="userName" type="text" class="textbox"></span>
+			</div>
+			<div>
+				<span>活动地点：<input name="userName" type="text" class="textbox"></span>
+			</div>
+			<div>
+				活动时间：从&nbsp;&nbsp;<input type="text"  class="laydate-icon span1-1 ui_input_txt02" id="Calendar" value="2015-08-25"  style="width:130px;"/>
+					&nbsp;&nbsp;到&nbsp;&nbsp;<input type="text"  class="laydate-icon span1-1 ui_input_txt02" id="Calendar2" value="2015-08-25" style="width:130px;"/>
+					&nbsp;&nbsp;结束
+			</div>
+			<script>
+				!function(){
+					laydate.skin('molv');
+							laydate({elem: '#Calendar'});
+							laydate.skin('molv');
+							laydate({elem: '#Calendar2'});
+					}();
+				</script>
+			<div>
+				活动内容：<span><textarea name="userMsg"> </textarea></span>
+			</div>
+			<div class="box">
+				<span>活动图片：<a href="javascript:;" class="file">选择文件 <input
+						type="file" name="" id="">
+				</a>
+				</span>
+			</div>
+			<div>
+				<span><img src="images/0001-1.jpg" alt=""
+					style="width: 350px; height: 200px; padding-left: 80px;" /></span>
+			</div>
+			<div>
+				<span>
+					<input type="button" class="" value="上一步">
+					<input type="button" class="" value="下一步">	
+				</span>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="contact-form">
+			<h2>填写旅游活动信息</h2>
+			<br/>
+			<div>
+				<span>活动名称：<input name="userName" type="text" class="textbox"></span>
+			</div>
+			<div>
+				<span>活动地点：<input name="userName" type="text" class="textbox"></span>
+			</div>
+			<div>
+				活动时间：从&nbsp;&nbsp;<input type="text"  class="laydate-icon span1-1 ui_input_txt02" id="Calendar" value="2015-08-25"  style="width:130px;"/>
+					&nbsp;&nbsp;到&nbsp;&nbsp;<input type="text"  class="laydate-icon span1-1 ui_input_txt02" id="Calendar2" value="2015-08-25" style="width:130px;"/>
+					&nbsp;&nbsp;结束
+			</div>
+			<script>
+				!function(){
+					laydate.skin('molv');
+							laydate({elem: '#Calendar'});
+							laydate.skin('molv');
+							laydate({elem: '#Calendar2'});
+					}();
+				</script>
+			<div>
+				活动内容：<span><textarea name="userMsg"> </textarea></span>
+			</div>
+			<div class="box">
+				<span>活动图片：<a href="javascript:;" class="file">选择文件 <input
+						type="file" name="" id="">
+				</a>
+				</span>
+			</div>
+			<div>
+				<span><img src="images/0001-1.jpg" alt=""
+					style="width: 350px; height: 200px; padding-left: 80px;" /></span>
+			</div>
+			<div>
+				<span>
+					<input type="button" class="" value="上一步">
+					<input type="button" class="" value="下一步">	
+				</span>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</body>
+</html>

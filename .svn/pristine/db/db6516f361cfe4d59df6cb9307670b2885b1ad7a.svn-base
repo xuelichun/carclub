@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.AdvertiserDao">
+<select id="selectAdvertiserById"  resultType="Advertiser">
+	 	<![CDATA[
+		select * from advertiser where adv_id=#{adv_id}
+		]]>
+</select>
+<insert id="insertAdvertiser">
+		<![CDATA[
+		insert into advertiser values(advertiser_sql.nextval,#{advName},#{advAdress},#{advImg})
+		]]>
+</insert>
+
+<!-- 查询 广告商总数-->
+<select id="selectCount" resultType="int">
+	<![CDATA[
+		select count(adv_id) from advertiser
+	]]>
+</select>
+
+<select id="selectAdvertiserByPage"  resultType="Advertiser">
+	<![CDATA[
+	select b.* from (select s.*,rownum rn from advertiser a order by adv_id) b
+	 where b.rn between 1 and 8
+	]]>
+</select>
+<delete id="deleteAdvertiserById">
+	<![CDATA[
+		delete from advertiser where adv_id=#{adv_id}
+	]]>
+</delete>
+<update id="updateAdvertiser">
+	<![CDATA[
+		update advertiser set adv_name=#{adv_name},adv_adress=#{adv_adress},adv_img=#{adv_img}
+	]]>
+</update>
+</mapper>

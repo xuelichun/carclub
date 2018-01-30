@@ -1,0 +1,72 @@
+package com.zeepn.service.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.AppliNotice;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.dao.AppliNoticeDao;
+import com.zeepn.dao.UserDao;
+import com.zeepn.service.AppliNoticeService;
+import com.zeepn.utils.AUJSON;
+import com.zeepn.utils.FeeUtils;
+import com.zeepn.utils.PacketAppliNotice;
+import com.zeepn.utils.PacketUserInfo;
+
+@Service("appliNoticeService")
+public class AppliNoticeServiceImpl implements AppliNoticeService{
+
+	/**
+	 * 自动注入Dao
+	 */
+	@Autowired
+	AppliNoticeDao appliNoticeDao;
+	@Autowired
+	UserDao userDao;
+	
+	@Override
+	public boolean insertAppliNotice(AUJSON aujson) {
+		boolean flag=false;
+		AppliNotice appliNotice=new PacketAppliNotice().packAn(aujson);
+		UserInfo userInfo=new PacketUserInfo().packetUserInfo(aujson);
+		int count1=appliNoticeDao.insertAppliNotice(appliNotice);
+		//更新用户表信息
+		int count2=userDao.perfectUser(userInfo);
+		if(count1>0 && count2>0){
+			flag=true;
+		}
+		return flag;
+	}
+
+
+	@Override
+	public boolean updateAppliNotice(String str) {
+		
+		return false;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectApplicNoticeByReadSign(int pageIndex, int read_sign) {
+		HashMap<Integer,Object> anMap1=new HashMap<Integer, Object>();
+		List<AppliNotice> anList1=new ArrayList<AppliNotice>();
+		if(read_sign==0){
+			anList1=appliNoticeDao.selectAllAppliNotice(pageIndex);
+			int count=appliNoticeDao.selectAnCount();
+			anMap1=new FeeUtils().packageTotal(anList1, pageIndex, count);
+		}else if(read_sign==1){
+			anList1=appliNoticeDao.selectAppliNoticeBeforeRead(read_sign,pageIndex);
+			int count=appliNoticeDao.selectAnCountBeforeRead(read_sign);
+			anMap1=new FeeUtils().packageTotal(anList1, pageIndex, count);
+		}else if(read_sign==2){
+			anList1=appliNoticeDao.selectAppliNoticeAfterRead(read_sign,pageIndex);
+			int count=appliNoticeDao.selectAnCountAfterRead(read_sign);
+			anMap1=new FeeUtils().packageTotal(anList1, pageIndex, count);
+		}
+		return anMap1;
+	}
+
+}

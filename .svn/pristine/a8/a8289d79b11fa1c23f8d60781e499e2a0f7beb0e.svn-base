@@ -1,0 +1,43 @@
+package com.zeepn.service;
+
+import java.util.List;
+import java.util.Map;
+
+
+import com.zeepn.bean.FusMsg;
+
+public interface FusMsgService {
+	public int createFusMsg(FusMsg fusMsg);
+	
+	/**
+	 * ��ҳ��ѯȫ���
+	 * @param map 
+	 * @return �����б�
+	 */
+	public List<FusMsg> selectFusMsgByPage(Map<String, Integer> map);
+	
+	/**
+	 * ���ID��ѯȫ���
+	 * @param fa_id ����id
+	 * @return ����
+	 */
+	public FusMsg selectOneFusMsgById(int fm_id);
+	
+	/**
+	 * ����ȫ���ҳ��
+	 * 
+	 * @return ����ҳ��
+	 */
+	public int selectFusMsgPage();
+	
+	/**
+	 * ɾ���ѻṫ��
+	 * @param fa_id ȫ���id
+	 * @return ɾ��ɹ�����1
+	 */
+	public int deleteFusMsg(int fm_id);
+	public int updateFusMsgShow(int fm_id);
+}
+
+
+

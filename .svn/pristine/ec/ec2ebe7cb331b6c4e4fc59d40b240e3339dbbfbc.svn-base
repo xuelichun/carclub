@@ -1,0 +1,84 @@
+package com.zeepn.bean;
+
+public class FnetAnt {
+	private int fa_id;
+	private String fa_title;
+	private String fa_msg;
+	private GenAdm ga_id;
+	private String p_time;
+	private int fa_frec;
+	private int fa_del;
+	public FnetAnt() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public FnetAnt(int fa_id, String fa_title, String fa_msg, GenAdm ga_id,
+			String p_time, int fa_frec, int fa_del) {
+		super();
+		this.fa_id = fa_id;
+		this.fa_title = fa_title;
+		this.fa_msg = fa_msg;
+		this.ga_id = ga_id;
+		this.p_time = p_time;
+		this.fa_frec = fa_frec;
+		this.fa_del = fa_del;
+	}
+	public FnetAnt(String fa_title, String fa_msg, GenAdm ga_id, String p_time,
+			int fa_frec, int fa_del) {
+		super();
+		this.fa_title = fa_title;
+		this.fa_msg = fa_msg;
+		this.ga_id = ga_id;
+		this.p_time = p_time;
+		this.fa_frec = fa_frec;
+		this.fa_del = fa_del;
+	}
+	@Override
+	public String toString() {
+		return "FnetAnt [fa_id=" + fa_id + ", fa_title=" + fa_title
+				+ ", fa_msg=" + fa_msg + ", p_time=" + p_time + ", fa_frec="
+				+ fa_frec + ", fa_del=" + fa_del + "]";
+	}
+	public int getFa_id() {
+		return fa_id;
+	}
+	public void setFa_id(int fa_id) {
+		this.fa_id = fa_id;
+	}
+	public String getFa_title() {
+		return fa_title;
+	}
+	public void setFa_title(String fa_title) {
+		this.fa_title = fa_title;
+	}
+	public String getFa_msg() {
+		return fa_msg;
+	}
+	public void setFa_msg(String fa_msg) {
+		this.fa_msg = fa_msg;
+	}
+	public GenAdm getGa_id() {
+		return ga_id;
+	}
+	public void setGa_id(GenAdm ga_id) {
+		this.ga_id = ga_id;
+	}
+	public String getP_time() {
+		return p_time;
+	}
+	public void setP_time(String p_time) {
+		this.p_time = p_time;
+	}
+	public int getFa_frec() {
+		return fa_frec;
+	}
+	public void setFa_frec(int fa_frec) {
+		this.fa_frec = fa_frec;
+	}
+	public int getFa_del() {
+		return fa_del;
+	}
+	public void setFa_del(int fa_del) {
+		this.fa_del = fa_del;
+	}
+}

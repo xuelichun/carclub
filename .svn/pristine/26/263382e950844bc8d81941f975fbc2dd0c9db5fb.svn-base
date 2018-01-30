@@ -1,0 +1,144 @@
+package com.zeepn.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.AnnualFee;
+import com.zeepn.bean.FunCharge;
+import com.zeepn.bean.NumLevelFee;
+import com.zeepn.dao.AnnualFeeDao;
+import com.zeepn.dao.FunChargeDao;
+import com.zeepn.dao.NumLevelFeeDao;
+import com.zeepn.service.ChargeService;
+import com.zeepn.utils.FeeUtils;
+
+@Service("chargeService")
+public class ChargeServiceImpl implements ChargeService{
+
+	/**
+	 * 自动注入dao
+	 */
+	@Autowired
+	AnnualFeeDao annualFeeDao;
+	@Autowired
+	FunChargeDao funChargeDao;
+	@Autowired
+	NumLevelFeeDao numLevelFeeDao;
+	
+	@Override
+	public HashMap<Integer, Object> selectAllPay(int pageIndex, int payType) {
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		int count=0;
+		if(payType==1){
+			List<AnnualFee> afList=annualFeeDao.selectAllAnnualFeeByTime(pageIndex);
+			count=annualFeeDao.selectAnfCount();
+			anMap=new FeeUtils().packageAfTotal(afList, pageIndex, count);
+			System.out.println(anMap);
+		}else if(payType==2){
+			List<FunCharge> fcList=funChargeDao.selectAllFunChargeByTime(pageIndex);
+			count=funChargeDao.selectFcCount();
+			anMap=new FeeUtils().packageFcTotal(fcList, pageIndex, count);
+		}else if(payType==3){
+			List<NumLevelFee> nlfList=numLevelFeeDao.selectAllNumLevelFeeByTime(pageIndex);
+			count=numLevelFeeDao.selectNfCount();
+			anMap=new FeeUtils().packageNlfTotal(nlfList, pageIndex, count);
+		}else{
+			List<AnnualFee> afList=annualFeeDao.selectAllAnnualFeeByTime(pageIndex);
+			count=annualFeeDao.selectAnfCount();
+			anMap=new FeeUtils().packageAfTotal(afList, pageIndex, count);
+		}
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectAllPayByPP(int pageIndex, int payType, String payTime) {
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		int count=0;
+		if(payType==1){
+			List<AnnualFee> afList=annualFeeDao.selectAllAnnualFeeByPP(pageIndex,payTime);
+			count=annualFeeDao.selectAnfCountByTime(payTime);
+			anMap=new FeeUtils().packageAfTotal(afList, pageIndex, count);
+		}else if(payType==2){
+			List<FunCharge> fcList=funChargeDao.selectAllFunChargeByPP(pageIndex,payTime);
+			count=funChargeDao.selectFcCountByTime(payTime);
+			anMap=new FeeUtils().packageFcTotal(fcList, pageIndex, count);
+		}else if(payType==3){
+			List<NumLevelFee> nlfList=numLevelFeeDao.selectAllNumLevelFeeByPP(pageIndex,payTime);
+			count=numLevelFeeDao.selectNfCountByTime(payTime);
+			anMap=new FeeUtils().packageNlfTotal(nlfList, pageIndex, count);
+		}else{
+			List<AnnualFee> afList=annualFeeDao.selectAllAnnualFeeByPP(pageIndex,payTime);
+			count=annualFeeDao.selectAnfCountByTime(payTime);
+			anMap=new FeeUtils().packageAfTotal(afList, pageIndex, count);
+		}
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectAllPayByPM(int pageIndex, int payType, String matTime) {
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		int count=0;
+		if(payType==1){
+//			chargeList=annualFeeDao.selectAllAnnualFeeByPM(page);
+//			count=annualFeeDao.selectAnfCount();
+		}else if(payType==2){
+//			chargeList=funChargeDao.selectAllFunChargeByPM(page);
+//			count=funChargeDao.selectFcCount();
+		}else if(payType==3){
+//			chargeList=numLevelFeeDao.selectAllNumLevelFeeByPM(page);
+//			count=numLevelFeeDao.selectNfCount();
+		}else{
+//			chargeList=annualFeeDao.selectAllAnnualFeeByPM(page);
+//			count=annualFeeDao.selectAnfCount();
+		}
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectAllPayByPPM(int pageIndex, int payType,
+			String payTime, String matTime) {
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		int count=0;
+		if(payType==1){
+//			chargeList=annualFeeDao.selectAllAnnualFeeByPPM(page);
+//			count=annualFeeDao.selectAnfCount();
+		}else if(payType==2){
+//			chargeList=funChargeDao.selectAllFunChargeByPPM(page);
+//			count=funChargeDao.selectFcCount();
+		}else if(payType==3){
+//			chargeList=numLevelFeeDao.selectAllNumLevelFeeByPPM(page);
+//			count=numLevelFeeDao.selectNfCount();
+		}else{
+//			chargeList=annualFeeDao.selectAllAnnualFeeByPPM(page);
+//			count=annualFeeDao.selectAnfCount();
+		}
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectPayById(int payType,int payId) {
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		int count=0;
+		if(payType==1){
+//			AnnualFee annualFee=annualFeeDao.selectOneAnnualFee(payId);
+//			chargeList.add(annualFee);
+			count=1;
+		}else if(payType==2){
+//			FunCharge funCharge=funChargeDao.selectOneFunCharge(payId);
+//			chargeList.add(funCharge);
+			count=1;
+		}else if(payType==3){
+//			NumLevelFee numLevelFee=numLevelFeeDao.selectOneLevelFee(payId);
+//			chargeList.add(numLevelFee);
+			count=1;
+		}else{
+//			AnnualFee annualFee=annualFeeDao.selectOneAnnualFee(payId);
+//			chargeList.add(annualFee);
+//			count=1;
+		}
+		return anMap;
+	}
+}

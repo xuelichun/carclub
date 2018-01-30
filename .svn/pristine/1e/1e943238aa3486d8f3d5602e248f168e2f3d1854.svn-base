@@ -1,0 +1,55 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import com.zeepn.bean.AnnualFee;
+
+public interface AnnualFeeDao {
+	/**
+	 * 添加年费记录方法
+	 * @return 添加成功，返回年费收费对象；添加失败，返回空对象
+	 */
+	public int insertAnnualFee(AnnualFee annualFee);
+	/**
+	 * 更新年费收费表
+	 * @param annualFee 年费收费对象
+	 * @return 影响年费收费表的行数
+	 */
+	public int updateAnnualFee(AnnualFee annualFee);
+	/**
+	 * 查询年费收费记录集合（所有记录）
+	 * @return 年费收费记录集合
+	 */
+	public List<AnnualFee> selectAllAnnualFee();
+	/**
+	 * 根据车友会编号查询年费收费集合
+	 * @param club_id 车友会编号
+	 * @return 年费收费集合
+	 */
+	public List<AnnualFee> selectAnnualFee(int club_id);
+	/**
+	 * 根据车友会编号和年费缴费时间查询年费收费对象
+	 * @param club_id 车友会编号
+	 * @param an_paytime 年费缴费时间
+	 * @return 年费收费对象
+	 */
+	public AnnualFee selectOneAnnualFeeBCT(int club_id,String an_paytime);
+	/**
+	 * 根据年费收费编号查询年费收费对象
+	 * @param af_id 年费手诶编号
+	 * @return 年费收费对象
+	 */
+	public AnnualFee selectOneAnnualFee(int af_id);
+	/**
+	 * 根据车友会编号查询年费收费表缴费时间
+	 * @param club_id 车友会编号
+	 * @return 年费缴费时间
+	 */
+	public String selectAnPattime(int club_id);
+	/**
+	 * 根据车友会编号查询年费收费表到期时间
+	 * @param club_id 车友会编号
+	 * @return 年费到期时间
+	 */
+	public String selectAnMattime(int club_id);
+}

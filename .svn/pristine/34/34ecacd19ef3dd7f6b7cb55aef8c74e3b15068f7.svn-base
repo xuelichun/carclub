@@ -1,0 +1,145 @@
+package com.zeepn.bean;
+import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
+
+@Component
+@Alias("Activity")
+public class Activity {
+	private int act_id;
+	private String act_name;
+	private String act_content;
+	private String act_img;
+	private String act_addr;
+	private double act_money;
+	private double act_dis;
+	private String act_applitime;
+	private String act_time;
+	private int club_id;
+	private int act_del;
+	public Activity() {
+	}
+	
+	public Activity(String act_name, String act_content, String act_img,
+			String act_addr, double act_money, double act_dis,
+			String act_applitime, String act_time, int club_id,int act_del) {
+		this.act_name = act_name;
+		this.act_content = act_content;
+		this.act_img = act_img;
+		this.act_addr = act_addr;
+		this.act_money = act_money;
+		this.act_dis = act_dis;
+		this.act_applitime = act_applitime;
+		this.act_time = act_time;
+		this.club_id = club_id;
+		this.act_del=act_del;
+	}
+
+	public Activity(int act_id, String act_name, String act_content,
+			String act_img, String act_addr, double act_money, double act_dis,
+			String act_applitime, String act_time) {
+		this.act_id = act_id;
+		this.act_name = act_name;
+		this.act_content = act_content;
+		this.act_img = act_img;
+		this.act_addr = act_addr;
+		this.act_money = act_money;
+		this.act_dis = act_dis;
+		this.act_applitime = act_applitime;
+		this.act_time = act_time;
+	}
+
+	public Activity(int act_id, String act_name, String act_content,
+			String act_img, String act_addr, double act_money, double act_dis,
+			String act_applitime, String act_time, int club_id,int act_del) {
+		this.act_id = act_id;
+		this.act_name = act_name;
+		this.act_content = act_content;
+		this.act_img = act_img;
+		this.act_addr = act_addr;
+		this.act_money = act_money;
+		this.act_dis = act_dis;
+		this.act_applitime = act_applitime;
+		this.act_time = act_time;
+		this.club_id = club_id;
+		this.act_del=act_del;
+	}
+	public int getAct_id() {
+		return act_id;
+	}
+	public void setAct_id(int act_id) {
+		this.act_id = act_id;
+	}
+	public String getAct_name() {
+		return act_name;
+	}
+	public void setAct_name(String act_name) {
+		this.act_name = act_name;
+	}
+	public String getAct_content() {
+		return act_content;
+	}
+	public void setAct_content(String act_content) {
+		this.act_content = act_content;
+	}
+	public String getAct_img() {
+		return act_img;
+	}
+	public void setAct_img(String act_img) {
+		this.act_img = act_img;
+	}
+	public String getAct_addr() {
+		return act_addr;
+	}
+	public void setAct_addr(String act_addr) {
+		this.act_addr = act_addr;
+	}
+	public double getAct_money() {
+		return act_money;
+	}
+	public void setAct_money(double act_money) {
+		this.act_money = act_money;
+	}
+	public double getAct_dis() {
+		return act_dis;
+	}
+	public void setAct_dis(double act_dis) {
+		this.act_dis = act_dis;
+	}
+	public String getAct_applitime() {
+		return act_applitime;
+	}
+	public void setAct_applitime(String act_applitime) {
+		this.act_applitime = act_applitime;
+	}
+	public String getAct_time() {
+		return act_time;
+	}
+	public void setAct_time(String act_time) {
+		this.act_time = act_time;
+	}
+	public int getClub_id() {
+		return club_id;
+	}
+	public void setClub_id(int club_id) {
+		this.club_id = club_id;
+	}
+
+	public int getAct_del() {
+		return act_del;
+	}
+
+	public void setAct_del(int act_del) {
+		this.act_del = act_del;
+	}
+
+	@Override
+	public String toString() {
+		return "Activity [act_id=" + act_id + ", act_name=" + act_name
+				+ ", act_content=" + act_content + ", act_img=" + act_img
+				+ ", act_addr=" + act_addr + ", act_money=" + act_money
+				+ ", act_dis=" + act_dis + ", act_applitime=" + act_applitime
+				+ ", act_time=" + act_time + ", club_id=" + club_id
+				+ ", act_del=" + act_del + "]";
+	}
+	
+}

@@ -1,0 +1,46 @@
+$(function(){
+	showClubAlbum(1);
+});
+
+function showClubAlbum(club_id){
+	var content="";
+	var uIdArray=new Array();
+	$.ajax({
+		url:'../clubAlbumb.do',
+		type:'GET',
+		dataType:'json',
+		async:false,
+		data:"club_id="+club_id,
+		success:function(data){
+			for(var i=0;i<data.length;i++){
+				uIdArray[i]=data[i].u_id;
+				content+="<div class='prod'>"+
+	                       "<div class='tip'><a href='carClubPhotoDetail.html?ca_id="+data[i].ca_id+"'><img src=../"+data[i].ca_main+" width='205' height='180'></a></div>"+
+	                        "<div class='scrt'>"+
+	                        	"<div class='zz' id='creator"+i+"'></div>"+
+								"<div class='rq'>2016-05-02</div>"+
+	                    	"</div>"+
+	                       "<div class='scrt'>"+
+	                        	"<div class='zt'><a href='#'>"+data[i].ca_name+"</a></div>"+
+								"<div class='rq'>"+data[i].ca_count+"张</div>"+
+	                    	"</div>"+
+	              		"</div>";
+			}
+			$("#clubAlbum").html(content);
+			$.ajax({
+				url:'../clubHomed.do',
+				type:'GET',
+				dataType:'json',
+				async:false,
+				data:"u_id="+uIdArray,
+				success:function(data){
+					for(var j=0;j<data.length;j++){
+						$("#creator"+j).html("<a href='#'><img alt='' src=../"+data[j].u_head+" width='30' height='30'/></a>");
+					}
+				}
+			});
+		}
+	});
+}
+
+

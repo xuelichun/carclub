@@ -1,0 +1,59 @@
+package com.zeepn.controller;
+
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.bean.CarBrand;
+import com.zeepn.bean.CarDep;
+import com.zeepn.bean.Club;
+import com.zeepn.service.BackClubService;
+import com.zeepn.service.CarService;
+import com.zeepn.utils.AUJSON;
+
+@Controller
+@RequestMapping("/club")
+public class ClubController {
+	/**
+	 * 自动注入dao
+	 */
+	@Resource(name="backClubService")
+	private BackClubService backClubService;
+	@Resource(name="carService")
+	private CarService carService;
+	
+	@RequestMapping("/selectAll")
+	@ResponseBody
+	public Object selectClubRank(int pageIndex){
+		HashMap<Integer, List<Object>> anMap=backClubService.selectAllClubRank(pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectFront")
+	@ResponseBody
+	public Object selectFrontClubRank(){
+		List<Club> clubList=backClubService.seleFrontClub();
+		return clubList;
+	}
+	@RequestMapping("/beforeCreClub")
+	@ResponseBody
+	public  Object selectAllCarB(){
+		List<CarBrand> cbList=carService.selectAllCarB();
+		return cbList;
+	}
+	@RequestMapping("/cbLianDong")
+	@ResponseBody
+	public Object cbLianDong(int cb_id){
+		List<CarDep> cdList=carService.selectAllCarD(cb_id);
+		return cdList;
+	}
+	@RequestMapping("/creClub")
+	@ResponseBody
+	public String creClub(AUJSON aujson){
+		return "str";
+	}
+}

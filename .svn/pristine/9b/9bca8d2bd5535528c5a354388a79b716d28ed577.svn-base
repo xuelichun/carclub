@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>我的爱车</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/photo.css" rel="stylesheet" type="text/css" />
+<link href="css/user.css" rel="stylesheet" type="text/css" />
+<link href="css/message.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.Xslider.js"></script>
+<script src="js/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./js/userShow.js"></script>
+<script type="text/javascript" src="js/jquery.UrlParam.js"></script>
+<script type="text/javascript" src="js/myCarClub.js"></script>
+<link rel="stylesheet" type="text/css" href="css/icon.css"/>
+<link rel="stylesheet" type="text/css" href="css/easyui.css"/>
+<script src="js/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./js/user.js"></script>
+</head>
+<body onload="show()">
+<div class="top11" id="top11" >
+</div>
+<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+            <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="index.html">首页</a></li>
+                   <li class="navthis1"><a href="#"  rel='dropmenu1' id="allMag">消息</a>
+                       <ul>
+                           <li><a href="userMessage.html" id="xitong">系统消息</a></li>
+                           <li><a href="userNewComments.html" id="newComments">未读的评论</a></li>
+                           <li><a href="userNewReply.html" id="newReply">未读的回复</a></li>
+                           <li><a href="newAddFriends.html" id="newAddFriends">好友申请</a></li>
+                       
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>设置</a>
+                       <ul>
+                           <li><a href="userShow.html">个人资料</a></li>
+                           <li><a href="changePwd.html">修改密码</a></li>
+                       </ul>
+                   </li> 
+                   
+             	</ul>
+		</div>
+  	</div>
+ </div>
+ 
+ <div id="TB_overlayBG"></div>
+	<div class="box" style="display:none">
+		<h2>添加爱车<a href="#" class="close">关闭</a></h2>
+		<div class="mainlist">
+		<form action="../usercar/addcar.do" id="f1" method="post" enctype="multipart/form-data">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">车辆品牌：</td>
+                <td width="67%">
+                <input type="hidden" name="u_id" id="u_id"/>
+                <input type="text" name="c_brand" id="c_brand"  class="yanse"></td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">车辆型号：</td>
+                <td width="67%"><input type="text" name="c_model" id="c_model"  class="yanse"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">车辆图片：</td>
+                <td width="57%"><div style="height:0px; width:0;">
+					<input type="file" name="pic" id="c_pic"/></div>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+    			 <tr>
+                <td>&nbsp;<span id="sp"></span></td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>              
+                  <tr>
+                    <td width="41"><div class="login"><a id="submit" class="easyui-linkbutton">提交</a></div></td>      
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+            </form>
+	</div>
+</div>
+ 
+ <div class="user clearfix">
+    	<div class="u_l">
+        	<div class="u_la">
+
+        		<form action="" id="h2">
+	            	<div class="box_h"><span>我的账户</span></div>
+	                <div class="box_m">
+	                	<div style="float:left;padding-right:10px;" >
+	          				<input type="hidden" name="u_id" id="u_id"/>
+	                		<img alt="" id="u_head"  alt="" style="width:70px; height:70px;"/>
+	                		<!--  <img src="./images/qq.jpg" alt="" style="width:70px; height:70px;"/>-->
+	                	</div>
+	                	<div >昵称:<input type="text" name="u_nick"  id="u_nick" style="border:0px; width:50px;" readonly="readonly"/><br/>
+	                	 	等级:<input type="text" name="u_level"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 	积分:<input type="text" name="u_grade" style="border:0px; width:50px;"readonly="readonly"/><br/>
+	               			经验:<input type="text" name="u_exp"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 </div>
+	                	<div>
+	                	总访客量:<input type="text" name="u_total"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	账户余额:<input type="text" name="u_money"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                   个性签名:<textarea name="u_sign" style="border:0px; font-size:15px;" readonly="readonly">
+	                   	</textarea>
+	                   	
+	                    </div>
+	                </div>
+                </form>
+
+            </div>
+            <div class="space_hx">&nbsp;</div>
+            <div class="u_lb">
+            	<div class="box_h"><span>个人中心</span></div>
+                <div class="box_m">
+                	<ul>
+                		<li><a href="user.html">个人动态</a></li>
+                        <li><a href="myPhoto.html">我的相册</a></li>
+                        <li><a href="myCar.html">我的爱车</a></li>
+                        <li class="now"><a href="javascript:myclub()">我的车友会</a></li>
+                        <li><a href="friends.html">我的好友</a></li>
+                        <li><a href="friendsDyn.html">好友圈</a></li>
+                        <li><a href="ClubfriendsDyn.html">车友圈</a></li>
+                        <li><a href="userActivity.html">我的活动</a></li>
+                        <li ><a href="userVisitor.html">查看访客</a></li>
+                        <li id="hui" style="display:none;"><a href="javascript:tiaozhuan()">管理车友会</a></li>
+                        <li id="fu" style="display:none;"><a href="javascript:tiaozh()">管理车友会</a></li>
+                    </ul>
+                </div>
+            </div>
+		</div>
+		<div class="u_r">
+        	<div class="r_name">我的车友会</div>
+        	<div class="r_name001"></div>
+        	<div class="r_name007">
+	      		<div class="r_name007_left">
+	      			<div class="r_name007_left001">
+	      			<img id="carClubImg" src="images/qq.jpg" width="160px" height="160px"/></div>
+	      		</div>
+	      		<div class="r_name007_right">
+	      			<div class="pro_dar">
+		                <h2><a id="carClubName" href="carClub.html"></a></h2>
+		                <table cellpadding="0" cellspacing="0" style="margin-top: 10px">
+		                  <tr>
+		                    <td width="20%" id="carClubCb"></td>
+		                    <td width="20%" id="carClubPro"></td>
+		                    <td width="15%" id="carClubPnum"></td>
+		                    <td width="25%" id="carClubGrade"></td>
+		                    <td width="20%"><div class="login" id="quitCarClub"><a href="quitCarClub()" id='quitBtn'></a></div></td>
+		                  </tr>
+		                </table>
+	      			</div>
+	      			<div class="jj" id="carClubDesc"></div>
+                </div>
+	      	</div>
+        </div>
+		
+</div>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+package com.zeepn.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.zeepn.bean.Adm;
+import com.zeepn.bean.Message;
+import com.zeepn.bean.MessageType;
+import com.zeepn.bean.UserMessage;
+
+public interface MessageService {
+	/**
+	 * 创建系统消息
+	 * @param message 消息对象
+	 * @return 1:创建成功  0:创建失败 
+	 */
+	public int createMessage(Message message);
+	/**
+	 * 删除系统消息
+	 * @param m_id 消息id
+	 * @return 1:删除成功 0:删除失败
+	 */
+	public int deleteMessage(int m_id);
+	/**
+	 * 分页查询系统消息
+	 * @param map
+	 * @return 系统消息集合
+	 */
+	public List<Message> selectMessageByPage(Map<String , Integer> map);
+	/**
+	 * 创建消息类型
+	 * @param messageType 消息类型对象
+	 * @return 1:创建成功 0:创建失败
+	 * 
+	 */
+	public int createMessageType(MessageType messageType);
+	/**
+	 * 删除消息类型
+	 * @param mt_id 消息类型ID
+	 * @return 1:删除成功 0:删除失败
+	 */
+	public int deleteMessageType(int mt_id);
+	/**
+	 * 修改消息类型
+	 * @param messageType 修改好的消息类型对象
+	 * @return 1:修改成功  0:修改失败
+	 */
+	public int updateMessageType(MessageType messageType);
+	/**
+	 * 查询所有消息类型
+	 * @return 消息类型集合
+	 */
+	public List<MessageType> selectMessageType();
+	/**
+	 * 查询消息条数
+	 * @return 消息条数
+	 */
+	public int selectMessagePage();
+	/**
+	 * 查询一条系统消息
+	 * @param m_id 消息id
+	 * @return 消息对象
+	 */
+	public Message selectOneMessageById(int m_id);
+	/**
+	 * 根据类型查询系统消息
+	 * @param mt_id 类型id
+	 * @return 消息集合
+	 */
+	public List<Message> selectMessageByType(int mt_id);
+	/**
+	 * 查询一个消息类型
+	 * @param mt_id 类型id
+	 * @return 消息类型对象
+	 */
+	public MessageType selectMessageTypeById(int mt_id);
+	/**
+	 *修改系统消息 
+	 * @param message 修改好的消息对象
+	 * @return 消息对象
+	 */
+	public int updateMessage(Message message);
+
+	
+	/**
+	 * 分页查询用户未读的系统消息
+	 * @param u_id 用户的id 
+	 * @return  list集合
+	 */
+	public List<UserMessage> selectNewMessage(int u_id,int pageIndex);
+	
+	/**
+	 * 计算用户未读消息的总数
+	 * @param mu_id  用户的id
+	 * @return
+	 */
+	public int countNewMessage(int mu_id);
+
+	/**
+	 * 分页查询发给该用户的消息
+	 * @param map 用户id, 页数page
+	 * @return 消息集合
+	 */
+	public List<Message> selectMessageByPageQian(Map<String , Integer> map);
+	/**
+	 * 发给该用户的消息条数
+	 * @param mu_id 前台用户id
+	 * @return 记录条数
+	 */
+	public int selectMessagepageByid(int mu_id);
+	/**
+	 * 改变消息的已未读的状态
+	 * @param m_id
+	 * @return 该变数据库行数
+	 */
+	public int updateMessageShow(int m_id);
+	/**
+	 * 查询该消息类型的消息数量
+	 * @param mt_id 类型id
+	 * @return 消息数量
+	 */
+	public int selectmessagepagebytype(int mt_id);
+	/**
+	 * 查询消息类型条数
+	 ** @return 类型条数 
+	 */
+    public int selectmessagetypepage(); 
+    /**
+     * 批量发送消息
+     * @param arr 接收对象数组
+     * @param mt_id 消息类型id
+     * @return 发送成功返回一，失败反回0.
+     */
+    public int creatsomemessage(int [] arr ,int mt_id);
+    /**
+     * 批量删除消息
+     * @param s 消息id字符串
+     * @return 删除成功反回1，删除失败反回0。
+     */
+    public int deletesomemessage(String s);
+    /**
+     * 根据用户昵称分页查询消息
+     * @param u_nick 用户昵称
+     * @return 消息集合
+     */
+    public List<Message> selectmessagebyunick(String u_nick,int pageIndex );
+    /**
+     * 用户昵称查询消息的纪录数
+     * @param u_nick 用户昵称
+     * @return 消息条数
+     */
+    public int selectmessagebyunickpage(String u_nick);
+    /**
+     * 获取添加消息类型对象
+     * @param mt_title 消息类型标题 
+     * @param mt_con 消息类型内容
+     * @param adm 管理员对象
+     * @return 添加消息类型对象
+     */
+	public MessageType packgeMes(String mt_title, String mt_con, Adm adm);	
+	/**
+	 * 获取消息类型对象
+	 * @param mt_id 消息类型id
+	 * @param m_con  消息内容
+	 * @param s  接收对象id
+	 * @param adm  管理员对象
+	 * @return  添加消息对象
+	 */
+	public int  packgeMes2(int mt_id,String m_con,String s,Adm adm);
+
+
+}
+
+

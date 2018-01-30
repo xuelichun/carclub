@@ -1,0 +1,83 @@
+$(function(){
+	showActivity(1,1);
+	showActivityAttendeeByClubId(1);
+	selectActivityPage(1,1);
+});
+
+function showActivity(club_id,page){
+	var content="";
+	$.getJSON("../clubAdmink.do",{"club_id":club_id,"page":page},function(data){
+		for(var i=0;i<data.length;i++){
+			content+= "<div class='a01' >"+
+        	"<div class='biaoti'>"+
+        	"<h1>"+data[i].act_name+"</h1>"+
+       " </div>"+
+        "<div class='content'>"+
+       	  "<div class='m'>"+
+            "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"+
+              "<tr>"+
+                "<td><a href='carClubActivityDetail.html'><img src='images/img_22.jpg' width='206' height='61' /></a></td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td height='20'></td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td align='center' class='baomi'>报名人数：40人</td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td height='20'></td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td align='center' class='shuzi'>¥"+data[i].act_money+" </td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td>&nbsp;</td>"+
+              "</tr>"+
+            "</table>"+
+            "</div>"+
+            "<div class='n'><img src=../"+data[i].act_img+" width='458' height='279' /></div>"+
+      "</div>"+
+    "</div>";
+		}
+		$("#clubActivities").html(content);
+	});
+}
+
+function showActivityAttendeeByClubId(club_id){
+	var content="";
+	$.getJSON("../clubHomeg.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			content+="<div class='divcss'>"+
+		                        "<div class='tip11'><a href='user.html'><img src=../"+data[i].u_head+" width='50px' height='50px'></a></div>"+
+		                     "<div class='scrt11'>"+
+	                        	"<div class='zt11'><a href='#'>"+data[i].u_nick+"</a></div>"+
+	                    	"</div>"+
+	              		"</div>";
+		}
+		$("#clubActivityAttendeeByClubId").html(content);
+	});
+}
+
+function pageUpAndDown(club_id,page,allPage){
+	if(page<=0){
+		alert("没有上一页了");
+	}else if(page>allPage){
+		alert("没有下一页了")
+	}else{
+		showHistoryActivity(club_id,page);
+		selectActivityPage(club_id,page);
+	}
+}
+
+function selectActivityPage(club_id,page){
+	var content="";
+	$.getJSON("../clubHomei.do",{"club_id":club_id},function(data){
+			content+="<div class='digg'><a href='javascript:pageUpAndDown("+club_id+","+(page-1)+","+data+")'>&lt;</a>";
+			for(var i=0;i<data;i++){
+				content+="<a href=javascript:showHistoryActivity("+1+","+(i+1)+")>"+(i+1)+"</a>";
+			}
+			content+="<a href='javascript:pageUpAndDown("+club_id+","+(page+1)+","+data+")'>&gt;</a></div>";
+		$("#activityPage").html(content);
+		//$("#noticePage1").html(content);
+	});
+}

@@ -1,0 +1,89 @@
+$(function (){
+	$("#submit").click(function(){	
+			$("#f1").submit();	
+	});
+	$("#submit2").click(function(){
+			var img=document.getElementsByName("img");
+			var j=0;
+			for( var i=0;i<img.length;i++){
+				if(img[i].value==''){
+					alert("请添加图片");
+					break;
+				}else{
+					j++;
+				}
+			}
+			if(j==img.length){
+				$("#f2").submit();
+			}
+});
+	//表单提交成功后		
+	$('#f1').form({
+		success:function(data) {
+			var rss = $.parseJSON(data);
+			if (rss.rs == 'ok') {
+				$.messager.alert('提示信息','发表成功！');
+			}else{
+				$.messager.alert('提示','发表失败！');
+			}
+		}
+	}); 
+	//表单提交成功后		
+	$('#f2').form({
+		success:function(data) {
+			var rss = $.parseJSON(data);
+			if (rss.rs == 'ok') {
+				$.messager.alert('提示信息','发表成功！');
+			}else if(rss.rs == 'no'){
+				$.messager.alert('提示信息','发表失败！');
+			}else{
+				$.messager.alert('提示信息','图片上传失败！');
+			}
+		}
+	}); 
+	
+	$('#h2').form('load',"../user/islogin.do");
+	showhead();
+});
+
+function showhead(){
+	var head=$("#head").val();
+	$("#u_head").prop("src",head);
+}
+function indyn(){
+	if($("#pd_msg1").val().trim()=="说点什么吧"){
+		$("#pd_msg1").val("");
+		showhead();
+	}
+	if($("#pd_msg2").val().trim()=="说点什么吧"){
+		$("#pd_msg2").val("");
+	}
+}
+function outdyn(){
+	if($("#pd_msg1").val().trim()==''){
+		$("#pd_msg1").val("说点什么吧");
+	}
+	if($("#pd_msg2").val().trim()==''){
+		$("#pd_msg2").val("说点什么吧");
+	}
+}
+
+function pdyn(){
+	$("#pdyn").show();
+	$("#imag").hide();
+			
+}
+function imag(){
+	$("#imag").show();
+	$("#pdyn").hide();
+}
+function addimg(){
+	var input2=document.createElement("input");
+	input2.type="file";
+	input2.name="img";
+	input2.style.float="right";
+	input2.style.width='100px';
+	input2.style.border='none';
+	var in1=document.getElementById("img");
+	in1.appendChild(input2);
+}

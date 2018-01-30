@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.UserDao">
+
+<insert id="userReg">
+	insert into userinfo (u_id,u_head,u_sex,u_pro,u_city,u_level,u_nick,u_pwd,u_email,u_phone,u_grade,u_exp,u_money,u_con,u_delete) values 
+	(userinfo_seq.nextval,#{u_head},#{u_sex},#{u_pro},#{u_city},1,#{u_nick},#{u_pwd},#{u_email},#{u_phone},0,0,0,0,0)
+</insert>
+<update id="perfectUsers">
+	update userinfo set u_name=#{u_name},u_head=#{u_head},u_sex=#{u_sex},u_pro=#{u_pro},u_city=#{u_city},u_nick=#{u_nick},
+	u_sign=#{u_sign},u_addr=#{u_addr},u_qq==#{u_qq},u_email=#{u_email},cd_id=#{cd_id},u_phone=#{u_phone},u_zip=#{u_zip},
+	u_idcard=#{u_idcard},u_alipy=#{u_alipy}
+	where u_id={u_id}
+</update>
+<update id="updateUserPwd">
+	update userinfo set u_pwd=#{u_pwd} where u_id=#{u_id}
+</update>
+
+<select id="countPhone" resultType="int">
+	select count(u_id) from userinfo where u_phone=#{u_phone}
+</select>
+<select id="countEmail" resultType="int">
+	select count(u_id) from userinfo where u_email=#{u_email} 
+</select>
+<select id="countId" resultType="int">
+	select count(cl_id) where u_id=#{u_id} and pd_id=#{pd_id}
+</select>
+<insert id="insertCLickLike">
+	insert into click_like values(click_like_seq.nextval,#{u_id},#{pd_id})
+</insert>
+<delete id="deleteCLickLike">
+	delete from click_like where u_id=#{u_id} and pd_id=#{pd_id}
+</delete>
+<insert id="insertCar">
+	insert into car values(car_seq.nextval,#{u_id},#{c_pic},#{c_brand},#{c_model})
+</insert>
+<update id="updateCar">
+	update car set c_pic=#{c_pic},c_brand=#{c_brand},c_model=#{c_model} where c_id=#{c_id}
+</update>
+<insert id="insertAccountLog">
+	insert into account_log values(account_log_seq.nextval,#{u_id},#{al_trans},#{al_time})
+</insert>
+<select id="sumValue">
+	select sum(uc_value) from user_chacon where u_id=#{u_id}
+</select>
+
+</mapper>

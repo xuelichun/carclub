@@ -1,0 +1,90 @@
+
+$(function(){
+
+	
+	
+});
+
+$(function(){
+	$.getJSON("./FnetAntb.do",{"page":1},function(data){
+		var content="";
+		for(var i=0;i<data.length;i++){
+		
+			content=content+"<tr><td>"+data[i].fa_title+"</td>br<td>"+data[i].fa_msg+"</td></tr><td><a href='javascript:updateFnetAnt("+data[i].fa_id+")'>修改</a></td><td><a href='javascript:deleteFnetAnt("+data[i].fa_id+")'>删除</a></td></tr>";
+			
+		}
+		
+		
+		$("#selectFnetAnt").html(content);
+		
+	});
+});
+
+
+function addFnetAnt(){
+var fa_title=$("#fa_title").val();
+var fa_msg=$("#fa_msg").val();
+var ga_id=$("#ga_id").val();
+
+$.getJSON("../FnetAnta.do",{"fa_title":fa_title,"fa_msg":fa_msg,"ga_id": ga_id},function(data){
+
+	if(data=="1"){
+		alert("添加成功");
+	}else{
+		alert("添加失敗");
+	}
+});
+
+
+}
+function deleteFnetAnt(id){
+	if(confirm("確定要刪除么？？")){
+		alert(id)
+		$.getJSON("./FnetAnte.do",{"fa_id":id},function(data){
+			if(data=="1"){
+				alert("刪除成功");
+			}else{
+				alert("刪除失敗");
+			}
+			
+		});
+	$.getJSON("./FnetAntb.do",{"page":page},function(data){
+			if(data.length==0){
+				if(page-1==0){
+					alert("没有公告");
+				}else{
+					page=page-1;
+					selectAll(page);
+					yeshu();
+				}
+			}
+				
+				selectAll(page);
+				yeshu();
+		});	
+	}
+	
+}
+function checkTitle(){
+	var fa_title=$("#fa_title").val();
+	alert(fa_title)
+	if($("#fa_title").val().trim()==''){
+		$("#title").html("标题不能为空");
+		
+		$("#title").prop("style","color:#f00;");
+		return false;
+	}else{
+		$("#title").html("");
+		return true;
+	}
+}
+function checkMsg(){
+	if($("#fa_msg").val().trim()==''){
+		$("#msg").html("信息不能为空");
+		$("#msg").prop("style","color:#f00;");
+		return false;
+	}else{
+		$("#msg").html("");
+		return true;
+	}
+}

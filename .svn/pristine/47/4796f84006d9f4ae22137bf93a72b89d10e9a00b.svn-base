@@ -1,0 +1,29 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.CarDep;
+
+@Repository("carDepDao")
+public interface CarDepDao {
+	/**
+	 * 根据车的品牌编号查询所有的车系
+	 * @param cb_id 车的品牌编号 
+	 * @return 车系集合
+	 */
+	public List<CarDep> selectAllCarDep(int cb_id);
+	/**
+	 * 添加车系
+	 * @param carDep 车系对象
+	 * @return 影响车系表的行数
+	 */
+	public int insertCarDep(CarDep carDep);
+	/**
+	 * 根据车系编号删除车系
+	 * @param cd_id 车系编号
+	 * @return 影响车系表的行数
+	 */
+	public int delCarDep(int cd_id);
+}

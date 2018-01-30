@@ -1,0 +1,66 @@
+package com.zeepn.bean;
+
+import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
+@Component
+@Alias("Friends")
+public class Friends {
+	private int f_id;
+	private int u_id;
+	private int fu_id;
+	
+	
+	public Friends() {
+	}
+
+
+	public Friends(int f_id, int u_id, int fu_id) {
+		this.f_id = f_id;
+		this.u_id = u_id;
+		this.fu_id = fu_id;
+	}
+
+
+	public Friends(int u_id, int fu_id) {
+		this.u_id = u_id;
+		this.fu_id = fu_id;
+	}
+
+
+	public int getF_id() {
+		return f_id;
+	}
+
+
+	public void setF_id(int f_id) {
+		this.f_id = f_id;
+	}
+
+
+	public int getU_id() {
+		return u_id;
+	}
+
+
+	public void setU_id(int u_id) {
+		this.u_id = u_id;
+	}
+
+
+	public int getFu_id() {
+		return fu_id;
+	}
+
+
+	public void setFu_id(int fu_id) {
+		this.fu_id = fu_id;
+	}
+
+
+	@Override
+	public String toString() {
+		return "friends [f_id=" + f_id + ", u_id=" + u_id + ", fu_id=" + fu_id
+				+ "]";
+	}
+	
+}

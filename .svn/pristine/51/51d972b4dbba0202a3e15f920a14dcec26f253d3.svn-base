@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.AppliNotice">
+	<insert id="insertAppliNotice" parameterType="AppliNotice">
+		<![CDATA[ 
+		insert into appli_notice values(appli_notice.nextval
+			#{an_time},#{an_status},#{p_id},#{ga_id},#{club_name},
+			#{club_domname},#{club_city},#{club_del},#{cd_id})
+		]]>
+	</insert>
+	
+</mapper>

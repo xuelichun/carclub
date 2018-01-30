@@ -1,0 +1,19 @@
+package com.zeepn.service;
+
+import com.zeepn.bean.Adm;
+import com.zeepn.bean.GenAdm;
+
+public interface AdmService {
+	/**
+	 * 管理员登录方法
+	 * @param object 管理员对象
+	 * @return 返回非空管理员对象，登录成功；返回空的管理员对象，登录失败
+	 */
+	public boolean admLogin(Adm adm); 
+	/**
+	 * 添加管理员方法
+	 * @param genAdmDao 二级管理员对象
+	 * @return 添加成功，返回true；添加失败，返回false
+	 */
+	public boolean insertGenAdm(GenAdm genAdm);
+}

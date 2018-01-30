@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ChaEventDao">
+	<insert id="insertChaEvent">
+		<![CDATA[ 
+			insert into cha_event values(cha_event_seq.nextval,#{ce_name},#{ce_img},#{ce_content},#{ce_place},#{ce_startime},#{ce_endtime},#{ce_goal},0)
+		]]>
+	</insert>
+	<update id="deleteChaEvent">
+		<![CDATA[
+			update cha_event set ce_del=1 where ce_id=#{ce_id}
+		]]>
+	</update>
+	<update id="updateChaEvent">
+		<![CDATA[
+			update cha_event set ce_name=#{ce_name},ce_img=#{ce_img},ce_content=#{ce_content},ce_place=#{ce_place},ce_startime=#{ce_startime},ce_endtime=#{ce_endtime},ce_goal=#{ce_goal},ce_del=#{ce_del} where ce_id=#{ce_id}
+		]]>
+	</update>
+	<select id="selectChaEventById" resultType="ChaEvent">
+		<![CDATA[
+			select * from cha_event where ce_id=#{ce_id} and ce_del=0 order by rownum desc
+		]]>
+	</select>
+	<select id="selectChaEvent" resultType="ChaEvent">
+		<![CDATA[
+			select b.* from (select s.*,rownum rn from cha_event a order by ce_id) b
+			 where b.rn between 1 and 8
+		]]>
+	</select>
+	<select id="countNum" resultType="java.lang.Integer">
+		select count(uc_id) from user_chacon where ce_id=#{ce_id}
+	</select>
+	<select id="selectChaEventPage" resultType="java.lang.Integer">
+		select count(uc_id) from user_chacon  where u_id=#{u_id}
+	</select>
+ 
+	<select id="selectChaEventByUId" resultMap="chaEvent">
+		select * from(select s.*,rownum as rn from(select * from cha_event where ce_id in
+		(select ce_id from user_chacon where u_id=#{u_id}) ) s) 
+		where rn between (#{pageIndex}-1)*7+1 and #{pageIndex}*7
+	</select>
+	
+	<select id="clubValue" resultType="java.lang.Integer">
+		select sum(uc_value) from user_chacon where ce_id=#{ce_id}
+	</select>
+	<!-- 
+	<select id="showCha" resultType="ChaEvent">
+		select * from cha_event order by rownum desc;
+	</select>
+	 -->
+	<select id="countCha" resultType="java.lang.Integer">
+		select count(ce_id) from cha_event
+	</select>
+	<select id="countChas" resultType="java.lang.Integer">
+		select count(uc_id) from user_chacon where u_id=#{u_id} and ce_id=#{ce_id}
+	</select>
+	<insert id="addTour2" >
+		insert into user_chacon values(user_chacon_seq.nextval,#{ce_id},#{u_id},0)
+	</insert>
+
+	<resultMap type="ChaEvent" id="chaEvent">
+		<id column="ce_id" property="ce_id"/>
+		<id column="ce_name" property="ce_name"/>
+		<id column="ce_img" property="ce_img"/>
+		<id column="ce_content" property="ce_content"/>
+		<id column="ce_place" property="ce_place"/>
+		<id column="ce_startime" property="ce_startime"/>
+		<id column="ce_endtime" property="ce_endtime"/>
+		<id column="ce_goal" property="ce_goal"/>
+		<id column="ce_del" property="ce_del"/>
+	</resultMap>
+	
+</mapper>

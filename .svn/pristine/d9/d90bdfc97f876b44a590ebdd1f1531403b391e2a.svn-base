@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/activity.css" rel="stylesheet" type="text/css" />
+<link href="css/message.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<div class="top11">
+	<ul>
+		<li class="top22" >
+		<a href='#' href="javascript:void(0);" class="showbox">登录</a><span>|</span>
+		<a href='#' >注册</a><span>|</span>
+		<a href='#' >消息</a>
+		</li>
+	</ul>
+</div>
+<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="index.html">网站首页</a></li>
+                   <li class="navthis1"><a href="photo.html"  rel='dropmenu1'>活动</a>
+                       <ul>
+                           <li><a href="#">官方活动</a></li>
+                           <li><a href="#">线下活动</a></li>
+                       </ul>
+                   </li> 
+                    <li class="navthis22"><a href="join.html" >全国车友会</a></li>
+                   <li class="navthis8"><a href="activity.html" target="aaa" rel='dropmenu8'>最近活动</a>
+                   </li>
+                   <li class="navthis25"><a href="contact.html" >联系我们</a></li>
+               </ul>
+		</div>
+  	</div>
+ </div>
+<div class="cjbj">
+	<div class="cjbj001">
+		<div class="cjbj002">
+			<div class="cjbj002_1">创建车友会>>等待审核</div>
+		</div>
+		<div class="cjbj003">
+			你的申请已经提交，请耐心等待!
+		</div>
+	</div>
+</div>   
+</body>
+</html>

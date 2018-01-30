@@ -1,0 +1,38 @@
+package com.zeepn.service;
+
+import java.util.ArrayList;
+
+  
+import com.zeepn.bean.Advertiser;
+import com.zeepn.utils.PageAdver;
+
+public interface AdvertiserService {
+		/**
+		 * 查询广告商
+		 * @param advertiser
+		 * @return 广告商信息
+		 */
+		ArrayList<Advertiser> selectAllAdvertiser();
+		/**
+		 * 添加广告商
+		 * @param adv
+		 */
+		void insertAdvertiser(Advertiser adv);
+		/**
+		 * 后台查询广告商
+		 * @param p
+		 * @return
+		 */
+		Object selectAdvertiserByPage(PageAdver p);
+		/**
+		 * 删除广告商
+		 * @param adv_id
+		 */
+		void deleteAdvertiser(Advertiser adv_id);
+		/**
+		 * 修改广告商
+		 * @param adv
+		 */
+		void updateAdvertiser(Advertiser adv);
+
+}

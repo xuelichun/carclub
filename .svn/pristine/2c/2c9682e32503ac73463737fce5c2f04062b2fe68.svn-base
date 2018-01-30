@@ -1,0 +1,26 @@
+$(function(){
+	showNotice(100);
+	showPresident(1);
+});
+function showNotice(club_id){
+	var content="<div class='info'>公告</div><div class='content1'>";
+	$.getJSON("../noticef.do",{"club_id":club_id},function(data){
+		content+=data.noti_content+"</div>";
+		$("#notice").html(content);
+	});
+	
+}
+
+function showPresident(club_id){
+	var content="";
+	$.getJSON("../clubHomeb.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			if(i==0){
+				content+=" <div class='divcss'><div class='tip11'><a href='user.html'><img src=../"+data[i].u_head+" width='50px' height='50px'></a></div><div class='scrt11'><div class='zt11'><a href='#'>"+data[i].u_nick+"</a></div><div class='rq11'>会长</div></div></div>";
+			}else{
+				content+=" <div class='divcss'><div class='tip11'><a href='user.html'><img src=../"+data[i].u_head+" width='50px' height='50px'></a></div><div class='scrt11'><div class='zt11'><a href='#'>"+data[i].u_nick+"</a></div><div class='rq11'>副会长</div></div></div>";
+			}
+		}
+		$("#president").html(content);
+	});
+}

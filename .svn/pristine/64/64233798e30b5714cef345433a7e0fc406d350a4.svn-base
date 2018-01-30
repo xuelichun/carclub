@@ -1,0 +1,61 @@
+$(function (){
+	//保存按钮事件
+	//alert($("#u_id").val());
+	$("#submit").click(function(){
+			if($("#c_brand").val().trim()==''){
+				$("#sp").html("品牌不能为空");
+				return;
+			}
+			if($("#c_model").val().trim()==''){
+				$("#sp").html("型号不能为空");
+				return;
+			}
+			if($("#c_pic").val().trim()==''){
+				$("#sp").html("请选择图片");
+				return;
+			}			
+			$("#f1").submit();
+	});
+	//表单提交成功后		
+	$('#f1').form({
+		success:function(data) {
+			var rss = $.parseJSON(data);
+			if (rss.rs == 'ok') {
+				$.messager.alert('提示信息','添加成功');
+				$("#TB_overlayBG").css("display","none");
+				$(".box ").css("display","none");
+				showCar(1);
+			}else{
+				$.messager.alert('提示','添加失败！');
+			}
+		}
+	}); 
+	showCar(1);
+});
+
+function showCar(pageIndex){
+	$.getJSON("../usercar/showcar.do",{"pageIndex":pageIndex},function(data){
+		var context="";
+		for(var i=0;i<data.length;i++){
+			context+="<div class='r_name001'></div><div class='r_name007' style='height:170px;'><div class='r_name007_left' " +
+			" style='height:170px; width:170px;'><div class='r_name007_left001' style='border:none;'>"+
+			"<img src='../"+data[i].c_pic+"' width='130px' height='130px'/></div>" +
+					"</div><div class='r_name007_right' style='height:170px;'>" +
+					"<p style='font-size:15px;'>品牌:"+data[i].c_brand+"</p><p style='font-size:15px;'> 车系:"+data[i].c_model+"</p> " +
+					"&nbsp;&nbsp;&nbsp;<a href='javascript:deletecar("+data[i].c_id+")'>删除</a> | <a href='#'>修改</a></div></div>";
+		}
+		$("#div").html(context);
+	});
+}
+function deletecar(c_id){
+	$.getJSON("../usercar/deletecar.do",{"c_id":c_id},function(data){
+		if(data.rs=='ok'){
+			alert("删除成功");
+			showCar(1);
+		}else{
+			alert("删除失败")
+		}
+		
+		
+	});
+}

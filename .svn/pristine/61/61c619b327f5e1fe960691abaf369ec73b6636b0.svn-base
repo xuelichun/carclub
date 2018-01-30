@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.CarBrandDao">
+	<select id="selectAllCarBrand" resultType="CarBrand">
+		select * from car_brand
+	</select>
+	<insert id="insertCarBrand" parameterType="CarBrand">
+		insert into car_brand values(car_brand.nextval,cb_name)
+	</insert>
+	<delete id="delCarBrand" parameterType="int">
+		delete from car_brand where cb_id=#{cb_id}
+	</delete>
+</mapper>

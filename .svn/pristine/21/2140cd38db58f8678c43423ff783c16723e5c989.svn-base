@@ -1,0 +1,74 @@
+$(function(){
+	
+});
+
+function checkPhone(){
+	var u_phone=$("#u_phone").val();
+	var reg=/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/;
+	if(reg.test(u_phone)){
+		$.getJSON("../user/countPhone.do",{"u_phone":u_phone},function(data){
+			if(data.rs=="ok"){
+				$("#sphone").prop("style","color:#f00;");
+				$("#sphone").html("该电话不存在");
+				flag=true;
+			}else{
+				$("#sphone").prop("style","color:#0f0;");
+				$("#sphone").html("电话号码合法");
+			}
+		});
+	}else{
+		$("#sphone").prop("style","color:#f00;");
+		$("#sphone").html("电话格式错误");
+	}
+}
+var cod="";
+function checkCode(){
+	var code=$("#code").val();
+		if(cod==code){
+			$("#scode").prop("style","color:#0f0;");
+			$("#scode").html("验证码正确");
+			return true;
+		}else{
+			$("#scode").prop("style","color:#f00;");
+			$("#scode").html("验证码错误");
+			return false;
+		}	
+}
+function getPhoto(){
+	//alert(1);
+	if(checkPhone()){
+		if($("#sphone").html().trim()=="电话号码合法"){
+			var u_phone=$("#u_phone").val();
+			$.getJSON("../note.do",{"u_phone":u_phone},function(data){
+				cod=data.rs;
+			});
+		}else{
+			return;
+		}
+		
+	}
+	
+}
+function jump(){
+	if(checkPhone()){
+		if(getPhoto()){
+			if(checkCode()){
+				location.href="findPwd2.html";
+			}
+		}
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

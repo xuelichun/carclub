@@ -1,0 +1,92 @@
+var club_id=0;
+var ca_id=0;
+$(function(){
+	yanzhenPre();
+	if(club_id!=0){
+		var strHref=this.location.href;
+		ca_id=strHref.getQuery("ca_id");
+		selectPhotoAlbum(ca_id,1);
+	}
+});
+
+function selectPhotoAlbum(ca_id,page){
+	ca_name=1;
+	ca_desc=1;
+	var content="<div class='r_name'>我的相册>>"+ca_name+"</div><div class='matter2'><div class='choose'> <div><a href='uploadClubAlbum.html?ca_id="+ca_id+"'><img src='images/sctp.jpg'/></a></div></div><div class='content'>";
+	$.getJSON("../clubAlbume.do",{"ca_id":ca_id,"page":page},function(data){
+		for(var i=0;i<data.length;i++){
+			content+="<div class='prod1'><div class='tip1'><img src=../"+data[i].pa_img+" width='200px' height='160px'></div><div class='scrt1'><div class='zt1'>"+data[i].pa_name+"</div><div class='rq1'><a href='javascript:deletePhotoAlbum("+data[i].pa_id+","+ca_id+","+ca_desc+","+ca_name+")'>删除</a></div></div></div>";
+		}
+		content+="</div></div>";
+		$("#photoAlbum").html(content);
+		showPhotoAlbumPage(ca_id,page,ca_name,ca_desc);
+	});
+}
+
+function deletePhotoAlbum(pa_id,ca_id,ca_desc,ca_name){
+	var flag=confirm("确认要删除本张照片吗？");
+	if(flag){
+		$.getJSON("../clubAlbumf.do",{"pa_id":pa_id,"ca_id":ca_id},function(data){
+			selectPhotoAlbum(ca_id,1,ca_name,ca_desc);
+		});
+	}
+}
+
+function showPhotoAlbumPage(ca_id,page,ca_name,ca_desc){
+	var content="";
+	$.getJSON("../clubAlbumi.do",{"ca_id":ca_id},function(data){
+		content+="<div class='digg'><a href='javascript:pageUpAndDown("+ca_id+","+(page-1)+","+data+")'>&lt;</a>";
+		for(var i=0;i<data;i++){
+			content+="<a href=javascript:selectPhotoAlbum("+ca_id+","+(i+1)+","+ca_name+","+ca_desc+")>"+(i+1)+"</a>";
+		}
+		content+="<a href='javascript:pageUpAndDown("+ca_id+","+(page+1)+","+ca_name+","+ca_desc+","+data+")'>&gt;</a></div>";
+		$("#photoAlbumPage").html(content);
+	});
+}
+
+function pageUpAndDown(ca_id,page,ca_name,ca_desc,allPage){
+	if(page<=0){
+		alert("没有上一页了");
+	}else if(page>allPage){
+		alert("没有下一页了")
+	}else{
+		selectPhotoAlbum(ca_id,page,ca_name,ca_desc);
+		showPhotoAlbumPage(ca_id,page,ca_name,ca_desc);
+	}
+}
+
+function yanzhenPre(){
+	$.ajax({
+		url:'../clubAdminai.do',
+		type:'GET',
+		dataType:'json',
+		async:false,
+		success:function(data){
+			if(data[0]==2){
+				u_id=data[1];
+			}else if(data[0]==3){
+				u_id=data[1];
+				$("#clubFeeLi").hide();
+				$("#yearFeeLi").hide();
+			}else{
+				location.href="index.html";
+				u_id=data[1];
+			}
+		}	
+	});
+	if(u_id==0){
+		club_id=0;
+	}else{
+		$.ajax({
+			url:'../clubAdminah.do',
+			type:'GET',
+			dataType:'json',
+			async:false,
+			data:"u_id="+u_id,
+			success:function(data){
+				club_id=data;
+			}
+		});
+	}
+}
+

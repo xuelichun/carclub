@@ -1,0 +1,56 @@
+package com.zeepn.bean;
+
+public class InteAcqrec {
+	private int ia_id;
+	private String ia_Descent;
+	private String ia_time;
+	private UserInfo u_id;
+	public InteAcqrec() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public InteAcqrec(int ia_id, String ia_Descent, String ia_time,
+			UserInfo u_id) {
+		super();
+		this.ia_id = ia_id;
+		this.ia_Descent = ia_Descent;
+		this.ia_time = ia_time;
+		this.u_id = u_id;
+	}
+	public InteAcqrec(String ia_Descent, String ia_time, UserInfo u_id) {
+		super();
+		this.ia_Descent = ia_Descent;
+		this.ia_time = ia_time;
+		this.u_id = u_id;
+	}
+	@Override
+	public String toString() {
+		return "InteAcqrec [ia_id=" + ia_id + ", ia_Descent=" + ia_Descent
+				+ ", ia_time=" + ia_time + ", u_id=" + u_id + "]";
+	}
+	public int getIa_id() {
+		return ia_id;
+	}
+	public void setIa_id(int ia_id) {
+		this.ia_id = ia_id;
+	}
+	public String getIa_Descent() {
+		return ia_Descent;
+	}
+	public void setIa_Descent(String ia_Descent) {
+		this.ia_Descent = ia_Descent;
+	}
+	public String getIa_time() {
+		return ia_time;
+	}
+	public void setIa_time(String ia_time) {
+		this.ia_time = ia_time;
+	}
+	public UserInfo getU_id() {
+		return u_id;
+	}
+	public void setU_id(UserInfo u_id) {
+		this.u_id = u_id;
+	}
+	
+}

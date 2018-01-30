@@ -1,0 +1,47 @@
+package com.zeepn.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.bean.DraTravel;
+import com.zeepn.service.DraTravelService;
+
+@Controller
+public class DraTravelController {
+	
+	@Autowired
+	DraTravelService draTravelService;
+	
+	@RequestMapping("/draTravela")
+	@ResponseBody
+	public int insertDraTravel(DraTravel draTravel){
+		return draTravelService.insertDraTravel(draTravel); 
+	}
+	@RequestMapping("/draTravelb")
+	@ResponseBody
+	public DraTravel selectDraTravelById(int dt_id){
+		return draTravelService.selectDraTravelById(dt_id);
+	}
+	
+	@RequestMapping("/draTravelc")
+	@ResponseBody
+	public List<DraTravel> selectDraTravel(int dt_id){
+		return draTravelService.selectDraTravel(dt_id);
+	}
+	
+	@RequestMapping("/draTraveld")
+	@ResponseBody
+	public int updateDraTravel(DraTravel draTravel){
+		return draTravelService.updateDraTravel(draTravel);
+	}
+	
+	@RequestMapping("/draTravele")
+	@ResponseBody
+	int deleteDraTravel(int dt_id){
+		return draTravelService.deleteDraTravel(dt_id);
+	}
+}

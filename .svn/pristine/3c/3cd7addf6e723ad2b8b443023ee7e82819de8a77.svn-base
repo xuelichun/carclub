@@ -1,0 +1,450 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.Club;
+import com.zeepn.bean.FindClubParam;
+import com.zeepn.bean.PreInfo;
+import com.zeepn.utils.Page;
+@Repository("clubDao")
+public interface ClubDao {
+	/**
+	 * 添加车友会记录
+	 * @param club 车友会对象
+	 * @return 影响车友会表的行数
+	 */
+	public int insertClub(Club club);
+	/**
+	 * 更新车友会信息
+	 * @param club 车友会对象
+	 * @return 影响车友会表的行数
+	 */
+	public int updateClubPNum(Club club);
+	/**
+	 * 查询所有的车友会排行
+	 * @param page 行数对象
+	 * @return 车友会集合 
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club order by club_tcon desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectAllClubByPageRank(int pageIndex);
+	/**
+	 * 按照编号对所有的车友会进行排序
+	 * @param page 行数对象
+	 * @return 车友会集合
+	 */
+	public List<Object> selectAllClubByPageId(Page page);
+	/**
+	 * 按照时间对所有的车友会进行排序
+	 * @param page 行数对象
+	 * @return 车友会集合
+	 */
+	public List<Object> selectAllClubByPageTime(Page page);
+	/**
+	 * 查询排名前七的车友会
+	 * @return 车友会集合
+	 */
+	public List<Club> selectFrontClub();
+	/**
+	 * 根据车友会编号查询车友会对象
+	 * @param club_id 车友会编号
+	 * @return 车友会对象
+	 */
+	public Club selectOneClub(int club_id);
+	/**
+	 * 查询车友会个数
+	 * @return 车友会个数
+	 */
+	@Select("select count(club_id) from club")
+	public int selectClubCount();
+	/**
+	 * 根据车友会编号删除车友会
+	 * @param club_id 车友会编号
+	 * @return 影响车友会表的行数
+	 */
+	public int delClubById(int club_id);
+	/**
+	 * 
+	 * @param page
+	 * @param findClubParam
+	 * @return
+	 */
+	public List<Object> selectAllClubByFCP(Page page,FindClubParam findClubParam);
+	/**
+	 * 根据车友会参数查找车友会
+	 * @param findClubParam
+	 * @return 
+	 */
+	public int selectClubCountByFCP(FindClubParam findClubParam);
+	/**
+	 * 默认按时间倒序查询车友会集合
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club order by club_cretime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectAllClub(int pageIndex);
+	/**
+	 * 默认按时间倒序查询车友会数据记录数
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club")
+	public int selectCountClub();
+	/**
+	 * 根据省份查询车友会集合
+	 * @param province 省份
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_pro=#{club_pro} order by club_cretime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByPro(@Param("club_pro")String club_pro,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据省份查询车友会数据记录数
+	 * @param province 省份
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_pro=#{club_pro}")
+	public int selectCountClubByPro(String club_pro);
+	/**
+	 * 根据城市查询车友会集合
+	 * @param city 城市
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_city=#{club_city} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCity(@Param("club_city")String club_city,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据城市查询车友会数据记录数
+	 * @param city 城市
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_city=#{club_city}")
+	public int selectCountClubByCity(String club_city);
+	/**
+	 * 根据车的品牌查询车友会集合
+	 * @param club_cb 车的品牌
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_cb=#{club_cb} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCarBrand(@Param("club_cb")String club_cb,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车的品牌查询车友会数据记录数
+	 * @param club_cb 车的品牌
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_cb=#{club_cb}")
+	public int selectCountClubByBrand(String club_cb);
+	/**
+	 * 根据车系查询车友会集合
+	 * @param club_cd 车系
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_cd=#{club_cd} order by club_cretime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCarDep(@Param("club_cd")String club_cd,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车系查询车友会数据记录数
+	 * @param club_cd 车系
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_cd=#{club_cd}")
+	public int selectCountClubByCarDep(String club_cd);
+	/**
+	 * 根据车友会编号查询车友会集合
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByClubId(@Param("club_id")int club_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车友会编号查询车友会数据记录数
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_id=#{club_id}")
+	public int selectCountClubByClubId(int club_id);
+	/**
+	 * 根据省份和车的品牌查询车友会集合
+	 * @param province 省份
+	 * @param club_cb 车的品牌
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_pro=#{club_pro} and club_cb=#{club_cb} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByProCB(@Param("club_pro")String club_pro,@Param("club_cb")String club_cb,
+			@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据省份和车的品牌查询车友会数据记录数
+	 * @param province 省份
+	 * @param carBrand 车的品牌
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_pro=#{club_pro} and club_cb=#{club_cb}")
+	public int selectCountClubByProCB(@Param("club_pro")String club_pro,@Param("club_cb")String club_cb);
+	/**
+	 * 根据省份和车系查询车友会集合
+	 * @param province 省份
+	 * @param carDep 车系
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_pro=#{club_pro} and club_cd=#{club_cd} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByProCD(@Param("club_pro")String club_pro,@Param("club_cd")String club_cd,
+			@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据省份和车系查询车友会数据记录数
+	 * @param province 省份
+	 * @param club_cd 车系
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_pro=#{club_pro} and club_cd=#{club_cd}")
+	public int selectCountClubByProCD(@Param("club_pro")String club_pro,@Param("club_cd")String club_cd);
+	/**
+	 * 根据城市和车的品牌查询车友会集合
+	 * @param city 城市
+	 * @param club_cb 车的品牌
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_city=#{club_city} and club_cb=#{club_cb} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCityCB(@Param("club_city")String club_city,@Param("club_cb")String club_cb,
+			@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据城市和车的品牌查询车友会数据记录数
+	 * @param city 城市
+	 * @param carBrand 车的品牌
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_city=#{club_city} and club_cb=#{club_cb}")
+	public int selectCountClubByCityCB(@Param("club_city")String club_city,@Param("club_cb")String club_cb);
+	/**
+	 * 根据城市和车系查询车友会集合
+	 * @param city 城市
+	 * @param club_cd 车系
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_city=#{club_city} and club_cd=#{club_cd} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCityCD(@Param("club_city")String club_city,@Param("club_cd")String club_cd,
+			@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据城市和车系查询车友会数据记录数
+	 * @param city 城市
+	 * @param club_cd 车系
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_city=#{club_city} and club_cd=#{club_cd}")
+	public int selectCountClubByCityCD(@Param("club_city")String club_city,@Param("club_cd")String club_cd);
+	/**
+	 * 根据省份和车友会编号查询车友会集合
+	 * @param club_pro 省份
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_pro=#{club_pro} and club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByProCID(@Param("club_pro")String club_pro,@Param("club_id")int club_id,
+			@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据省份和车友会编号查询车友会数据记录数
+	 * @param club_pro 省份
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_pro=#{club_pro} and club_id=#{club_id}")
+	public int selectCountClubByProCID(@Param("club_pro")String club_pro,@Param("club_id")int club_id);
+	/**
+	 * 根据城市和车友会编号查询车友会集合
+	 * @param club_city 城市
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_city=#{club_city} and club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCityCID(@Param("club_city")String club_city,@Param("club_id")int club_id,
+			@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据城市和车友会编号查询车友会数据记录数
+	 * @param club_city 城市
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_city=#{club_city} and club_id=#{club_id}")
+	public int selectCountClubByCityCID(@Param("club_city")String club_city,@Param("club_id")int club_id);
+	/**
+	 * 根据车的品牌和车友会编号查询车友会集合
+	 * @param club_cb 车的品牌
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_cb=#{club_cb} and club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCBCID(@Param("club_cb")String club_cb,@Param("club_id")int club_id,
+			@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车的品牌和车友会编号查询车友会数据记录数
+	 * @param club_cb 车的品牌
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_cb=#{club_cb} and club_id=#{club_id}")
+	public int selectCountClubByCBCID(@Param("club_cb")String club_cb,@Param("club_id")int club_id);
+	/**
+	 * 根据车系和车友会编号查询车友会集合
+	 * @param club_cd 车系
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_cd=#{club_cd} and club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCDCID(@Param("club_cd")String club_cd,@Param("club_id")int club_id,
+			@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车系和车友会编号查询车友会数据记录数
+	 * @param club_cd 车系
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_cd=#{club_cd} and club_id=#{club_id}")
+	public int selectCountClubByCDCID(@Param("club_cd")String club_cd,@Param("club_id")int club_id);
+	/**
+	 * 根据省份、车的品牌和车友会编号查询车友会集合
+	 * @param club_pro 省份
+	 * @param club_cb 车的品牌
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_pro=#{club_pro} and club_cb=#{club_cb} and club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByProCBCID(@Param("club_pro")String club_pro,@Param("club_cb")String club_cb,
+			@Param("club_id")int club_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据省份、车的品牌和车友会编号查询车友会数据记录数
+	 * @param club_pro 省份
+	 * @param club_cb 车的品牌
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_pro=#{club_pro} and club_cb=#{club_cb} and club_id=#{club_id}")
+	public int selectCountClubByProCBCID(@Param("club_pro")String club_pro,@Param("club_cb")String club_cb,
+			@Param("club_id")int club_id);
+	/**
+	 * 根据省份、车系和车友会编号查询车友会集合
+	 * @param club_pro 省份
+	 * @param club_cd 车系
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_pro=#{club_pro} and club_cd=#{club_cd} and club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByProCDCID(@Param("club_pro")String club_pro,@Param("club_cd")String club_cd,
+			@Param("club_id")int club_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据省份、车系和车友会编号查询车友会数据记录数
+	 * @param club_pro 省份
+	 * @param club_cd 车系
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_pro=#{club_pro} and club_cd=#{club_cd} and club_id=#{club_id}")
+	public int selectCountClubByProCDCID(@Param("club_pro")String club_pro,@Param("club_cd")String club_cd,@Param("club_id")int club_id);
+	/**
+	 * 根据城市、车的品牌和车友会编号查询车友会集合
+	 * @param city 城市
+	 * @param club_cd 车的品牌
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_city=#{club_city} and club_cb=#{club_cb} and club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCityCBCID(@Param("club_city")String club_city,@Param("club_cb")String club_cb,
+			@Param("club_id")int club_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据城市、车的品牌和车友会编号查询车友会数据记录数
+	 * @param club_city 城市
+	 * @param club_cb 车的品牌
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_city=#{club_city} and club_cb=#{club_cb} and club_id=#{club_id}")
+	public int selectCountClubByCityCBCID(@Param("club_city")String club_city,@Param("club_cb")String club_cb,@Param("club_id")int club_id);
+	/**
+	 * 根据城市、车系和车友会编号查询车友会集合
+	 * @param club_city 城市
+	 * @param club_cd 车系
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from club where club_city=#{club_city} and club_cd=#{club_cd} and club_id=#{club_id} order by club_cretime) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<Club> selectClubByCityCDCID(@Param("club_city")String club_city,@Param("club_cd")String club_cd,
+			@Param("club_id")int club_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据城市、车系和车友会编号查询车友会数据记录数
+	 * @param club_city 城市
+	 * @param club_cd 车系
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(club_id) from club where club_city=#{club_city} and club_cd=#{club_cd} and club_id=#{club_id}")
+	public int selectCountClubByCityCDCID(@Param("club_city")String club_city,@Param("club_cd")String club_cd,@Param("club_id")int club_id);
+	
+	@Select("select sum(u_grade) from userinfo where club_id=#{club_id}")
+	public int countClubGrade(int club_id);
+	
+	@Select("select count(club_id) from club where club_id=#{club_id}")
+	public int isExistclub(int club_id);
+
+	/**
+	 * 查询车友会名是否已存在
+	 * @param club_name 车友会名
+	 * @return 存在，返回值>0;否则，返回值<=0
+	 */
+	@Select("select count(club_id) from club where club_name=#{club_name}")
+	public int unameIsExit(String club_name);
+	/**
+	 * 判断车友会域名是否存在
+	 * @param club_domnam 车友会域名
+	 * @return 存在，返回值>0;否则，返回值<=0
+	 */
+	@Select("select count(club_id) from club where club_domnam=#{club_domnam}")
+	public int domnamIsExit(String club_domnam);
+	/**
+	 * 根据创建人编号查询车友会编号
+	 * @param p_id 创建人编号
+	 * @return 车友会编号
+	 */
+	@Select("select club_id from club where p_id=#{p_id}")
+	public int selectClubIdByPId(int p_id);
+	/**
+	 * 根据会主对象插入会主表记录
+	 * @param preInfo 会主对象
+	 * @return 影响会主表的行数
+	 */
+	@Insert("insert into pre_info values(pre_info_seq.nextval,#{p_id},#{vp1_id},#{vp2_id},#{club_id})")
+	public int insertPI(PreInfo preInfo);
+ }

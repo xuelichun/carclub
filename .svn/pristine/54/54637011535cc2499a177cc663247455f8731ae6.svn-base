@@ -1,0 +1,64 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.Club;
+import com.zeepn.utils.Page;
+
+@Repository("clubDao")
+public interface ClubDao {
+	/**
+	 * 添加车友会记录
+	 * @param club 车友会对象
+	 * @return 影响车友会表的行数
+	 */
+	public int insertClub(Club club);
+	/**
+	 * 更新车友会信息
+	 * @param club 车友会对象
+	 * @return 影响车友会表的行数
+	 */
+	public int updateClubPNum(Club club);
+	/**
+	 * 查询所有的车友会排行
+	 * @param page 行数对象
+	 * @return 车友会集合 
+	 */
+	public List<Object> selectAllClubByPageRank(Page page);
+	/**
+	 * 按照编号对所有的车友会进行排序
+	 * @param page 行数对象
+	 * @return 车友会集合
+	 */
+	public List<Object> selectAllClubByPageId(Page page);
+	/**
+	 * 按照时间对所有的车友会进行排序
+	 * @param page 行数对象
+	 * @return 车友会集合
+	 */
+	public List<Object> selectAllClubByPageTime(Page page);
+	/**
+	 * 查询排名前七的车友会
+	 * @return 车友会集合
+	 */
+	public List<Club> selectFrontClub();
+	/**
+	 * 根据车友会编号查询车友会对象
+	 * @param club_id 车友会编号
+	 * @return 车友会对象
+	 */
+	public Club selectOneClub(int club_id);
+	/**
+	 * 查询车友会个数
+	 * @return 车友会个数
+	 */
+	public int selectClubCount();
+	/**
+	 * 根据车友会编号删除车友会
+	 * @param club_id 车友会编号
+	 * @return 影响车友会表的行数
+	 */
+	public int delClubById(int club_id);
+ }

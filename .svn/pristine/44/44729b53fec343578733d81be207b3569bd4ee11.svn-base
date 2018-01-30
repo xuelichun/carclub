@@ -1,0 +1,32 @@
+$(function(){
+	
+});
+
+function createAlbum(){
+	var a_title=$("#a_title").val().trim();
+	var a_desc=$("#a_desc").val().trim();
+	var u_id=$("#u_id").val();
+	var a=2;
+	if(a_title==''){
+		$("#span").html("标题不能为空");
+		a--;
+		return ;	
+	}
+	if(a_desc==''){
+		$("#span").html("描述不能为空");
+		a--;
+		return ;
+	}
+	if(a==2){
+		$("#span").html("");
+		$.getJSON("../album/createAlbum.do",{"u_id":u_id,"a_title":a_title,"a_desc":a_desc},function(data){
+			if(data.rs=='ok'){
+				alert("创建成功");
+				$("#TB_overlayBG").css("display","none");
+				$(".box ").css("display","none");
+			}else{
+				alert("创建失败");
+			}
+		});
+	}
+}

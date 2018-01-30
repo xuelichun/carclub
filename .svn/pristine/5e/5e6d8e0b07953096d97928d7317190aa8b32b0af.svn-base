@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ChaEvent">
+	<insert id="insertChaEvent">
+		<![CDATA[ 
+			insert into cha_event values(cha_event_sql.nextval,#(ce_name),#(ce_img),#(ce_content),
+				#(ce_place),#(ce_time),#(ce_goal),#(ce_del))
+		]]>
+	</insert>
+	<update id="deleteChaEvent">
+		<![CDATA[
+			update cha_event set ce_del=0 where ce_id=#{ce_id}
+		]]>
+	</update>
+	<update id="updateChaEvent">
+		<![CDATA[
+			update cha_event set ce_name=#{ce_name},ce_img=#{ce_img},ce_content=#{ce_content},ce_place=#{ce_place},ce_time=#{ce_time},ce_goal=#{ce_goal},ce_del=#{ce_del} where ce_id=#{ce_id}
+		]]>
+	</update>
+	<select id="selectChaEventById" resultType="ChaEvent">
+		<![CDATA[
+			select * from cha_event where ce_id=#{ce_id}
+		]]>
+	</select>
+	<select id="selectChaEvent" resultType="ChaEvent">
+		<![CDATA[
+			select b.* from (select s.*,rownum rn from cha_event a order by ce_id) b
+			 where b.rn between 1 and 8
+		]]>
+	</select>
+</mapper>

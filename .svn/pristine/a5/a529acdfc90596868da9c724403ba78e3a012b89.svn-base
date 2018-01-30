@@ -1,0 +1,33 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import com.zeepn.bean.AppliNotice;
+import com.zeepn.bean.Club;
+
+public interface AppliNoticeDao {
+	/**
+	 * 查询所有的申请通知记录
+	 * @return 申请通知集合
+	 */
+	public List<AppliNotice> selectAllAppliNotice();
+	/**
+	 * 更新申请通知记录
+	 * @param appliNotice 申请通知对象
+	 * @return 影响申请通知表的行数
+	 */
+	public int updateAppliNotice(AppliNotice appliNotice);
+	/**
+	 * 查询车友会申请通知对象方法
+	 * @param an_id 申请通知编号
+	 * @return 申请通知对象
+	 */
+	public AppliNotice selectOneAppliNotice(int an_id);
+	/**
+	 * 提交车友会申请通知方法
+	 * @param club 车友会对象
+	 * @param appliNotice 申请通知对象
+	 * @return 申请通过，返回申请通知对象；没有通过，返回空对象
+	 */
+	public int insertAppliNotice(Club club,AppliNotice appliNotice);
+}

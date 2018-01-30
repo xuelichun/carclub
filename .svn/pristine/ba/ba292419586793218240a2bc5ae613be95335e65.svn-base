@@ -1,0 +1,56 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import com.zeepn.bean.NumLevelFee;
+
+public interface NumLevelFeeDao {
+	/**
+	 * 判断车友会会主扩充人数上限是否成功
+	 * @param numLevelFee 人数级别收费对象
+	 * @return 扩充成功，返回人数级别收费对象；否则，返回空对象
+	 */
+	public NumLevelFee insertNumLevelFee(NumLevelFee numLevelFee);
+	/**
+	 * 查询人数级别收费集合（所有的人）
+	 * @return人数级别收费集合
+	 */
+	public List<NumLevelFee> selectAllNumLevelFee();
+	/**
+	 * 根据车友会编号查询人数级别缴费集合
+	 * @param club_id 车友会编号
+	 * @return 人数级别缴费集合
+	 */
+	public List<NumLevelFee> selectNumLevelFee(int club_id);
+	/**
+	 * 根据车友会编号和缴费时间查询人数级别缴费对象
+	 * @param club_id 车友会编号
+	 * @param nlf_paytime 缴费时间
+	 * @return 人数级别缴费对象
+	 */
+	public NumLevelFee selectOneNumLevelFeeBCT(int club_id,String nlf_paytime);
+	/**
+	 * 根据人数级别缴费编号查询人数级别缴费对象
+	 * @param nlf_id 人数级别缴费编号
+	 * @return 人数级别缴费对象
+	 */
+	public NumLevelFee selectOneLevelFee(int nlf_id);
+	/**
+	 * 更新人数级别收费记录
+	 * @param numLevelFee 人数界别收费对象
+	 * @return 影响数据库表的行数
+	 */
+	public int updateNumLevelFee(NumLevelFee numLevelFee);
+	/**
+	 * 根据车友会编号查询会主扩充人数界别缴费时间
+	 * @param club_id 车友会编号
+	 * @return 缴费时间
+	 */
+	public String selectNlfPaytime(int club_id);
+	/**
+	 * 根据车友会编号查询人数级别收费到期时间
+	 * @param club_id 车友会编号
+	 * @return 收费到期时间
+	 */
+	public String selectNlfMattime(int club_id);
+}

@@ -1,0 +1,69 @@
+package com.zeepn.service;
+
+import java.util.List;
+import java.util.Map;
+import com.zeepn.bean.ClubAlbum;
+import com.zeepn.bean.PhotoAlbum;
+public interface ClubAlbumService {
+	
+	/**
+	 * 创建车友会相册
+	 * @param clubAlbum
+	 * @return 创建成功返回1
+	 */
+	public int createClubAlbum(ClubAlbum clubAlbum);
+	
+	/**
+	 * 查询车友会相册
+	 * @param club_id
+	 * @return 车友会相册对象
+	 */
+	public List<ClubAlbum> selectClubAlbum(int club_id);
+	
+	/**
+	 * 更新车友会相册
+	 * @param clubAlbum
+	 * @return 更新成功返回1
+	 */
+	public int updateClubAlbum(ClubAlbum clubAlbum);
+	
+	/**
+	 * 车友会相册上传图片
+	 * @param photoAlbum
+	 * @return 上传失败返回0
+	 */
+	public int insertPicture(PhotoAlbum photoAlbum);
+	
+	/**
+	 * 更新车友会相册图片数量
+	 * @param map
+	 */
+	public void updateClubAlbumOnCaCount(Map<String, Integer> map);
+	
+	/**
+	 * 查询车友会相册图片
+	 * @param ca_id
+	 * @return 车友会相册图片对象列表
+	 */
+	public List<PhotoAlbum> selectPhotoAlbum(int ca_id);
+	
+	/**
+	 * 删除车友会相册图片
+	 * @param pa_id
+	 * @return 删除成功返回1
+	 */
+	public int deletePhotoAlbum(int pa_id);
+	
+	/**
+	 * 删除车友会相册
+	 * @param ca_id
+	 * @return 删除成功返回1
+	 */
+	public int deleteClubAlbum(int ca_id);
+	/**
+	 * 删除车友会相册图片(删除车友会相册联动)
+	 * @param ca_id
+	 */
+	public void deletePhotoAlbumByCaId(int ca_id);
+
+}

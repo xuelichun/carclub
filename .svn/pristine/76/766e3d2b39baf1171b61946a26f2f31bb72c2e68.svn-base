@@ -1,0 +1,28 @@
+package com.zeepn.bean;
+
+public class Visitor {
+	private int v_id;
+	private int v_uid1;
+	private int v_uid2;
+	private String v_time;
+	public Visitor() {
+	}
+	public Visitor(int v_id, int v_uid1, int v_uid2, String v_time) {
+		this.v_id = v_id;
+		this.v_uid1 = v_uid1;
+		this.v_uid2 = v_uid2;
+		this.v_time = v_time;
+	}
+	public Visitor(int v_uid1, int v_uid2, String v_time) {
+		this.v_uid1 = v_uid1;
+		this.v_uid2 = v_uid2;
+		this.v_time = v_time;
+	}
+	@Override
+	public String toString() {
+		return "visitor [v_id=" + v_id + ", v_uid1=" + v_uid1 + ", v_uid2="
+				+ v_uid2 + ", v_time=" + v_time + "]";
+	}
+	
+	
+}

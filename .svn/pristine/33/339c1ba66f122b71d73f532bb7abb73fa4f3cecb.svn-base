@@ -1,0 +1,51 @@
+package com.zeepn.controller;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.zeepn.bean.Album;
+import com.zeepn.service.UserAlbumService;
+import com.zeepn.utils.TransCoding;
+
+@Controller
+@RequestMapping("/album")
+public class UserAlbumController {
+	
+	@Autowired
+	UserAlbumService userAlbumService;
+	
+	/**
+	 * 创建相册
+	 * @param u_id
+	 * @param a_title
+	 * @param a_desc
+	 * @return
+	 */
+	@RequestMapping("/createAlbum")
+	@ResponseBody
+	public Object createAlbum(int u_id,String a_title,String a_desc){
+		a_title=TransCoding.transCoding(a_title);
+		a_desc=TransCoding.transCoding(a_desc);
+		Album album=new Album(u_id, a_title, a_desc);
+		if(userAlbumService.insertAlbum(album)>0){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+	}
+	
+	/**
+	 *查询用户 的所有相册
+	 * @param u_id
+	 * @return
+	 */
+	@RequestMapping("/uploadPhoto")
+	@ResponseBody
+	public List<Album> uploadPhoto(int u_id){
+		List<Album> list=userAlbumService.selectAlbum(u_id);
+		return list;
+		
+	}
+}

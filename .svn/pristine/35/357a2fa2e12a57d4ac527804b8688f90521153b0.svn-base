@@ -1,0 +1,166 @@
+package com.zeepn.controller;
+
+import java.util.HashMap;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.service.BackUserInfoService;
+
+@Controller
+@RequestMapping("/backUserInfo")
+public class BackUserInfoController {
+	/**
+	 * 自动注入dao
+	 */
+	@Resource(name="backUserInfoService")
+	private BackUserInfoService backUserInfoService;
+	
+	@RequestMapping("/selectAllUI")
+	@ResponseBody
+	public HashMap<Integer, Object> selectAllUI(int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectAllUI(pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByPro")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByPro(String procince,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByPro(procince,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByCity")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByCity(String city,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByCity(city,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIBySex")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIBySex(String sex,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIBySex(sex,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByUname")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByUname(String uname,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByUname(uname,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByUgrade")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByUgrade(int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByUgrade(ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByPS")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByPS(String procince,String sex,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByPS(procince,sex,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByPUN")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByPUN(String procince,String uname,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByPUN(procince,uname,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByPUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByPUG(String procince,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByPUG(procince,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByCS")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByCS(String city,String sex,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByCS(city,sex,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByCUN")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByCUN(String city,String uname,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByCUN(city,uname,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByCUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByCUG(String city,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByCUG(city,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIBySUN")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIBySUN(String sex,String uname,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIBySUN(sex,uname,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIBySUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIBySUG(String sex,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIBySUG(sex,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByUNUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByUNUG(String uname,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByUNUG(uname,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByPSUN")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByPSUN(String procince,String sex,String uname,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByPSUN(procince,sex,uname,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByPSUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByPSUG(String procince,String sex,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByPSUG(procince,sex,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByPUNUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByPUNUG(String procince,String uname,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByPUNUG(procince,uname,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByCSUN")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByCSUN(String city,String sex,String uname,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByCSUN(city,sex,uname,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByCSUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByCSUG(String city,String sex,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByCSUG(city,sex,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByCUNUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByCUNUG(String city,String uname,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByCUNUG(city,uname,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIBySUNUG")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIBySUNUG(String sex,String uname,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIBySUNUG(sex,uname,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByPSUU")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByPSUU(String province,String sex,String uname,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByPSUU(province,sex,uname,ugrade,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectUIByCSUU")
+	@ResponseBody
+	public HashMap<Integer, Object> selectUIByCSUU(String city,String sex,String uname,int ugrade,int pageIndex){
+		HashMap<Integer, Object> anMap=backUserInfoService.selectUIByCSUU(city,sex,uname,ugrade,pageIndex);
+		return anMap;
+	}
+}

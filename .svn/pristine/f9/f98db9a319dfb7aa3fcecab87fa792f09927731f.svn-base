@@ -1,0 +1,134 @@
+package com.zeepn.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.Car;
+import com.zeepn.bean.ClickLike;
+import com.zeepn.bean.Club;
+import com.zeepn.bean.Friends;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.bean.Visitor;
+import com.zeepn.dao.UserDao;
+import com.zeepn.service.UserService;
+@Component("userService")
+public class UserServiceImpl implements UserService{
+	@Autowired
+	UserDao userDao;
+	@Override
+	public UserInfo userLoginByPhone(String u_phone, String u_pwd) {
+		
+		return userDao.userLoginByPhone(u_phone, u_pwd);
+	}
+	@Override
+	public UserInfo userLoginByEmail(String u_email, String u_pwd) {
+		
+		return userDao.userLoginByEmail(u_email, u_pwd);
+	}
+	@Override
+	public int userReg(UserInfo user) {
+		
+		return userDao.userReg(user);
+	}
+	@Override
+	public int perfectUser(UserInfo user) {
+		
+		return userDao.perfectUser(user);
+	}
+	@Override
+	public int updateUserPwd(UserInfo user) {
+		
+		return userDao.updateUserPwd(user);
+	}
+	@Override
+	public Club selectClubByUser(int club_id) {
+		
+		return userDao.selectClubByUser(club_id);
+	}
+	@Override
+	public List<UserInfo> selectFriends(int u_id,int pageIndex) {
+
+		return userDao.selectFriends(u_id, pageIndex);
+	}
+	@Override
+	public int CLickLike(ClickLike clickLike) {
+		int isOk=0;
+		int isClick=userDao.countId(clickLike);
+		if(isClick==0){
+			if(userDao.insertCLickLike(clickLike)>0&&userDao.addNum(clickLike.getPd_id())>0){
+				isOk=1;
+			}else{
+				isOk=2;
+			}
+		}else{
+			isOk=3;
+		}
+		return isOk;
+	}
+	@Override
+	public boolean deleteCLickLike(ClickLike clickLike) {
+		boolean flag=false;
+		if(userDao.deleteCLickLike(clickLike)>0&&userDao.reduceNum(clickLike.getPd_id())>0){
+			flag=true;
+		}
+		return flag;	
+	}
+	@Override
+	public int insertCar(Car car) {
+		
+		return userDao.insertCar(car);
+	}
+	@Override
+	public int updateCar(Car car) {
+		
+		return userDao.updateCar(car);
+	}
+	@Override
+	public int deleteCar(int u_id) {
+		
+		return userDao.deleteCar(u_id);
+	}
+	@Override
+	public List<UserInfo> showVisitor(int v_uid2,int pageIndex) {
+		
+		return userDao.showVisitor(v_uid2, pageIndex);
+	}
+	@Override
+	public int addClub(int u_id, int club_id) {
+		
+		return userDao.addClub(u_id, club_id);
+	}
+	@Override
+	public int ExitClub(int u_id) {
+		
+		return userDao.ExitClub(u_id);
+	}
+	@Override
+	public int addFriends(int u_id, int fu_id) {
+		
+		return userDao.addFriends(u_id, fu_id);
+	}
+	@Override
+	public int deleteFriends(int u_id, int fu_id) {
+		
+		return userDao.deleteFriends(u_id, fu_id);
+	}
+	@Override
+	public UserInfo selectUserById(int u_id) {
+		
+		return userDao.selectUserById(u_id);
+	}
+	@Override
+	public int countPhone(String u_phone) {
+		
+		return userDao.countPhone(u_phone);
+	}
+	@Override
+	public int countEmail(String u_email) {
+		
+		return userDao.countEmail(u_email);
+	}
+	
+}

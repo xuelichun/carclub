@@ -1,0 +1,51 @@
+package com.zeepn.bean;
+
+public class ClubChacon {
+	private int cc_id;
+	private ChaEvent ce_id;
+	private Club club_id;
+	private int cc_value;
+	public ClubChacon() {
+	}
+	public ClubChacon(int cc_id, ChaEvent ce_id, Club club_id, int cc_value) {
+		this.cc_id = cc_id;
+		this.ce_id = ce_id;
+		this.club_id = club_id;
+		this.cc_value = cc_value;
+	}
+	public ClubChacon(ChaEvent ce_id, Club club_id, int cc_value) {
+		this.ce_id = ce_id;
+		this.club_id = club_id;
+		this.cc_value = cc_value;
+	}
+	public int getCc_id() {
+		return cc_id;
+	}
+	public void setCc_id(int cc_id) {
+		this.cc_id = cc_id;
+	}
+	public ChaEvent getCe_id() {
+		return ce_id;
+	}
+	public void setCe_id(ChaEvent ce_id) {
+		this.ce_id = ce_id;
+	}
+	public Club getClub_id() {
+		return club_id;
+	}
+	public void setClub_id(Club club_id) {
+		this.club_id = club_id;
+	}
+	public int getCc_value() {
+		return cc_value;
+	}
+	public void setCc_value(int cc_value) {
+		this.cc_value = cc_value;
+	}
+	@Override
+	public String toString() {
+		return "ClubChacon [cc_id=" + cc_id + ", ce_id=" + ce_id + ", club_id="
+				+ club_id + ", cc_value=" + cc_value + "]";
+	}
+	
+}

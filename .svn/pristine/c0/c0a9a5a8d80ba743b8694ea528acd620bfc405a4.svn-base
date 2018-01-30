@@ -1,0 +1,209 @@
+package com.zeepn.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.Club;
+import com.zeepn.bean.Sign;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.dao.ActivityDao;
+import com.zeepn.dao.ClubAlbumDao;
+import com.zeepn.dao.ClubDao;
+import com.zeepn.dao.JoinAppliDao;
+import com.zeepn.dao.PreInfoDao;
+import com.zeepn.dao.UserDao;
+import com.zeepn.dao.UserSignDao;
+import com.zeepn.service.ClubHomeService;
+import com.zeepn.service.SearchService;
+import com.zeepn.utils.DateFormat;
+import com.zeepn.utils.TransCoding;
+
+@Component("clubHomeService")
+public class ClubHomeServiceImpl implements ClubHomeService{
+	@Autowired
+	UserDao userDao;
+	@Autowired
+	PreInfoDao preInfoDao;
+	@Autowired
+	JoinAppliDao joinAppliDao;
+	@Autowired
+	ClubDao clubDao;
+	@Autowired
+	ActivityDao activityDao;
+	@Autowired
+	ClubAlbumDao clubAlbumDao;
+	@Autowired
+	UserSignDao userSignDao;
+	@Autowired
+	SearchService searchService;
+
+	@Override
+	public List<UserInfo> selectUserInfoByClubId(int club_id,int page) {
+		List<UserInfo> userInfo=new ArrayList<UserInfo>();
+		int temp=selectPresident(club_id).size();
+		if(page==1){
+		userInfo.addAll(selectPresident(club_id));
+		userInfo.add(null);
+		}
+		userInfo.addAll(userDao.selectUserInfoNotPreByClubId(club_id,page,temp));
+		return userInfo;
+	}
+
+	@Override
+	public List<UserInfo> selectPresident(int club_id) {
+		List<UserInfo> userInfo=new ArrayList<UserInfo>();
+			userInfo.add(userDao.selectUserById(preInfoDao.selectPresidentId(club_id)));
+			UserInfo tempUserInfo=userDao.selectUserById(preInfoDao.selectVicePresidentId1(club_id));
+			if(tempUserInfo!=null){
+				userInfo.add(tempUserInfo);
+			}
+			tempUserInfo=userDao.selectUserById(preInfoDao.selectVicePresidentId2(club_id));
+			if(tempUserInfo!=null){
+				userInfo.add(tempUserInfo);
+			}
+		return userInfo;
+	}
+
+	@Override
+	public List<UserInfo> selectUserInfoInClubRankByClubId(int club_id) {
+		List<UserInfo> userInfo=userDao.selectUserInfoInClubRankByClubId(club_id);
+		return userInfo;
+	}
+
+	@Override
+	public List<UserInfo> selectUserInfosByUIds(int[] u_id) {
+		List<UserInfo> userInfo=new ArrayList<UserInfo>();
+		for(int i=0;i<u_id.length;i++){
+			userInfo.add(userDao.selectUserById(u_id[i]));
+		}
+		return userInfo;
+	}
+
+	@Override
+	public UserInfo selectFirstPresident(int club_id) {
+		int u_id=preInfoDao.selectPresidentId(club_id);
+		UserInfo userInfo=userDao.selectUserById(u_id);
+		return userInfo;
+	}
+
+	@Override
+	public int countMembersPage(int club_id) {
+		int page=(userDao.countUserInfoByClubId(club_id)-1)/15+1;
+		return page;
+	}
+
+	@Override
+	public UserInfo selectUserInfo(int u_id) {
+		UserInfo userInfo=userDao.selectUserById(u_id);
+		return userInfo;
+	}
+
+	@Override
+	public int countClubGrade(int club_id) {
+		int club_grade=clubDao.countClubGrade(club_id);
+		return club_grade;
+	}
+
+	@Override
+	public int[] isMember(int club_id,HttpServletRequest request) {
+		int[] result=new int[2];
+		HttpSession session=request.getSession();
+		UserInfo userInfo=(UserInfo) session.getAttribute("user");
+		if(userInfo==null){
+			if(club_id==0){
+				result[0]=0;
+				result[1]=0;
+			}else{
+				result[0]=0;
+				result[1]=club_id;
+			}
+		}else{
+			int club_idTemp=userInfo.getClub_id();
+			if(club_id==0){
+				result[0]=1;
+				result[1]=0;
+			}else if(club_idTemp==club_id){
+				result[0]=1;
+				result[1]=club_id;
+			}else{
+				result[0]=1;
+				result[1]=-2;
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public int selectClubId(HttpServletRequest request) {
+		HttpSession session=request.getSession();
+		UserInfo userInfo=(UserInfo) session.getAttribute("user");
+		int club_id=userInfo.getClub_id();
+		return club_id;
+	}
+
+	@Override
+	public int isExistClub(int club_id) {
+		int result=clubDao.isExistclub(club_id);
+		return result;
+	}
+
+	@Override
+	public int isExistAct(int act_id) {
+		return activityDao.isExistAct(act_id);
+	}
+
+	@Override
+	public int isExistClubAlbum(int ca_id) {
+		return clubAlbumDao.isExistClubAlbum(ca_id);
+	}
+
+	@Override
+	public Club selectClubIdForClubHome(int club_id) {	
+		return clubDao.selectClubByClubIdForClubHome(club_id);
+	}
+
+	@Override
+	public int sign(int u_id,int club_id) {
+		int row=0;
+		Sign sign=new Sign(club_id, u_id, DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMATS), 1);
+		if(userSignDao.isFirst(u_id, club_id)==0){
+			row=userSignDao.insertSign(sign);
+			userDao.updateExp(u_id, 3);
+		}else{
+			Sign signtemp=userSignDao.selectSign(u_id, club_id);
+			if(signtemp.getS_time().equals(sign.getS_time())){
+				row=-1;
+			}else if(DateFormat.isNextDay(sign.getS_time(), signtemp.getS_time())){
+				sign.setS_num(signtemp.getS_num()+1);
+				row=userSignDao.updateSign(sign);
+				if(signtemp.getS_num()==2){
+					userDao.updateExp(u_id, 4);
+				}else if(signtemp.getS_num()==3){
+					userDao.updateExp(u_id, 6);
+				}else if(signtemp.getS_num()==4){
+					userDao.updateExp(u_id, 8);
+				}else{
+					userDao.updateExp(u_id, 10);
+				}
+			}else{
+				row=userSignDao.updateSign(sign);
+				userDao.updateExp(u_id, 3);
+			}
+		}
+		return row;
+	}
+
+	@Override
+	public List<Club> selectClubByFuzzyName(String club_name) {
+		club_name=TransCoding.transCoding(club_name);
+		List<Club> club=new ArrayList<Club>();
+		club=searchService.selectClubs(club_name);
+		return club;
+	}
+}

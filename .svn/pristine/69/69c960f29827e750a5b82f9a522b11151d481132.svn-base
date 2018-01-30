@@ -1,0 +1,61 @@
+package com.zeepn.service.impl;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.zeepn.bean.FusMsg;
+import com.zeepn.dao.FusMsgDao;
+import com.zeepn.service.FusMsgService;
+
+
+	@Component("fusMsgService")
+	public class FusMsgServiceImpl implements FusMsgService{
+		@Autowired
+		FusMsgDao fusMsgDao;
+		@Override
+		public int createFusMsg(FusMsg fusMsg) {
+			fusMsg.setFm_date(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+			
+			System.out.println(fusMsg);
+			int row=fusMsgDao.createFusMsg(fusMsg);
+			return row;
+		}
+		
+		@Override
+		public List<FusMsg> selectFusMsgByPage(Map<String, Integer> map) {
+			List<FusMsg> fusMsg=fusMsgDao.selectFusMsgByPage(map);
+			return fusMsg;
+		}
+
+		@Override
+		public FusMsg selectOneFusMsgById(int fm_id) {
+			FusMsg fusMsg=fusMsgDao.selectOneFusMsgById(fm_id);
+			return fusMsg;
+		}
+
+		@Override
+		public int selectFusMsgPage() {
+			int page=fusMsgDao.selectFusMsgPage()/4;
+			System.out.println(page);
+			return page;
+		}
+
+		@Override
+		public int deleteFusMsg(int fm_id) {
+			System.out.println(fm_id);
+			int row=fusMsgDao.deleteFusMsg(fm_id);
+			return row;
+		}
+		@Override
+		public int updateFusMsgShow(int fm_id) {
+			System.out.println(fm_id);
+			int row=fusMsgDao.updateFusMsgShow(fm_id);
+			return row;
+		}
+		
+}
+

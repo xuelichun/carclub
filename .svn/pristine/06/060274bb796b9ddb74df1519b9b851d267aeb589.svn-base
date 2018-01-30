@@ -1,0 +1,49 @@
+package com.zeepn.service;
+
+import java.util.List;
+
+
+
+import java.util.Map;
+
+import com.zeepn.bean.Comments;
+import com.zeepn.bean.DynPic;
+import com.zeepn.bean.PersonDyn;
+import com.zeepn.bean.Reply;
+
+public interface PersonDynService {
+	
+	public int createPersonDyn(PersonDyn personDyn);
+	public int selectPIdByTime(int u_id,String pd_time);
+	public int createDynPicture(DynPic dynPic);
+	public boolean deletePersonDyn(int pd_id);
+	public int deleteDynPic(int pd_id);
+	
+	public List<DynPic> showDynPic(int pd_id);
+	
+    
+	public int createComments(Comments comments);
+	public int createReply(Reply reply);
+	public List<Comments> showAllComments(int pd_id);
+	public List<Reply> showAllReply(int com_id);
+	public Comments showCommentsById(int com_id);
+//	public List<Reply> showNewReply();
+//	public List<Comments> showNewComments();
+	public int updateReply(int rp_id);
+	public int updateComments(int com_id);
+
+	public int deleteReply(int com_id);
+	public Map<PersonDyn,List<DynPic>> showDyn(int u_id, int indexPage);
+	public Map<PersonDyn,List<DynPic>> selectOneDynById(int pd_id);
+	public Map<PersonDyn,List<DynPic>> showSpare(int u_id, int pageIndex);
+	public Map<PersonDyn,List<Comments>>  showNewReply(int u_id);
+	public Map<PersonDyn,List<Comments>> showNewComments(int user_id);
+	public boolean deleteComments(int com_id);
+	public Map<Comments, List<Reply>> showAllCommentsAndReply(int pd_id);
+//	public int deleteAllReply(int com_id);
+//	public int selectUidByPdid(int pd_id);
+//	public int deleteALLCLickLike(int pd_id);
+//	public int deleteAllComments(int pd_id);
+}
+
+

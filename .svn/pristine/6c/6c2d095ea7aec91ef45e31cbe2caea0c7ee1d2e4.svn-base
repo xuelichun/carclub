@@ -1,0 +1,127 @@
+$(function(){
+	selectMemFee();	
+	showClubFee(1);
+	showPayCon(1,1);
+	showPayConPage(1,1)
+});
+
+function expressMemFee(){
+	var club_id=1;
+	var mf_money=$("#mf_money").val();
+	var mf_grade=$("#mf_grade").val();
+	var mf_money_ck=/^[0-9]*$/;
+	var mf_grade_ck=/^0\.[1-9]\d*$/;
+	if(!mf_money_ck.test(mf_money)){
+		$("#msg").html(alert("会费应为整数"));
+	}else if(!mf_grade_ck.test(mf_grade)){
+		$("#msg").html(alert("折扣须在0~1之间"));
+	}else{
+		$.getJSON("../clubAdmint.do",{"mf_money":mf_money,"mf_grade":mf_grade,"club_id":club_id},function(data){
+			if(data==1){
+				$("#msg").html(alert("设置成功"));
+			}else{
+				$("#msg").html(alert("设置失败"));
+			}
+		});
+	}
+}
+
+function selectMemFee(){
+	var club_id=1;
+	$.getJSON("../clubAdminu.do",{"club_id":club_id},function(data){
+		$("#mf_money").val(data.mf_money);
+		$("#mf_grade").val(data.mf_grade);
+	});
+}
+
+function showClubFee(club_id){
+	$.getJSON("../clubAdminh.do",{"club_id":club_id},function(data){
+		var content="<span class='clubfeetixian'>账户余额:&nbsp;"+data.cf_money+"&nbsp;&nbsp;元</span><br/>"+
+	        "<span class='clubfeetixian'>账户积分:&nbsp;"+data.cf_grade+"&nbsp;&nbsp;L</span><br/>"+
+	        "<input type='button' class='clubfeetixianbtn' value='提现'/>";
+		$("#clubFee").html(content);
+	});
+}
+
+function showClubFeeFunc(){
+	$("#clubFee").show();
+	$("#clubFeeSet").hide();
+}
+
+function showPayCon(club_id,page){
+	var content="<ul>";
+	var pc_mattime=dateFormat(new Date());
+	var uIdArray=new Array();
+	$.ajax({
+		url:'../clubAdminw.do',
+		type:'GET',
+		dataType:'json',
+		async:false,
+		data:"club_id="+club_id+"&pc_mattime="+pc_mattime+"&page="+page,
+		success:function(data){
+			for(var i=0;i<data.length;i++){
+				uIdArray[i]=data[i].u_id;
+				content+="<li>" +
+							"<div class='layout recListLeft f14'>" +
+								"<div class='recDes'>" +
+									"<div class='vm bold c999'>" +
+										"<table border='0'>" +
+											"<tr>" +
+												"<td width='180px'>"+data[i].pc_paytime.substring(0,10)+"</td>" +
+												"<td rowspan='2' width='100px' id='payConUHead"+i+"'></td>" +
+												"<td rowspan='2' width='100px' id='payConUNick"+i+"'>1</td>"+
+												"<td rowspan='2' width='100px'>"+data[i].pc_money+"元</td>"+
+												"<td rowspan='2' width='100px'>"+data[i].pc_grade+"L</td>"+
+												"<td rowspan='2' width='200px'>"+data[i].pc_mattime+"</td>" +
+											"</tr>" +
+											"<tr>" +
+												"<td>"+data[i].pc_paytime.substring(11,19)+"</td>" +
+											"</tr>" +
+										"</table>"+
+									"</div>" +
+								"</div>" +
+							"</div>" +
+						"</li>";
+			}
+			content+="</ul>";
+			$("#payCon").html(content);
+			$.ajax({
+				url:'../clubHomed.do',
+				type:'GET',
+				dataType:'json',
+				async:false,
+				data:"u_id="+uIdArray,
+				success:function(data){
+					for(var j=0;j<data.length;j++){
+						$("#payConUHead"+j).html("<a href='#'><img alt='' src=../"+data[j].u_head+" width='40px' height='40px' style='vertical-align:middle' /></a>");
+						$("#payConUNick"+j).html(data[j].u_nick);
+					}
+				}
+			});
+		}
+	});
+}
+
+function showPayConPage(club_id,page){
+	var content="";
+	var pc_mattime=dateFormat(new Date());
+	$.getJSON("../clubAdminx.do",{"club_id":club_id,"pc_mattime":pc_mattime},function(data){
+		content+="<div class='digg'><a href='javascript:pageUpAndDown("+club_id+","+(page-1)+","+data+")'>&lt;</a>";
+		for(var i=0;i<data;i++){
+			content+="<a href=javascript:showPayCon("+1+","+(i+1)+")>"+(i+1)+"</a>";
+		}
+		content+="<a href='javascript:pageUpAndDown("+club_id+","+(page+1)+","+data+")'>&gt;</a></div>";
+		$("#payConPage").html(content);
+	});
+}
+
+function pageUpAndDown(club_id,page,allPage){
+	if(page<=0){
+		alert("没有上一页了");
+	}else if(page>allPage){
+		alert("没有下一页了")
+	}else{
+		showPayCon(club_id,page);
+		showPayConPage(club_id,page);
+	}
+}

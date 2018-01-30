@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.FusMsgDao">
+<insert id="createFusMsg"  >
+		insert into fus_msg values(FUS_MSG_SEQ.NEXTVAL,#{fm_msg},#{fm_date},#{fm_show},#{mt_id})
+		
+</insert>
+<select id="selectFusMsgPage" resultType="int">
+	select count(fm_id) from fus_msg
+</select>
+ 	
+<select id="selectFusMsgByPage"  resultType="FusMsg">
+		select * from (select a.* , rownum as rn from (select fm_id,fm_msg,fm_date,fm_show,mt_id from fus_msg  order by fm_id) a where rownum &lt;=#{page}*10) where rn &gt;=1+(#{page}-1)*10 	
+</select>
+<select id="selectFusMsgByPageTime"  resultMap="userAllMessage">
+		select * from (select a.* , rownum as rn from (select f.fm_id,f.fm_msg,f.fm_date,m.mt_title from
+		 fus_msg f,message_type m  where f.mt_id=m.mt_id order by f.fm_date desc) 
+		 a where rownum &lt;=#{page}*10) where rn &gt;=1+(#{page}-1)*10 	
+</select>
+
+<resultMap type="UserAllMessage" id="userAllMessage">
+	<id column="fm_id" property="fm_id"/>
+	<id column="fm_msg" property="fm_msg"/>
+	<id column="fm_date" property="fm_date"/>
+	<id column="mt_title" property="mt_title"/>
+</resultMap>
+<select id="selectOneFusMsgById"  resultType="FusMsg">
+		select * from fus_msg where fm_id=#{fm_id}
+</select>
+
+<delete id="deleteFusMsg">
+	delete from fus_msg where fm_id=#{fm_id}
+</delete>
+<update id="updateFusMsgShow">
+	update fus_msg set fm_show=1  where fm_id=#{fm_id}
+</update>
+<select id="selectfusmsgpagebytype" resultType="int">
+	  select count(fm_id) from fus_msg where mt_id=#{mt_id}
+</select>
+  
+</mapper>

@@ -1,0 +1,62 @@
+package com.zeepn.service.impl;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.FnetAnt;
+import com.zeepn.dao.FnetAntDao;
+import com.zeepn.service.FnetAntService;
+
+
+@Component("fnetAntService")
+public class FnetAntServiceImpl implements FnetAntService{
+	@Autowired
+	FnetAntDao fnetAntDao;
+	@Override
+	public int relesAnt(FnetAnt fnetAnt) {
+		fnetAnt.setP_time(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+		fnetAnt.setFa_del(0);
+		System.out.println(fnetAnt);
+		int row=fnetAntDao.relesAnt(fnetAnt);
+		return row;
+	}
+	
+	@Override
+	public List<FnetAnt> selectFnetAntByPage(Map<String, Integer> map) {
+		List<FnetAnt> fnetAnt=fnetAntDao.selectFnetAntByPage(map);
+		return fnetAnt;
+	}
+
+	@Override
+	public FnetAnt selectOneFnetAntById(int fa_id) {
+		FnetAnt fnetAnt=fnetAntDao.selectOneFnetAntById(fa_id);
+		return fnetAnt;
+	}
+
+	@Override
+	public int selectFnetAntPage() {
+		int page=fnetAntDao.selectFnetAntPage();
+		System.out.println(page);
+		return page;
+	}
+
+	@Override
+	public int deleteFnetAnt(int fa_id) {
+		System.out.println(fa_id);
+		int row=fnetAntDao.deleteFnetAnt(fa_id);
+		return row;
+
+	}
+	@Override
+	public int updateFnetAnt(FnetAnt fnetAnt){
+		return fnetAntDao.updateFnetAnt(fnetAnt);
+	}
+	@Override
+	public List<FnetAnt> selectOneFnetAntByTime(){
+		return fnetAntDao.selectOneFnetAntByTime();
+	}
+}

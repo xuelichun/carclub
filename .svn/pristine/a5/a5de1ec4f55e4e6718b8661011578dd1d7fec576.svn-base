@@ -1,0 +1,153 @@
+var club_id=0;
+var u_id=0;
+$(function(){
+	yanzhenPre();
+	if(club_id!=0){
+		selectNotice(club_id,1);
+	}
+});
+
+function expressNotice(){
+	$("#yanzhenMsg").html("");
+	var testNotiNameMsg=$("#testNotiNameMsg").html();
+	var testNotiContentMsg=$("#testNotiContentMsg").html();
+	var noti_name=$("input[name='noti_name']").val();
+	var noti_content=$("textarea[name='noti_content']").val();
+	if(testNotiNameMsg==""||testNotiContentMsg==""){
+		if(noti_name==""||noti_content==""){
+			if(noti_name==""){
+				$("#yanzhenMsg").html("标题不能为空");
+			}else{
+				$("#yanzhenMsg").html("内容不能为空");
+			}
+		}else{
+			$.getJSON("../noticea.do",{"noti_name":noti_name,"noti_content":noti_content,"club_id":club_id,"noti_uid":u_id},function(data){
+				if(data==1){
+					$("#msg").html(alert("发布成功"));
+					$("input[name='noti_name']").val("");
+					$("textarea[name='noti_content']").val("");
+					selectNotice(club_id,1);
+					selectNoticePage(club_id,1);
+				}
+			});
+		}
+	}
+}
+
+function selectNotice(club_id,page){
+	var content="<ul>";
+	$.getJSON("../noticeb.do",{"club_id":club_id,"page":page},function(data){
+		for(var i=0;i<data.length;i++){
+				content+="<li><div class='layout recListLeft f14'><div class='recDes'><div class='vm bold c999'><span class='c4095ce'>"+data[i].noti_name+"</span><span style='float:right'>"+data[i].noti_time+"</span></div><p class='recBox'>"+data[i].noti_content+"</p><span style='float:right'><a style='color:#4095ce' href='javascript:deleteNotice("+data[i].noti_id+")'>删除</a></span></div></div></li>";
+		}
+		content+="</ul>";
+		$("#notice").html(content);
+		selectNoticePage(club_id,page);
+	});
+}
+
+function deleteNotice(noti_id){
+	$.getJSON("../noticee.do",{"noti_id":noti_id},function(data){
+		if(data==1){
+			selectNotice(club_id,1);
+			selectNoticePage(club_id,1);
+		}else{
+			$("#msg").html(alert("删除失败"));
+		}
+	});
+}
+
+function selectNoticePage(club_id,page){
+	var content="";
+	$.getJSON("../noticed.do",{"club_id":club_id},function(data){
+			content+="<div class='digg'><a href='javascript:pageUpAndDown("+club_id+","+(page-1)+","+data+")'>&lt;</a>";
+			for(var i=0;i<data;i++){
+				content+="<a href=javascript:selectNotice("+club_id+","+(i+1)+")>"+(i+1)+"</a>";
+			}
+			content+="<a href='javascript:pageUpAndDown("+club_id+","+(page+1)+","+data+")'>&gt;</a></div>";
+		$("#noticePage").html(content);
+		//$("#noticePage1").html(content);
+	});
+}
+
+function pageUpAndDown(club_id,page,allPage){
+	if(page<=0){
+		alert("没有上一页了");
+	}else if(page>allPage){
+		alert("没有下一页了")
+	}else{
+		selectNotice(club_id,page);
+		selectNoticePage(club_id,page);
+	}
+}
+
+
+
+function checkClubFee(){
+	var mf_money=$("#mf_money").val();
+	var mf_grade=$("#mf_grade").val();
+	var mf_money_ck="^[0-9]*$";
+	var mf_grade_ck="^0\.[1-9]\d*$";
+	if(!mf_money_ck.test(mf_money)){
+		$("#msg").html("会费应为整数");
+	}else if(!mf_grade_ck.test(mf_grade)){
+		$("#msg").html("折扣须在0~1之间");
+	}
+}
+
+function yanzhenPre(){
+	$.ajax({
+		url:'../clubAdminai.do',
+		type:'GET',
+		dataType:'json',
+		async:false,
+		success:function(data){
+			if(data[0]==2){
+				u_id=data[1];
+			}else if(data[0]==3){
+				u_id=data[1];
+				$("#clubFeeLi").hide();
+				$("#yearFeeLi").hide();
+			}else{
+				location.href="index.html";
+				u_id=data[1];
+			}
+		}	
+	});
+	if(u_id==0){
+		club_id=0;
+	}else{
+		$.ajax({
+			url:'../clubAdminah.do',
+			type:'GET',
+			dataType:'json',
+			async:false,
+			data:"u_id="+u_id,
+			success:function(data){
+				club_id=data;
+			}
+		});
+	}	
+}
+
+function checkNotiName(){
+	var noti_name=$("#noti_name").val();
+	if(noti_name.length>0&&noti_name.length<=30){
+		$("#testNotiNameMsg").html("");
+	}else{
+		$("#testNotiNameMsg").html("标题须1~30个字符");
+	}
+}
+
+function checkNotiContent(){
+	var noti_content=$("#noti_content").val();
+	if(noti_content.length>0&&noti_content.length<=100){
+		$("#testNotiContentMsg").html("");
+	}else{
+		$("#testNotiContentMsg").html("内容须1~100个字符");
+	}
+}
+
+
+
+

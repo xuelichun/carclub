@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.SupAdmDao">
+	<!-- 查询超级管理员表中是否存在该管理员 -->
+	<select id="selectSupAdmLevel" resultType="int">
+		<![CDATA[ 
+			select count(sa_id) from sup_adm where sa_level=#{sa_level}
+		]]>
+	</select>
+	<!-- 超级管理员登录方法 -->
+	<select id="selectSupAdm" resultType="int">
+		<![CDATA[ 
+			select count(sa_id) from sup_adm where 
+				sa_name=#{sa_name} and sa_pwd=#{sa_pwd} 
+		]]>
+	</select>
+	<!-- 超级管理员修改自己密码的方法 -->
+	<update id="updateSaPwd">
+		<![CDATA[ 
+			update sup_adm set sa_pwd=#{sa_pwd} where sa_name=#{sa_name}
+		]]>
+	</update>
+	<!-- 根据管理员账号判断是否是超级管理员 -->
+	<select id="isSupAdm" resultType="int">
+		<![CDATA[
+			select count(sa_id) from sup_adm where sa_name=#{sa_name}
+		]]>
+	</select>
+	<insert id="insertSa">
+		<![CDATA[
+			insert into sup_adm values(sup_adm_seq.nextval,#{sa_name},#{sa_pwd},1)
+		]]>
+	</insert>
+	<select id="selectAllSaName" resultType="String">
+		<![CDATA[
+			select sa_name from sup_adm
+		]]>
+	</select>
+</mapper>

@@ -1,0 +1,148 @@
+package com.zeepn.dao;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.AnnualFee;
+import com.zeepn.utils.Page;
+
+@Repository("annualFeeDao")
+public interface AnnualFeeDao {
+	/**
+	 * 添加年费记录方法
+	 * @return 添加成功，返回年费收费对象；添加失败，返回空对象
+	 */
+	@Insert("insert into annual_fee values(annual_fee_seq.nextval,#{af_price},#{af_paytime},#{club_id},#{af_mattime})")
+	public int insertAnnualFee(AnnualFee annualFee);
+	/**
+	 * 更新年费收费表
+	 * @param annualFee 年费收费对象
+	 * @return 影响年费收费表的行数
+	 */
+	public int updateAnnualFee(AnnualFee annualFee);
+	/**
+	 * 查询所有的年费收费记录
+	 * @return 年费收费集合
+	 */
+	@Select("select * from annual_fee")
+	public List<AnnualFee> selectAllAf();
+	/**
+	 * 查询年费收费记录集合（所有记录）
+	 * @param page 行数对象
+	 * @return 年费收费记录集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from annual_fee order by af_id desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<AnnualFee> selectAllAnnualFeeById(int pageIndex);
+	/**
+	 * 根据时间查询年费收费记录
+	 * @param time 目的时间
+	 * @return 年费收费记录集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from annual_fee order by af_paytime desc) s)"
+	+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<AnnualFee> selectAllAnnualFeeByTime(int pageIndex);
+	/**
+	 * 根据车友会编号查询年费收费集合
+	 * @param club_id 车友会编号
+	 * @return 年费收费集合
+	 */
+	public List<AnnualFee> selectAnnualFee(int club_id);
+	/**
+	 * 根据车友会编号和年费缴费时间查询年费收费对象
+	 * @param club_id 车友会编号
+	 * @param an_paytime 年费缴费时间
+	 * @return 年费收费对象
+	 */
+	public AnnualFee selectOneAnnualFeeBCT(int club_id,String an_paytime);
+	/**
+	 * 根据年费收费编号查询年费收费对象
+	 * @param af_id 年费手诶编号
+	 * @return 年费收费对象
+	 */
+	@Select("select * from annual_fee where af_id=#{af_id}")
+	public List<AnnualFee> selectOneAnnualFee(int af_id);
+	/**
+	 * 根据车友会编号查询年费收费表缴费时间
+	 * @param club_id 车友会编号
+	 * @return 年费缴费时间
+	 */
+	public String selectAnPattime(int club_id);
+	/**
+	 * 根据车友会编号查询年费收费表到期时间
+	 * @param club_id 车友会编号
+	 * @return 年费到期时间
+	 */
+	@Select("select af_mattime from annual_fee where club_id=#{club_id} order by af_mattime")
+	public List<String> selectAnMattime(int club_id);
+	/**
+	 * 查询年费收费表的数据记录数
+	 * @return 数据记录数
+	 */
+	@Select("select count(af_id) from annual_fee")
+	public int selectAnfCount();
+	/**
+	 * 根据缴费时间模糊查询数据记录数
+	 * @param af_paytime 年费缴费时间
+	 * @return
+	 */
+	@Select("select count(af_id) from annual_fee where af_paytime like #{af_paytime}")
+	public int selectAnfCountByTime(String af_paytime);
+	/**
+	 * 按收费类型和收费日期查询年费收费记录
+	 * @param page 行数对象
+	 * @return 年费收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from annual_fee where af_paytime like #{af_paytime} order by af_paytime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<AnnualFee> selectAllAnnualFeeByPP(@Param("af_paytime")String af_paytime,@Param("pageIndex") int pageIndex);
+	/**
+	 * 按收费类型和到期日期查询年费收费记录
+	 * @param page 行数对象
+	 * @return 年费收费集合
+	 */
+	public List<Object> selectAllAnnualFeeByPM(Page page);
+	/**
+	 * 按收费类型、收费日期和到期日期查询年费收费记录
+	 * @param page 行数对象
+	 * @return 年费收费集合
+	 */
+	public List<Object> selectAllAnnualFeeByPPM(Page page);
+	/**
+	 * 根据车友会编号查询年费收费记录
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 年费收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from annual_fee where club_id=#{club_id} order by af_paytime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<AnnualFee> selectAnnualFeeByClubId(@Param("club_id")int club_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据缴费时间和车友会编号查询年费收费记录
+	 * @param club_id 车友会编号
+	 * @param af_paytime 缴费时间
+	 * @param pageIndex 页数索引
+	 * @return 年费收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from annual_fee where club_id=#{club_id} and af_paytime like #{af_paytime} order by af_paytime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<AnnualFee> selectAfByCidPtime(@Param("club_id")int club_id,@Param("af_paytime")String af_paytime,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车友会编号查询数据记录数
+	 * @param club_id 车友会编号
+	 * @return 数据记录数
+	 */
+	@Select("select count(af_id) from annual_fee where club_id=#{club_id}")
+	public int selectCountAfByClubId(int club_id);
+	/**
+	 * 根据车友会编号和年费缴费时间查询数据记录数
+	 * @param club_id 车友会编号
+	 * @param af_paytime 年费缴费时间
+	 * @return 数据记录数
+	 */
+	@Select("select count(af_id) from annual_fee where club_id=#{club_id} and af_paytime like #{af_paytime}")
+	public int selectCountAfByCidPtime(@Param("club_id")int club_id,@Param("af_paytime")String af_paytime);
+}

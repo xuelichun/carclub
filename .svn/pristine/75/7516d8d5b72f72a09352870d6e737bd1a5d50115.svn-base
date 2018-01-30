@@ -1,0 +1,73 @@
+package com.zeepn.service.impl;
+
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.zeepn.bean.ClubAlbum;
+import com.zeepn.bean.PhotoAlbum;
+import com.zeepn.dao.ClubAlbumDao;
+import com.zeepn.service.ClubAlbumService;
+import com.zeepn.utils.DateFormat;
+
+@Component("clubAlbumService")
+public class ClubAlbumServiceImpl implements ClubAlbumService{
+	@Autowired
+	ClubAlbumDao clubAlbumDao;
+
+	@Override
+	public int createClubAlbum(ClubAlbum clubAlbum) {
+		clubAlbum.setCa_time(DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_SEC));
+		int row=clubAlbumDao.createClubAlbum(clubAlbum);
+		return row;
+	}
+
+	@Override
+	public List<ClubAlbum> selectClubAlbum(int club_id) {
+		List<ClubAlbum> clubAlbum=clubAlbumDao.selectClubAlbum(club_id);
+		return clubAlbum;
+	}
+
+	@Override
+	public int updateClubAlbum(ClubAlbum clubAlbum) {
+		int row=clubAlbumDao.updateClubAlbum(clubAlbum);
+		return row;
+	}
+
+	@Override
+	public int insertPicture(PhotoAlbum photoAlbum) {
+		int row=clubAlbumDao.insertPicture(photoAlbum);
+		return row;
+	}
+
+	@Override
+	public void updateClubAlbumOnCaCount(Map<String, Integer> map) {
+		clubAlbumDao.updateClubAlbumOnCaCount(map);
+	}
+
+	@Override
+	public List<PhotoAlbum> selectPhotoAlbum(int ca_id) {
+		List<PhotoAlbum> photoAlbum=clubAlbumDao.selectPhotoAlbum(ca_id);
+		return photoAlbum;
+	}
+
+	@Override
+	public int deletePhotoAlbum(int pa_id) {
+		int row=clubAlbumDao.deletePhotoAlbum(pa_id);
+		return row;
+	}
+
+	@Override
+	public int deleteClubAlbum(int ca_id) {
+		int row=clubAlbumDao.deleteClubAlbum(ca_id);
+		return row;
+	}
+
+	@Override
+	public void deletePhotoAlbumByCaId(int ca_id) {
+		clubAlbumDao.deletePhotoAlbumByCaId(ca_id);
+	}
+
+
+	
+}

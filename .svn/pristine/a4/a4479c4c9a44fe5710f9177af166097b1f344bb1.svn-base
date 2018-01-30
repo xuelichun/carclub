@@ -1,0 +1,44 @@
+package com.zeepn.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.Advertiser;
+import com.zeepn.utils.PageAdver;
+@Repository("advertiserDao")
+public interface AdvertiserDao {
+
+	/**
+	 * 前台查询总广告商
+	 * @return 
+	 */
+	ArrayList<Advertiser> selectAllAdvertiser();
+	
+	/**
+	 * 添加广告商
+	 * @param adv
+	 */
+	void insertAdvertiser(Advertiser adv);
+	
+	/**
+	 * 后台查询广告商
+	 * @param p
+	 * @return	
+	 */
+	List<Advertiser> selectAdvertiser(PageAdver p);
+	
+	
+	/**
+	 * 删除广告商
+	 * @param adv_id
+	 */
+	void deleteAdvertiser(Advertiser adv_id);
+	/**
+	 * 修改广告商
+	 * @param adv
+	 * @return
+	 */
+	void updateAdvertiser(Advertiser adv);
+}

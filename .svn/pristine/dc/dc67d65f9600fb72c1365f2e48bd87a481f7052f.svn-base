@@ -1,0 +1,9 @@
+$(function(){
+	$.getJSON("../adm/isLogin.do",{},function(data){
+		if(data!=null){
+			$("#user1").html(data.adm_name);
+		}else{
+			location.href="../back/login.jsp";
+		}
+	});
+});

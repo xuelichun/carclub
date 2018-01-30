@@ -1,0 +1,400 @@
+package com.zeepn.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.zeepn.bean.ActReg;
+import com.zeepn.bean.Activity;
+import com.zeepn.bean.AnnualFee;
+import com.zeepn.bean.ClubFee;
+import com.zeepn.bean.EcashRecord;
+import com.zeepn.bean.FunCharge;
+import com.zeepn.bean.Function;
+import com.zeepn.bean.JoinAppli;
+import com.zeepn.bean.MemFee;
+import com.zeepn.bean.OpRecord;
+import com.zeepn.bean.PayCon;
+import com.zeepn.bean.PreInfo;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.service.ActivityService;
+import com.zeepn.service.ClubFeeService;
+import com.zeepn.service.ClubMemberService;
+import com.zeepn.service.ClubService;
+import com.zeepn.service.EcashRecordService;
+import com.zeepn.service.FeeService;
+import com.zeepn.service.JoinAppliService;
+import com.zeepn.service.MemFeeService;
+import com.zeepn.service.NoticeService;
+import com.zeepn.service.OpRecordService;
+import com.zeepn.service.PreInfoService;
+import com.zeepn.utils.Upload;
+
+@Controller
+public class ClubAdminController {
+	@Autowired
+	JoinAppliService joinAppliService;
+	@Autowired
+	PreInfoService preInfoService;
+	@Autowired
+	ClubFeeService clubFeeService;
+	@Autowired
+	ActivityService activityService;
+	@Autowired
+	EcashRecordService ecashRecordService;
+	@Autowired
+	OpRecordService opRecordService;
+	@Autowired
+	MemFeeService memFeeService;
+	@Autowired
+	ClubMemberService clubMemberService;
+	@Autowired
+	NoticeService noticeService;
+	@Autowired
+	FeeService feeService;
+	@Autowired
+	ClubService clubService;
+	
+	@RequestMapping("/clubAdmina")
+	@ResponseBody
+	public int insertJoinAppli(UserInfo userInfo){
+		int row=joinAppliService.insertJoinAppli(userInfo);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminb")
+	@ResponseBody
+	public List<JoinAppli> selectJoinAppli(int club_id,int page){
+		List<JoinAppli> joinAppli=joinAppliService.selectJoinAppli(club_id,page);
+		return joinAppli;
+	}
+	
+	@RequestMapping("/clubAdminc")
+	@ResponseBody
+	public int[] updateJoinAppli(int[] u_id,int club_id,String ja_status){
+		int row[]=joinAppliService.updateJoinAppli(u_id,club_id,ja_status);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdmind")
+	@ResponseBody
+	public PreInfo selectPreInfo(int p_id){
+		PreInfo preInfo=preInfoService.selectPreInfo(p_id);
+		return preInfo;
+	}
+	
+	@RequestMapping("/clubAdmine")
+	@ResponseBody
+	public int updatePreInfoAdd(int club_id,int vp_id){
+		int row=preInfoService.updatePreInfoAdd(club_id, vp_id);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminf")
+	@ResponseBody
+	public int updatePreInfoDelete(int club_id,int vp_id){
+		int row=preInfoService.updatePreInfoDelete(club_id, vp_id);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdming")
+	@ResponseBody
+	public int updateClubFee(int club_id,int cf_money,int cf_grade){
+		int row=clubFeeService.updateClubFee(club_id, cf_money, cf_grade);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminh")
+	@ResponseBody
+	public ClubFee selectClubFee(int club_id){
+		ClubFee clubFee=clubFeeService.selectClubFee(club_id);
+		return clubFee;
+	}
+	
+	@RequestMapping("/clubAdmini")
+	@ResponseBody
+	public int insertPayCon(PayCon payCon,HttpServletRequest request){
+		int row=clubFeeService.insertPayCon(payCon,request);
+		return row;
+	}
+	
+	@RequestMapping(value="/clubAdminj",method=RequestMethod.POST)
+	@ResponseBody
+	public int insertActivity(MultipartFile act_img,HttpServletRequest request) throws IOException{
+		String act_name=request.getParameter("act_name");
+		String act_content=request.getParameter("act_content");
+		String act_pro=request.getParameter("act_pro");
+		String act_city=request.getParameter("act_city");
+		double act_money=Double.parseDouble(request.getParameter("act_money"));
+		double act_dis=Double.parseDouble(request.getParameter("act_dis"));
+		String act_applitime=request.getParameter("act_applitime");
+		String act_starttime=request.getParameter("act_starttime");
+		String act_stoptime=request.getParameter("act_stoptime");
+		int club_id=Integer.parseInt(request.getParameter("club_id"));
+		String img=Upload.uploadPicture(act_img, request, "act_image");
+		Activity activity=new Activity(act_name, act_content, img, act_pro,act_city, act_money, act_dis, act_applitime, act_starttime,act_stoptime, club_id,0);
+		int row=activityService.insertActivity(activity);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdmink")
+	@ResponseBody
+	public List<Activity> selectActivities(int club_id){
+		List<Activity> activities=activityService.selecActivities(club_id);
+		return activities;
+	}
+	
+	@RequestMapping("/clubAdminl")
+	@ResponseBody
+	public Activity selectActivity(int act_id){
+		Activity actitvity=activityService.selectActivity(act_id);
+		return actitvity;
+	}
+	
+	@RequestMapping(value="/clubAdminm",method=RequestMethod.POST)
+	@ResponseBody
+	public int updateActivity(MultipartFile act_img,HttpServletRequest request) throws IOException{
+		int act_id=Integer.parseInt(request.getParameter("act_id"));
+		String act_name=request.getParameter("act_name");
+		String act_content=request.getParameter("act_content");
+		String act_pro=request.getParameter("act_pro");
+		String act_city=request.getParameter("act_city");
+		double act_money=Double.parseDouble(request.getParameter("act_money"));
+		double act_dis=Double.parseDouble(request.getParameter("act_dis"));
+		String act_applitime=request.getParameter("act_applitime");
+		String act_starttime=request.getParameter("act_starttime");
+		String act_stoptime=request.getParameter("act_stoptime");
+		String img=request.getParameter("act_img");
+		if(!act_img.isEmpty()){
+			img=Upload.uploadPicture(act_img, request, "act_img");
+		}
+		Activity activity=new Activity(act_id, act_name, act_content, img, act_pro,act_city, act_money, act_dis, act_applitime, act_starttime,act_stoptime);
+		int row=activityService.updateActivity(activity);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminn")
+	@ResponseBody
+	public int deleteActivity(int act_id){
+		int row=activityService.deleteActivity(act_id);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdmino")
+	@ResponseBody
+	public int insertActReg(ActReg actReg){
+		int row=activityService.insertActReg(actReg);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminp")
+	@ResponseBody
+	public int updateActRegOnPay(ActReg actReg,HttpServletRequest request){
+		int row=activityService.updateActRegOnPay(actReg,request);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminq")
+	@ResponseBody
+	public int updateActRegOnRefund(ActReg actReg,HttpServletRequest request){
+		int row=activityService.updateActRegOnRefund(actReg,request);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminr")
+	@ResponseBody
+	public int insertEcashRecord(EcashRecord ecashRecord){
+		int row=ecashRecordService.insertEcashRecord(ecashRecord);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdmins")
+	@ResponseBody
+	public List<OpRecord> selectOpRecords(int club_id){
+		List<OpRecord> opRecords=opRecordService.selectOpRecords(club_id);
+		return opRecords;
+	}
+	
+	@RequestMapping("/clubAdmint")
+	@ResponseBody
+	public int updateMemFee(MemFee memFee){
+		int row=memFeeService.insertMemFee(memFee);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminu")
+	@ResponseBody
+	public MemFee selectMemFee(int club_id){
+		MemFee memFee=memFeeService.selectMemFee(club_id);
+		return memFee;
+	}
+	
+	@RequestMapping("/clubAdminv")
+	@ResponseBody
+	public String[] selectClubAdress(int club_id){
+		String []club_address=joinAppliService.selectClubAddress(club_id);
+		return club_address;
+	}
+	
+	@RequestMapping("/clubAdminw")
+	@ResponseBody
+	public List<PayCon> selectPayCons(int club_id,String pc_mattime,int page){
+		List<PayCon> payCons=clubFeeService.selectPayCons(club_id,pc_mattime,page);
+		return payCons;
+	}
+	
+	@RequestMapping("/clubAdminx")
+	@ResponseBody
+	public int countPayConPage(int club_id,String pc_mattime){
+		int page=clubFeeService.countPayConPage(club_id, pc_mattime);
+		return page;
+	}
+	
+	@RequestMapping("/clubAdminy")
+	@ResponseBody
+	public List<UserInfo> selectUserInfoByClubId(int club_id,int page){
+		List<UserInfo> userInfo=clubMemberService.selectUserInfoByClubId(club_id, page);
+		return userInfo;
+	}
+	
+	@RequestMapping("/clubAdminz")
+	@ResponseBody
+	public int countClubMemeberPage(int club_id){
+		int page=clubMemberService.countClubMemberPage(club_id);
+		return page;
+	}
+	
+	@RequestMapping("/clubAdminaa")
+	@ResponseBody
+	public int countClubMemberTotal(int club_id){
+		int total=clubMemberService.countClubMemberTotal(club_id);
+		return total;
+	}
+	
+	@RequestMapping("/clubAdminab")
+	@ResponseBody
+	public List<UserInfo> selectClubMembersOutOfDate(int club_id,int page){
+		List<UserInfo> userInfos=clubMemberService.selectUserInfoOutOfDate(club_id, page);
+		return userInfos;
+	}
+	
+	@RequestMapping("/clubAdminac")
+	@ResponseBody
+	public int countMembersOutOfDate(int club_id){
+		int row=clubMemberService.countMembersOutOfDate(club_id);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminad")
+	@ResponseBody
+	public int countMemberOutOfDatePage(int club_id){
+		int page=clubMemberService.countMembersOutOfDatePage(club_id);
+		return page;
+	}
+	
+	@RequestMapping("/clubAdminae")
+	@ResponseBody
+	public int[] deleteMembers(int[] u_id,int club_id){
+		int[] rows=clubMemberService.deleteMembers(u_id, club_id);
+		return rows;
+	}
+	
+	@RequestMapping("/clubAdminaf")
+	@ResponseBody
+	public int countJoinAppliPage(int club_id){
+		int page=joinAppliService.countJoinAppliPage(club_id);
+		return page;
+	}
+	
+	@RequestMapping("/clubAdminag")
+	@ResponseBody
+	public int countJoinAppli(int club_id){
+		int row=joinAppliService.countJoinAppli(club_id);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminah")
+	@ResponseBody
+	public int selectUId(int u_id){
+		int club_id=noticeService.selectClubIdByUId(u_id);
+		return club_id;
+	}
+	
+	@RequestMapping("/clubAdminai")
+	@ResponseBody
+	public int[] yanzhenPre(HttpServletRequest request){
+		HttpSession session=request.getSession();
+		UserInfo userInfo=(UserInfo) session.getAttribute("user");
+		int[] result=new int[2];
+		if(userInfo!=null){
+			int u_id=userInfo.getU_id();
+			int flag=preInfoService.isPresident(u_id);
+			 if(flag==2){
+				result[0]=2;
+				result[1]=u_id;
+			}else if(flag==3){
+				result[0]=3;
+				result[1]=u_id;
+			}else{
+				result[0]=1;
+				result[1]=0;
+			}
+		}else{
+			result[0]=0;
+			result[1]=0;
+		}
+		 return result;	
+	}
+	
+	@RequestMapping("/clubAdminaj")
+	@ResponseBody
+	public AnnualFee selectAnnualFeeByClubPre(int club_id){
+		return feeService.selectAnnualFeeByClubPre(club_id);
+	}
+	
+	@RequestMapping(value="/uploadClubImg",method=RequestMethod.POST)
+	@ResponseBody
+	public int updateClubByClubPre(MultipartFile club_img,HttpServletRequest request){
+
+		return clubService.updateClubByClubPre(club_img,request);
+	}
+	
+	@RequestMapping("/clubAdminak")
+	@ResponseBody
+	public List<Function> selectAllFunction(){
+		return clubService.selectAllFunction();
+	}
+	
+	@RequestMapping("/clubAdminal")
+	@ResponseBody
+	public int yearFeeIsOutOfDate(int club_id){
+		return clubService.yearFeeIsOutOfDate(club_id);
+	}
+	
+	@RequestMapping("/clubAdminam")
+	@ResponseBody
+	public List<FunCharge> selectFunChargeOpened(int club_id){
+		return clubService.selectFunChargeOpened(club_id);
+	}
+	
+	@RequestMapping("/clubAdminan")
+	@ResponseBody
+	public List<Function> selectFunctionOpened(int[] fun_id){
+		return clubService.selectFunctionOpened(fun_id);
+	}
+	
+	@RequestMapping("/clubAdminao")
+	@ResponseBody
+	public int jiaoFei(int fun_id,int club_id){
+		return clubService.jiaoFei(fun_id, club_id);
+	}
+}

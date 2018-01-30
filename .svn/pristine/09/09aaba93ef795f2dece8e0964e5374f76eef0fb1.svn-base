@@ -1,0 +1,131 @@
+package com.zeepn.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.zeepn.bean.Comments;
+import com.zeepn.bean.DynPic;
+import com.zeepn.bean.PersonDyn;
+import com.zeepn.bean.Reply;
+
+public interface UserDynService {
+	/**
+	 * 用户发表动态
+	 * @param personDyn 动态对象
+	 * @return  发表成功返回ture 失败返回false
+	 */
+	public boolean userPublishDyn(PersonDyn personDyn);
+	
+	/**
+	 * 用户发表动态（包括图片）
+	 * @param personDyn 动态对象
+	 * @param dp_msg  图片路劲
+	 * @return  发表成功返回ture 失败返回false
+	 */
+	public boolean userDynPic(PersonDyn personDyn,String dp_msg);
+	
+	/**
+	 * 用户删除一条动态包括图片，评论，回复
+	 * @param pd_id 动态的iD
+	 * @return  成功返回ture 失败返回false
+	 */
+	public boolean deletedyn(int pd_id);
+
+	
+	/**
+	 * 根据用户ID查询动态
+	 * @param u_id  用户ID
+	 * @param int indexPage 页码
+	 * @return  map集合。PersonDyn动态对象 List<DynPic> 图片集合
+	 */
+	public Map<PersonDyn, List<DynPic>> showDyn(int u_id,int indexPage);
+
+	/**
+	 *查询一个动态的所有图片
+	 * @param pd_id 动态的ID
+	 * @return  list集合，里面装有该动态下的所有图片对象
+	 */
+	public List<DynPic> showDynPic(int pd_id);
+	/**
+	 * 根据动态编号iD 查询一个动态详情
+	 * @param pd_id 动态ID
+	 * @return   map集合。PersonDyn动态对象 List<DynPic> 图片集合
+	 */
+	public Map<PersonDyn, List<DynPic>> selectOneDynById(int pd_id);
+	
+	/**
+	 * 用户点击动态中心
+	 * @param u_id  用户ID
+	 * @param int indexPage 页码
+	 * @return  map集合。PersonDyn动态对象 List<DynPic> 图片集合
+	 */
+	public Map<PersonDyn, List<DynPic>> showSpare(int u_id,int pageIndex);
+	
+	/**
+	 * 好友和自己评论个人动态 ,默认为未读状态，com_read=0
+	 * @param comments   评论对象
+	 * @return  影响数据库行数
+	 */
+	public int insertComments(Comments comments);
+	
+	/**
+	 * 用户回复评论信息 默认为未读状态，rp_read=0
+	 * @param reply  回复对象
+	 * @return  影响数据库行数
+	 */
+	public int insertReply(Reply reply);
+	
+	/**
+	 * 查询一条动态下的所有评论,按时间升序排列
+	 * @param pd_id  动态的iD
+	 * @return   list集合，里面装有该动态的 所有评论
+	 */
+	public List<Comments> showAllComments(int pd_id);
+	
+	/**
+	 * 查询一条评论下的所有回复,按时间升序排列
+	 * @param com_id  评论的ID
+	 * @return  list集合，里面装有该评论下的 所有回复
+	 */
+	public List<Reply> showAllReply(int com_id);
+	
+	/**
+	 * 查询一个动态下的所有评论和回复
+	 * @param pd_id  动态id
+	 * @return  Map<Comments,List<Reply>>   Comments评论对象  List<Reply>回复集合
+	 */
+	public Map<Comments,List<Reply>> showAllCommentsAndReply(int pd_id);
+	
+	
+	/**
+	 * 查看所有未读 的回复
+	 *  @param  u_id  用户id
+	 * @return   Map<PersonDyn, List<Comments>>动态下的评论，评论下的回复
+	 */
+	
+	public Map<PersonDyn, List<Comments>> showNewReply(int u_id);
+	
+	/**查看所有未读 的评论
+	 * @param  u_id  用户id
+	 * @return Map<PersonDyn, List<Comments>> 动态下的评论，可以是多条
+	 */
+	public Map<PersonDyn, List<Comments>> showNewComments(int u_id);
+	
+	
+	/**
+	 * 删除一条评论
+	 * @param com_id  评论的id
+	 * @return	  影响数据库的行数
+	 */
+	public boolean deleteComments(int com_id);
+	
+	/**
+	 * 删除一条回复
+	 * @param com_id 评论id 
+	 * @return 影响数据库的行数
+	 */
+	public int deleteReply(int rp_id);
+	
+}

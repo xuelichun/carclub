@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ClubAlbumDao">
+
+<insert id="createClubAlbum">
+	insert into club_album values(club_album_seq.nextval,#{club_id},#{ca_count},#{ca_name},#{ca_desc},#{u_id},#{ca_time},#{ca_main})
+</insert>
+
+<select id="selectClubAlbum" resultType="ClubAlbum">
+	select * from club_album where club_id=#{club_id}
+</select>
+
+<update id="updateClubAlbum">
+	update club_album set ca_count=#{ca_count},ca_name=#{ca_name},ca_desc=3{ca_desc},ca_main=#{ca_main} where ca_id=#{ca_id}
+</update>
+
+<insert id="insertPicture">
+	insert into photo_album values(photo_album_seq.nextval,#{ca_id},#{pa_img},#{u_id},#{pa_uptime})
+</insert>
+
+<update id="updateClubAlbumOnCaCount">
+	update club_album set ca_count=ca_count+#{ca_count} where ca_id=#{ca_id}
+</update>
+
+<select id="selectPhotoAlbum" resultType="PhotoAlbum">
+	select * from photo_album where ca_id=#{ca_id}
+</select>
+
+<delete id="deletePhotoAlbum">
+	delete from photo_album where pa_id=#{pa_id}
+</delete>
+
+<delete id="deleteClubAlbum">
+	delete from club_album where ca_id=#{ca_id}
+</delete>
+
+<delete id="deletePhotoAlbumByCaId">
+	delete from photo_album where ca_id=#{ca_id}
+</delete>
+
+</mapper>

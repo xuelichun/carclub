@@ -1,0 +1,82 @@
+$(function(){
+	selectClubAlbum();
+});
+function expressClubAlbum(){
+	var club_id=1;
+	var u_id=1;
+	var ca_name=$("#ca_name").val();
+	var ca_desc=$("#ca_desc").val();
+	$.getJSON("../clubAlbuma.do",{"ca_name":ca_name,"ca_desc":ca_desc,"club_id":club_id,"u_id":u_id},function(data){
+		alert(data);
+		if(data==1){
+			$("#msg").html(alert("创建成功"));
+		}else{
+			$("#msg").html(alert("创建失败"));
+		}
+	});
+}
+
+function selectClubAlbum(){
+	var club_id=1;
+	var content="";
+	$.getJSON("../clubAlbumb.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			content+="<div class='prod'><div class='tip'><a href='javascript:selectPhotoAlbum("+data[i].ca_id+","+1+",\""+data[i].ca_name+"\",\""+data[i].ca_desc+"\")'><img src="+data[i].ca_main+" width='205' height='180'></a></div> <div class='scrt'><div class='zt'><a href='#'>"+data[i].ca_name+"</a></div><div class='rq'><a href='javascript:deleteClubAlbum("+data[i].ca_id+","+data[i].count+")'>删除</a></div><div class='rq'>"+data[i].ca_count+"张</div></div></div>";
+		}
+		$("#clubAlbums").html(content);
+	});
+}
+
+function selectPhotoAlbum(ca_id,page,ca_name,ca_desc){
+	$("#clubAlbum").hide();
+	var content="<div class='r_name'>我的相册>>"+ca_name+"</div><div class='matter2'><div class='choose'> <div><a href='uploadPhoto.html'><img src='images/sctp.jpg'/></a></div></div><div class='content'>";
+	$.getJSON("../clubAlbume.do",{"ca_id":ca_id,"page":page},function(data){
+		for(var i=0;i<data.length;i++){
+			content+="<div class='prod1'><div class='tip1'><a href='myPhotoDetail.html'><img src=../"+data[i].pa_img+" width='200px' height='160px'></a></div><div class='scrt1'><div class='zt1'>"+data[i].pa_name+"</div><div class='rq1'><a href='javascript:deletePhotoAlbum("+data[i].pa_id+","+ca_id+","+ca_desc+","+ca_name+")'>删除</a></div></div></div>";
+		}
+		content+="</div></div>";
+		$("#photoAlbum").html(content);
+		showPhotoAlbumPage(ca_id,page,ca_name,ca_desc);
+	});
+}
+
+function deletePhotoAlbum(pa_id,ca_id,ca_desc,ca_name){
+	var flag=confirm("确认要删除本张照片吗？");
+	if(flag){
+		$.getJSON("../clubAlbumf.do",{"pa_id":pa_id,"ca_id":ca_id},function(data){
+			selectPhotoAlbum(ca_id,1,ca_name,ca_desc);
+		});
+	}
+}
+
+function showPhotoAlbumPage(ca_id,page,ca_name,ca_desc){
+	var content="";
+	$.getJSON("../clubAlbumi.do",{"ca_id":ca_id},function(data){
+		content+="<input type='button' value='上一页' onclick='javascript:pageUpAndDown("+ca_id+","+(page-1)+","+data+")'/>";
+		for(var i=0;i<data;i++){
+			content+="<a href=javascript:selectPhotoAlbum("+ca_id+","+(i+1)+","+ca_name+","+ca_desc+")>"+(i+1)+"</a>";
+		}
+		content+="<input type='button' value='下一页' onclick='javascript:pageUpAndDown("+ca_id+","+(page+1)+","+ca_name+","+ca_desc+","+data+")'/>";
+		$("#photoAlbumPage").html(content);
+	});
+}
+
+function pageUpAndDown(ca_id,page,ca_name,ca_desc,allPage){
+	if(page<=0){
+		alert("没有上一页了");
+	}else if(page>allPage){
+		alert("没有下一页了")
+	}else{
+		selectPhotoAlbum(ca_id,page,ca_name,ca_desc);
+		showPhotoAlbumPage(ca_id,page,ca_name,ca_desc);
+	}
+}
+
+function deleteClubAlbum(ca_id,ca_count){
+	var flag=confirm("确定删除该相册？相册中有"+ca_count+"张照片");
+	if(flag){
+		$.getJSON("../clubAlbumg.do",{"ca_id":ca_id},function(data){
+			selectClubAlbum();
+		});
+	}
+}

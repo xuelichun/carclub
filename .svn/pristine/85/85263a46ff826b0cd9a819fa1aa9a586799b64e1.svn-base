@@ -1,0 +1,42 @@
+package com.zeepn.service.impl;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.Advertiser;
+import com.zeepn.dao.AdvertiserDao;
+import com.zeepn.service.AdvertiserService;
+import com.zeepn.utils.PageAdver;
+@Component("advertiserService")
+public class AdvertiserServiceImpl implements AdvertiserService{
+		@Autowired
+		AdvertiserDao advertiserDao;
+		/**
+		 * 查询所有广告商
+		 * @return
+		 */
+		public ArrayList<Advertiser> selectAllAdvertiser(){
+			return advertiserDao.selectAllAdvertiser();
+		}
+		/**
+		 * 添加广告商
+		 * @param adv
+		 */
+		public void insertAdvertiser(Advertiser adv){
+			advertiserDao.insertAdvertiser(adv);
+		}
+		@Override
+		public Object selectAdvertiserByPage(PageAdver p) {
+			return advertiserDao.selectAdvertiser(p);
+		}
+		@Override
+		public void deleteAdvertiser(Advertiser adv_id) {
+			advertiserDao.deleteAdvertiser(adv_id);
+		}
+		@Override
+		public void updateAdvertiser(Advertiser adv) {
+			advertiserDao.updateAdvertiser(adv);
+		}
+}

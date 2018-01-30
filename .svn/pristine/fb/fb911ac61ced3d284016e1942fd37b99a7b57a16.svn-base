@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.UserChaconDao">
+<insert id="insertUserChacon">
+	insert into user_chacon values(user_chacon_seq.nextval,#{ce_id},#{u_id},0) 
+</insert>
+	
+<select id="selectUserChacon" resultType="UserChacon">
+	select * from user_chacon where uc_id=#{uc_id} order by uc_value desc
+</select>
+
+<select id="selectUserChaconById" resultType="UserChacon">
+	select * from user_chacon where u_id=#{u_id} and ce_id=#{ce_id}
+</select>
+<update id="updateUserChacon">
+	update user_chachon set uc_value=uc_value+#{uc_value} where ce_id=#{ce_id} and u_id=#{u_id} 
+</update>
+
+<select id="selectClubChacon" resultType="ClubChacon">
+	select sum(cc_value) from club_chacon where ce_id=#{ce_id} and u_id in(select u_id from userinfo where club_id=#{club_id})
+</select>
+
+<update id="updateClubChacon">
+	update club_chacon set cc_value=cc_values+#{cc_values} where ce_id=#{ce_id} and club_id=#{club_id}
+</update>
+</mapper>

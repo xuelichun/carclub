@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/user.css" rel="stylesheet" type="text/css" />
+<link href="css/message.css" rel="stylesheet" type="text/css" />
+<link href="css/clubManage.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.Xslider.js"></script>
+<script src="js/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./js/userShow.js"></script>
+<script type="text/javascript" src="laydate/laydate.js"></script>
+<script type="text/javascript" src="js/activityManage.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript" src="js/jquery.UrlParam.js"></script>
+<script type="text/javascript" src="js/clubFee.js"></script>
+
+<script type="text/javascript">
+$().ready(function () {
+   setStudMsgHeadTabCheck();
+});
+
+ function setStudMsgHeadTabCheck() {
+        var currentUrl = window.location.href;
+        currentUrl = currentUrl.toLowerCase();
+        var asmhm = "";
+        $("#ulStudMsgHeadTab li").each(function () {
+            asmhm = $(this).find('a').attr("href").toLowerCase();
+            if (currentUrl.indexOf(asmhm) > 0) {
+                $(this).find('a').attr("class", "tab1");
+                return;
+            }
+        });
+    }
+</script>
+</head>
+<body onload="show()">
+<div class="top11" id="top11" >
+	
+</div>
+	<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="user.html">首页</a></li>
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>消息</a>
+                       <ul>
+                           <li><a href="#">系统消息</a></li>
+                           <li><a href="#">查看私信</a></li>
+                           <li><a href="#">收到的回复</a></li>
+                           <li><a href="#">收到的赞</a></li>
+                           <li><a href="#">任务奖励</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>设置</a>
+                       <ul>
+                           <li><a href="#">个人资料</a></li>
+                           <li><a href="#">修改密码</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>会员管理</a>
+                   </li> 
+                   <li class="navthis25"><a href="activity.html" >返回首页</a></li>
+             	</ul>
+		</div>
+  	</div>
+ </div>
+
+<div class="user clearfix">
+    	<div class="u_l">
+        	<div class="u_la">
+        		<form action="" id="h2">
+	            	<div class="box_h"><span>我的账户</span></div>
+	                <div class="box_m">
+	                	<div style="float:left;padding-right:10px;" >
+	          				<input type="hidden" name="u_id" id="u_id"/>
+	                		<img alt="" id="u_head"  alt="" style="width:70px; height:70px;"/>
+	                		<!--  <img src="./images/qq.jpg" alt="" style="width:70px; height:70px;"/>-->
+	                	</div>
+	                	<div >昵称:<input type="text" name="u_nick"  id="u_nick" style="border:0px; width:50px;" readonly="readonly"/><br/>
+	                	 	等级:<input type="text" name="u_level"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 	积分:<input type="text" name="u_grade" style="border:0px; width:50px;"readonly="readonly"/><br/>
+	               			经验:<input type="text" name="u_exp"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 </div>
+	                	<div>
+	                	总访客量:<input type="text" name="u_total"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	账户余额:<input type="text" name="u_money"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                   	个性签名:<input type="text" name="u_sign" style="border:0px; width:50px;" readonly="readonly"/>
+	                   	
+	                    </div>
+	                </div>
+                </form>
+            </div>
+            <div class="space_hx">&nbsp;</div>
+            <div class="u_lb">
+            	<div class="box_h"><span>车友会管理</span></div>
+                <div class="box_m">
+                	<ul>
+                    	<li><a id="noticeManage" href="noticeManage.html">公告管理</a></li>
+                        <li><a id="memberManage" href="memberManage.html">会员管理</a></li>
+                        <li><a id="clubFee" href="clubFee.html">会费管理</a></li>
+                        <li><a id="clubAlbum" href="clubAlbum.html">相册管理</a></li>
+                        <li><a id="activityManage" href="activityManage.html">活动管理</a></li>
+                        <li><a id="changeCarClub" href="changeCarClub.html">修改车友会</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="u_r">
+        	<div class="morebt">
+				<ul id="ulStudMsgHeadTab">
+					<li><a class="tab2" onclick="" id="clubFeeAccountFunc" href="clubFee.html">会费账户</a></li>
+				    <li><a class="tab2" onclick="" id="clubFeeSetFunc" href="clubFeeSet.html">会费设置</a> </li> 
+				</ul>
+	        </div>
+        	
+	        <div id="clubFeeAccount" >
+	        <span class="clubfeetixian">账户余额:</span><br/>
+	        <span class="clubfeetixian">账户积分:</span><br/>
+	        <a href="clubTiXian.html">提现</a>
+	        </div>
+	        	
+	        <div class="liuyan">
+	        	<div class="title"><a href="#">缴纳记录</a></div>
+	        	<ul>
+	        		<li>
+						<div class='layout recListLeft f14'>
+							<div class='recDes'>
+								<div class='vm bold c999'>
+						        	<table>
+						        		<tr>
+						        			<td width="250px">&nbsp;&nbsp;缴纳日期</td>
+						        			<td width="130px">会员</td>
+						        			<td width="100px">金额</td>
+						        			<td width="100px">积分</td>
+						        			<td width="200px">到期日期</td>
+						        		</tr>
+						        	</table>
+						        </div>
+							</div>
+						</div>
+					</li>
+	        	</ul>
+	            <div class="recListS borderTop" id="payCon"></div>
+	         <div id="payConPage"></div> 
+       		 </div>
+        </div>
+</div>
+</body>
+</html>

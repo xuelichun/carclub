@@ -1,0 +1,55 @@
+package com.zeepn.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.zeepn.bean.JoinAppli;
+import com.zeepn.dao.JoinAppliDao;
+import com.zeepn.service.JoinAppliService;
+import com.zeepn.utils.DateFormat;
+
+@Component("joinAppliService")
+public class JoinAppliServiceImpl implements JoinAppliService{
+	@Autowired
+	JoinAppliDao joinAppliDao;
+	@Override
+	public int insertJoinAppli(JoinAppli joinAppli) {
+		int club_id=joinAppli.getClub_id();
+		int row=0;
+		if(joinAppliDao.selectClubPnum(club_id)<joinAppliDao.selectClubMaxNum(club_id)){
+			joinAppli.setJa_applitime(DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_SEC));
+			joinAppli.setJa_status("已申请");
+			row=joinAppliDao.insertJoinAppli(joinAppli);
+		}else{
+			row=2;
+		}
+		return row;
+	}
+	@Override
+	public List<JoinAppli> selectJoinAppli(int club_id) {
+		List<JoinAppli> joinAppli=joinAppliDao.selectJoinAppli(club_id);
+		return joinAppli;
+	}
+	@Transactional
+	@Override
+	public int updateJoinAppli(int ja_id, String ja_status) {
+		int row=joinAppliDao.updateJoinAppli(ja_id, ja_status);
+		if(ja_status.equals("同意")){
+			joinAppliDao.updateClubOnClubPnum(joinAppliDao.selectClubIdByJaId(ja_id));
+		}
+		return row;
+	}
+	@Override
+	public String[] selectClubAddress(int club_id) {
+		String club_city=joinAppliDao.selectClubAddress(club_id);
+		club_city="北京-朝阳";
+		String []club_address=new String[2];
+		club_address=club_city.split("-");
+		return club_address;
+	}
+
+	
+}

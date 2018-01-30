@@ -1,0 +1,103 @@
+package com.zeepn.controller;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.bean.AdvDesc;
+import com.zeepn.bean.AdvType;
+import com.zeepn.bean.Advertiser;
+import com.zeepn.service.AdvertiserService;
+
+@Controller
+public class AdvertiserController {
+	@Autowired
+	AdvertiserService advertiserService;
+	@RequestMapping("/aa")
+	@ResponseBody
+	public List<Advertiser>  selectAdvertiser(int adv_id){
+		List<Advertiser> advertiser=advertiserService.selectAllAdvertiser(adv_id);
+		return advertiser;
+	}
+	@RequestMapping("/bb")
+	@ResponseBody
+	public List<Advertiser> selectAdvertiseByPage(int adv_id,int page){
+		Map<String, Integer> map=new HashMap<String,Integer>();
+		map.put("adv_id", adv_id);
+		map.put("page", page);
+		List<Advertiser> advertise=advertiserService.selectAdvertiseByPage(map);
+		return advertise;
+	}
+	@RequestMapping("/cc")
+	@ResponseBody
+	public int insertAdvertiser(Advertiser adv){
+		return advertiserService.insertAdvertiser(adv);
+	}
+	@RequestMapping("/dd")
+	public void deleteAdvertiser(int adv_id){
+		System.out.println("adv_id");
+		int row=advertiserService.deleteAdvertiser(adv_id);
+		System.out.println(row);
+		if(row==1){
+			advertiserService.deleteAdvertiserById(adv_id);
+		}
+	}
+	@RequestMapping("/ee")
+	@ResponseBody
+	public int updateAdvertiser(Advertiser adv){
+		return advertiserService.updateAdvertiser(adv);
+	}
+	
+	@RequestMapping("/ff")
+	@ResponseBody
+	public int insertAdvDesc(AdvDesc advDesc){
+		return advertiserService.insertAdvDesc(advDesc);
+	}
+	
+	@RequestMapping("/gg")
+	@ResponseBody
+	public int updateAdverDesc(AdvDesc advDesc){
+		return advertiserService.updateAdverDesc(advDesc);
+	}
+	
+	@RequestMapping("/hh")
+	@ResponseBody
+	public List<AdvDesc> selectAdverDesc(int adv_id){
+		return advertiserService.selectAdvDesc(adv_id);
+	}
+	
+	@RequestMapping("/ii")
+	@ResponseBody
+	public int insertAdvType(AdvType advType){
+		return advertiserService.insertAdvType(advType);
+	}
+	
+	@RequestMapping("/jj")
+	public int deleteAdvType(int at_id){
+		return advertiserService.deleteAdvType(at_id);
+	}
+	
+	@RequestMapping("/kk")
+	@ResponseBody
+	public int updateAdvType(AdvType advType){
+		return advertiserService.updateAdverType(advType);
+	}
+	
+	@RequestMapping("/ll")
+	@ResponseBody
+	public List<AdvType> selectAllAdvType(int at_id){
+		return advertiserService.selectAllAdvType(at_id);
+	}
+	
+	@RequestMapping("/mm")
+	@ResponseBody
+	public AdvType selectAdvType(int ad_id){
+		return advertiserService.selectAdvType(ad_id);
+	}
+}

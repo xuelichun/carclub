@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>user</title>
+<link href="./css/public.css" rel="stylesheet" type="text/css" />
+<link href="./css/user.css" rel="stylesheet" type="text/css" />
+<link href="./css/message.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/jquery.Xslider.js"></script>
+<link rel="stylesheet" type="text/css" href="css/icon.css"/>
+<link rel="stylesheet" type="text/css" href="css/easyui.css"/>
+<script src="js/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./js/userShow.js"></script>
+<script type="text/javascript" src="./js/friendsShow.js"></script>
+</head>
+<body >
+<div class="top11" id="top11" >
+	
+</div>
+	<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+          
+  	</div>
+ </div>
+ 
+ <div id="TB_overlayBG"></div>
+	<div class="box" style="display:none">
+		<h2>网站登录<a href="#" class="close">关闭</a></h2>
+		<div class="mainlist">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">电话\邮箱：</td>
+                <td width="67%"><input type="text" name="u_name" id="u_name"  class="yanse" onblur="javascript:checkName()"></td>
+                <td width="6%">&nbsp;</td>          
+              </tr>
+    
+              <tr>
+                <td>&nbsp;</td>
+                <td align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">密 码：</td>
+                <td>
+                <input type="password" name="u_pwd" id="u_pwd" class="yanse"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><span id="span" style="color:#FF0000"></span></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="41"><div class="login"><a href="javascript:login()">登录</a></div></td>
+                    <td width="10">&nbsp;</td>
+                    <td width="69"><a href="findPwd.html" style="color:#999">忘记密码</a></td>
+                    <td width="14" align="center" style="color:#999">|</td>
+                    <td width="47"><a href="regUser.html" style="color:#999">注册</a></td>
+                    <td width="17">&nbsp;</td>
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+
+		</div>
+	</div>
+ 
+
+<div class="user clearfix">
+    	<div class="u_l">
+        	<div class="u_la">
+        		<form action="" id="h2">
+	            	<div class="box_h"><span>他的账户</span><a id="addfriends" href="javascript:addFriends()" style="display:none;">添加好友</a></div>
+	                <div class="box_m">
+	                	<div style="float:left;padding-right:10px;" >
+	          				<input type="hidden" name="u_id" id="u_id"/>
+	                		<img alt="" id="u_head"  alt="" style="width:70px; height:70px;"/>
+	                		<!--  <img src="./images/qq.jpg" alt="" style="width:70px; height:70px;"/>-->
+	                	</div>
+	                	<div >昵称:<input type="text" name="u_nick"  id="u_nick" style="border:0px; width:50px;" readonly="readonly"/><br/>
+	                	 	等级:<input type="text" name="u_level"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 	积分:<input type="text" name="u_grade" style="border:0px; width:50px;"readonly="readonly"/><br/>
+	               			经验:<input type="text" name="u_exp"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 </div>
+	                	<div>
+	                	总访客量:<input type="text" name="u_total" id="u_total" style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                   	个性签名:<input type="text" name="u_sign" style="border:0px; width:50px;" readonly="readonly"/>
+	                   	
+	                    </div>
+	                </div>
+                </form>
+            </div>
+            <div class="space_hx">&nbsp;</div>
+            <div class="u_lb">
+            	<div class="box_h"><span>个人中心</span></div>
+                <div class="box_m">
+                	<ul>
+                		<li class="now"><a href="javascript:friendsDyn()">他的动态</a></li>
+                    	<li ><a href="javascript:friendsInfo()">个人资料</a></li>
+                        <li><a href="javascript:friendsPhoto()">他的相册</a></li>
+                        <li><a href="javascript:friendsCar()">他的爱车</a></li>
+                        <li><a href="user.html">返回个人中心</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      
+		<div id="center">
+	        <div class="u_r" id="ur">
+	        	
+		        <div class="liuyan" >
+		        	<div class="title">动态中心</div>
+		            <div class="recListS borderTop">
+				     	<ul id="ul">
+				         	<li>
+				             </li> 
+				             
+				             </ul>
+				             <div  class="mblFunc mt10 f12 downWh">
+				             	<a href="javascript:goback()">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<span id="sss"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<span id="ss"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<a href="javascript:gofont()">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				             
+				             </div>
+		             </div>
+		         </div>
+	        </div>
+        </div>
+</div>
+
+</body>
+</html>

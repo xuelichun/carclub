@@ -1,0 +1,105 @@
+package com.zeepn.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.CarBrand;
+import com.zeepn.bean.CarDep;
+import com.zeepn.dao.CarBrandDao;
+import com.zeepn.dao.CarDepDao;
+import com.zeepn.service.CarService;
+import com.zeepn.utils.FeeUtils;
+import com.zeepn.utils.TransCoding;
+
+@Service("carService")
+public class CarServiceImpl implements CarService{
+
+	/**
+	 * 自动注入dao	
+	 */
+	@Autowired
+	CarBrandDao carBrandDao;
+	@Autowired
+	CarDepDao carDepDao;
+	
+	@Override
+	public List<CarBrand> selectAllCarB() {
+		List<CarBrand> cbList=carBrandDao.selectAllCarBrand();
+		return cbList;
+	}
+
+	@Override
+	public List<CarDep> selectAllCarD(int cb_id) {
+		List<CarDep> cdList=carDepDao.selectAllCarDep(cb_id);
+		return cdList;
+	}
+
+	@Override
+	public boolean insertCarB(CarBrand carBrand) {
+		int count=carBrandDao.insertCarBrand(carBrand);
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public boolean insertCarD(CarDep carDep) {
+		int count=carDepDao.insertCarDep(carDep);
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public boolean delCarB(String cbId) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean delCarD(String cdId) {
+		
+		return false;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectAllCD(int pageIndex) {
+		int count=carDepDao.selectCountCarDep();
+		List<CarDep> cdList=carDepDao.selectAllCarDep(pageIndex);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageCarDepTotal(cdList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectAllCDByCB(int carBrand, int pageIndex) {
+		List<CarDep> cdList=carDepDao.selectCarDepByCB(carBrand,pageIndex);
+		int count=carDepDao.selectCountCarDepByCB(carBrand);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageCarDepTotal(cdList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectAllCB() {
+		List<CarBrand> cbList=carBrandDao.selectAllCarBrand();
+		int count=carBrandDao.selectCountCarBrand();
+		HashMap<Integer, Object> anMap=new FeeUtils().packageCarBrandTotal(cbList, 1, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectCDListByCB(String carBrand) {
+		carBrand=TransCoding.transCoding(carBrand);
+		List<CarDep> cdList=carDepDao.electCDListByCB(carBrand);
+		int count=carDepDao.selectCountCDByCB(carBrand);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageCarDepTotal(cdList, 1, count);
+		return anMap;
+	}
+	
+}

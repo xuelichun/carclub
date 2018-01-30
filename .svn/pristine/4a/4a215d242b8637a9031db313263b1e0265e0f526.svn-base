@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>车友会</title>
+<link href="./css/public.css" rel="stylesheet" type="text/css" />
+<link href="./css/activity.css" rel="stylesheet" type="text/css" />
+<link href="./css/user.css" rel="stylesheet" type="text/css" />
+<link href="./css/message.css" rel="stylesheet" type="text/css" />
+<link href="./css/carClub.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/jquery.Xslider.js"></script>
+<!--  <script type="text/javascript" src="./js/user.js"></script>-->
+<script type="text/javascript" src="./js/jquery.form.js"></script>
+<script type="text/javascript" src="./js/userScan.js"></script>
+<script type="text/javascript" src="./js/jquery.UrlParam.js"></script>
+<script type="text/javascript" src="./js/carClub.js"></script>
+<script type="text/javascript" src="./js/clubFriendsCricle.js"></script>
+
+<script type="text/javascript" src="./js/advertiser.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	// 焦点图片水平滚动
+	$("#slider1").Xslider({
+		// 默认配置
+		affect: 'scrollx', //效果  有scrollx|scrolly|fade|none
+		speed: 800, //动画速度
+		space: 6000, //时间间隔
+		auto: true, //自动滚动
+		trigger: 'mouseover', //触发事件 注意用mouseover代替hover
+		conbox: '.conbox', //内容容器id或class
+		ctag: 'div', //内容标签 默认为<a>
+		switcher: '.switcher', //切换触发器id或class
+		stag: 'a', //切换器标签 默认为a
+		current:'cur', //当前切换器样式名称
+		rand:false //是否随机指定默认幻灯图片
+	});
+	
+	// 焦点图片垂直滚动
+	$("#slider2").Xslider({
+		affect:'scrolly',
+		ctag: 'div',
+		speed:400
+	});
+	
+	// 焦点图片淡隐淡现
+	$("#slider3").Xslider({
+		affect:'fade',
+		ctag: 'div'
+	});
+	// 选项卡
+	$("#slider4").Xslider({
+		affect:'none',
+		ctag: 'div',
+		speed:10
+	});
+	
+	
+});
+
+$(function(){
+	$(".showbox").click(function(){
+		$("#TB_overlayBG").css({
+			display:"block",height:$(document).height()
+		});
+		$(".box").css({
+			left:($("body").width()-$(".box").width())/2-20+"px",
+			top:($(window).height()-$(".box").height())/2+$(window).scrollTop()+"px",
+			display:"block"
+		});
+	});
+	
+	$(".close").click(function(){
+		$("#TB_overlayBG").css("display","none");
+		$(".box ").css("display","none");
+	});
+});
+
+
+
+	var pName = [ "北京", "天津", "上海", "重庆", "黑龙江", "吉林", "辽宁", "内蒙古", "甘肃", "新疆",
+				"西藏", "青海", "宁夏", "山西", "河北", "山东", "河南", "陕西", "四川", "湖北", "安徽",
+				"江苏", "浙江", "江西", "湖南", "贵州", "云南", "广西", "广东", "福建", "海南", "台湾",
+				"香港", "澳门" ];
+		var cName = [
+				//北京市
+				[ "东城", "西城", "崇文", "宣武", "朝阳", "丰台", "石景山", "海淀", "门头沟", "房山",
+						"通州", "顺义", "昌平", "大兴", "怀柔", "平谷", "密云", "延庆" ],
+				//天津市
+				[ "和平", "河东", "河西", "南开", "河北", "红桥", "塘沽", "汉沽", "大港", "东丽", "西青",
+						"津南", "北辰", "武清", "宝坻", "宁河", "静海", "蓟县" ],
+				//上海市
+				[ "黄埔", "卢湾", "徐汇", "长宁", "静安", "普陀", "闸北", "虹口", "杨浦", "闵行", "宝山",
+						"嘉定", "浦东新", "金山", "松江", "南汇", "奉贤", "青浦", "崇明" ],
+				//重庆市
+				[ "渝中", "大渡口", "江北", "沙坪坝", "九龙坡", "南岸", "北碚", "万盛", "双桥", "渝北",
+						"巴南", "万州", "涪陵", "黔江", "长寿", "江津", "合川", "永川", "南川", "綦江",
+						"潼南", "铜梁", "大足", "荣昌", "璧山", "垫江", "武隆", "丰都", "城口", "梁平",
+						"开县", "巫溪", "巫山", "奉节", "云阳", "忠县", "石柱", "彭水", "酉阳", "秀山" ],
+				//黑龙江省
+				[ "哈尔滨", "齐齐哈尔", "鸡西", "鹤岗", "双鸭山", "大庆", "伊春", "佳木斯", "七台河",
+						"牡丹江", "黑河", "绥化", "大兴安岭" ],
+				//吉林省
+				[ "长春", "吉林", "四平", "辽源", "通化", "白山", "松原", "白城", "延边" ],
+				//辽宁省
+				[ "沈阳", "大连", "鞍山", "抚顺", "本溪", "丹东", "锦州", "营口", "阜新", "辽阳", "盘锦",
+						"铁岭", "朝阳", "葫芦岛" ],
+				//内蒙古省
+				[ "呼和浩特", "包头", "乌海", "赤峰", "通辽", "鄂尔多斯", "呼伦贝尔", "巴彦淖尔", "乌兰察布",
+						"兴安", "锡林郭勒", "阿拉善" ],
+				//甘肃省
+				[ "兰州", "嘉峪关", "金昌", "白银", "天水", "武威", "张掖", "平凉", "酒泉", "庆阳",
+						"定西", "陇南", "临夏", "甘南" ],
+				//新疆省
+				[ "乌鲁木齐", "克拉玛依", "吐鲁番", "哈密", "昌吉", "博尔塔拉", "巴音郭楞", "阿克苏", "克孜勒苏",
+						"喀什", "和田", "伊犁", "塔城", "阿勒泰", "石河子", "阿拉尔", "图木舒克", "五家渠" ],
+				//西藏省
+				[ "拉萨", "昌都", "山南", "日喀则", "那曲", "阿里", "林芝" ],
+				//青海省
+				[ "西宁", "海东", "海北", "黄南", "海南", "果洛", "玉树", "海西" ],
+				//宁夏省
+				[ "银川", "石嘴山", "吴中", "固原", "中卫" ],
+				//山西省
+				[ "太原", "大同", "阳泉", "长治", "晋城", "朔州", "晋中", "运城", "临汾", "吕梁", "忻州" ],
+				//河北省
+				[ "石家庄", "唐山", "秦皇岛", "邯郸", "邢台", "保定", "张家口", "承德", "沧州", "廊坊",
+						"衡水" ],
+				//山东省
+				[ "济南", "青岛", "淄博", "枣庄", "东营", "烟台", "潍坊", "济宁", "泰安", "威海", "日照",
+						"莱芜", "临沂", "德州", "聊城", "滨州", "菏泽" ],
+				//河南省
+				[ "郑州", "开封", "洛阳", "平顶山", "安阳", "鹤壁", "新乡", "焦作", "濮阳", "许昌",
+						"漯河", "三门峡", "南阳", "商丘", "信阳", "周口", "驻马店", "济源" ],
+				//陕西省
+				[ "西安", "铜川", "宝鸡", "咸阳", "渭南", "延安", "汉中", "榆林", "安康", "商洛" ],
+				//四川省
+				[ "成都", "自贡", "攀枝花", "泸州", "德阳", "绵阳", "广元", "遂宁", "内江", "乐山",
+						"南充", "眉山", "宜宾", "广安", "达州", "雅安", "巴中", "资阳", "阿坝", "甘孜" ],
+				//湖北省
+				[ "武汉", "黄石", "十堰", "宜昌", "襄樊", "鄂州", "荆门", "孝感", "荆州", "黄冈", "咸宁",
+						"随州", "恩施", "仙桃", "潜江", "天门", "神农架" ],
+				//安徽省
+				[ "合肥", "芜湖", "蚌埠", "淮南", "马鞍山", "淮北", "铜陵", "安庆", "黄山", "滁州",
+						"阜阳", "宿州", "巢湖", "六安", "豪州", "池州", "宣城" ],
+				//江苏省
+				[ "南京", "无锡", "徐州", "常州", "苏州", "南通", "连云港", "淮安", "盐城", "扬州",
+						"镇江", "泰州", "宿迁" ],
+				//浙江省
+				[ "杭州", "宁波", "温州", "嘉兴", "湖州", "绍兴", "金华", "衢州", "舟山", "台州", "丽水" ],
+				//江西省
+				[ "南昌", "景德镇", "萍乡", "九江", "新余", "鹰潭", "赣州", "吉安", "宜春", "抚州", "上饶" ],
+				//湖南省
+				[ "长沙", "株洲", "湘潭", "衡阳", "邵阳", "岳阳", "常德", "张家界", "益阳", "郴州",
+						"永州", "怀化", "娄底", "湘西" ],
+				//贵州省
+				[ "贵阳", "六盘水", "遵义", "安顺", "同仁", "黔西南", "毕节", "黔东南", "黔南" ],
+				//云南省
+				[ "昆明", "曲靖", "玉溪", "保山", "昭通", "丽江", "普洱", "临沧", "楚雄", "红河", "文山",
+						"西双版纳", "大理", "德宏", "怒江", "迪庆" ],
+				//广西省
+				[ "南宁", "柳州", "桂林", "梧州", "北海", "防城港", "钦州", "贵港", "玉林", "百色",
+						"贺州", "河池", "来宾", "崇左" ],
+				//广东省
+				[ "广州", "韶关", "深圳", "珠海", "汕头", "佛山", "江门", "湛江", "茂名", "肇庆", "惠州",
+						"梅州", "汕尾", "河源", "阳江", "清远", "东莞", "中山", "潮州", "揭阳", "云浮" ],
+				//福建省
+				[ "福州", "厦门", "莆田", "三明", "泉州", "漳州", "南平", "龙岩", "宁德" ],
+				//海南省
+				[ "海口", "三亚", "五指山", "琼海", "儋州", "文昌", "万宁", "东方", "安定", "屯昌",
+						"澄迈", "临高", "白沙", "昌江", "乐东", "陵水", "保亭", "琼中", "西沙", "南沙",
+						"中沙" ],
+				//台湾省
+				[ "台北市", "高雄市", "基隆市", "台中市", "台南市", "新竹市", "嘉义市", "台北县", "宜兰县",
+						"桃园县", "新竹县", "苗栗县", "台中县", "彰化县", "南投县", "云林县", "嘉义县",
+						"台南县", "高雄县", "屏东县", "台东县", "花莲县", "澎湖县" ],
+				//香港
+				[ "香港", "九龙", "新界" ],
+				//澳门
+				[ "澳门" ] ];
+		function initP() {
+			var objP = document.getElementById("u_pro");
+			for ( var i = 0; i < pName.length; i++) {
+				var op = new Option(pName[i], pName[i]);
+				objP.add(op);
+			}
+		}
+		function initC() {
+			var objC = document.getElementById("u_city");
+			var pValue = document.getElementById("u_pro").value;
+			for ( var i = objC.length - 1; i > 0; i--) {
+				objC.remove(i);
+			}
+			var j=jQuery.inArray(pValue,pName);
+			if (j >= 0) {
+				for ( var i = 0; i < cName[j].length; i++) {
+					var op = new Option(cName[j][i], cName[j][i]);
+					objC.add(op);
+				}
+			}
+		}
+	
+</script>
+</head>
+<body onload="initP()">
+<div class="top11" id="top11"></div>
+
+<div id="TB_overlayBG"></div>
+	<div class="box1" style="display:none">
+		<h2>加入车友会<a href="#" class="close">关闭</a></h2>
+		<div class="mainlist">
+			<form action="../clubAdmina.do" id="aplliForm">
+			<input type="text" name="u_id" hidden="hideen">
+			<input type="text" name="club_id" hidden="hideen">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">真实姓名：</td>
+                <td width="67%"><input type="text" name="u_name" id="u_name" class="yanse"></td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">性别：</td>
+                <td width="67%"><input type="radio" name="u_sex" value="男"  checked="checked">男
+                <input type="radio" name="u_sex" value="女" >女</td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+             <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">所在地：</td>
+                <td width="67%"><select name="u_pro" id="u_pro" style="width: 100px" size="1" onchange="initC()">
+					    		<option value="-1">请选择</option>
+					    	</select>省
+					    	<select name="u_city" id="u_city" style="width:100px" size="1">
+					    		<option value="-1">请选择</option>
+					    	</select>市
+					    	<span id="scity"></span></td>
+                <td width="6%" >&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                   	<td width="10">&nbsp;</td>
+                    <td width="41"><input type="submit" value="申请加入"/></td>
+                    <td width="47"></td>
+                    <td width="17">&nbsp;</td>
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+                            
+            </table>
+            </form>
+		</div>
+	</div>
+	<div class="box" style="display:none">
+		<h2>网站登录<a href="#" class="close">关闭</a></h2>
+		<div class="mainlist">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">电话\邮箱：</td>
+                <td width="67%"><input type="text" name="u_account" id="u_account"  class="yanse" onblur="javascript:checkName()"></td>
+                <td width="6%">&nbsp;</td>          
+              </tr>
+    
+              <tr>
+                <td>&nbsp;</td>
+                <td align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">密 码：</td>
+                <td>
+                <input type="password" name="u_pwd" id="u_pwd" class="yanse"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><span id="span" style="color:#FF0000"></span></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="41"><div class="login"><a href="javascript:login()">登录</a></div></td>
+                    <td width="10">&nbsp;</td>
+                    <td width="69"><a href="findPwd.html" style="color:#999">忘记密码</a></td>
+                    <td width="14" align="center" style="color:#999">|</td>
+                    <td width="47"><a href="regUser.html" style="color:#999">注册</a></td>
+                    <td width="17">&nbsp;</td>
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+
+		</div>
+	</div>
+
+<div class="carclub">
+
+	<div class="clubtop">
+   		<div class="clubtop_left">
+   			<div class="clubtop_left001">
+   			<img src="images/qq.jpg" width="160px" height="160px"/></div>
+   		</div>
+   		<div class="clubtop_right">
+   			<div class="pro_dar">
+              <h2><span id="clubName">长春理工大学理工大学车友会</span></h2>
+              <table cellpadding="0" cellspacing="0" style="margin-top: 10px">
+                <tr>
+                  <td id="clubDesc"></td>
+                </tr>
+                <tr>
+                	<td id="clubDomnam"></td>
+                </tr>
+              </table>
+   			</div>
+          </div>
+	  </div>
+	  <div class="wrap_top001">
+	   	<div class="top001">
+               <UL class="menu2">
+                   <li ><a id="carClub" href="carClub.html">首页</a></li>
+                   <li ><a id="carClubActivity" href="carClubActivity.html">活动</a></li>
+                   <li ><a id="carClubMember" href="carClubMember.html" >会员</a></li>
+                   <li ><a id="carClubPhoto" href="carClubPhoto.html" >相册</a></li>   
+               </ul>
+	  	</div>
+	 </div>
+	 
+	 <div id="slider1" class="slider" id="cba">
+			<div class="conbox">
+				<div><a href="#" title=""><img src="images/top0001.jpg" width="1000" height="330" /></a></div>
+				<div><a href="#" title=""><img src="images/top0002.jpg" width="1000" height="330" /></a></div>
+				<div><a href="#" title=""><img width="1000" height="330" alt="" src="images/top0003.jpg"></a></div>
+				<div><a href="#" title=""><img width="1000" height="330" alt="" src="images/top0004.jpg"></a></div>
+				<div><a href="#" title=""><img width="1000" height="330" alt="" src="images/top0001.jpg"></a></div>
+			</div>
+
+			<div class="switcher" id="abc">
+				<a href="#" class="cur">1</a>
+				<a href="#">2</a>
+				<a href="#">3</a>
+				<a href="#">4</a>
+				<a href="#">5</a>
+			</div>
+		</div>
+	 
+	<div class="mian">
+		<div class="matter">
+    		<div class="left">
+    			<!--  <div id="center">-->
+	        		<!--  div class="u_r" id="ur">-->
+		        		<div class="liuyanclub" >
+		        		<div class="title">动态中心</div>
+		           		 <div class="recListS borderTop">
+				     		<ul id="ul">
+				         		<li></li> 
+				             </ul>
+				             <div  class="mblFunc mt10 f12 downWhclub" id="div1">
+				             	<a href="javascript:goback()">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<span id="sss"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<span id="ss"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<a href="javascript:gofont()">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				             </div>
+		             	</div>
+		         	</div>
+	        <!--  </div>-->	
+        	<!--  	</div>-->
+    		</div>
+        	<div class="right">
+        		
+        	 	<div class="b021">
+	        		<div id="appliFunc">
+	        		<a href="javascript:beforeAppli()" class="showbox001"><img src="images/sqjr.jpg"  /></a>
+	        		<!-- <a href="javascript:void(0);" class="showbox001"><img src="images/sqjr.jpg"  /></a> -->
+	        		</div>
+	        		<div id="signFunc">
+	        		<a href="javascript:sign()" class="showbox002"><img src="images/sign.png" width="246px" height="65px" /></a>
+	        		</div>
+	        		<div>
+	        			<ul >
+	        				<li class="b0211" id="clubGrade">油值：10000L</li>
+	        				<li class="b0211" id="clubPnum">会员：1000人</li>
+	        				<li class="b0211" id="clubPro">地区：北京市</li>
+	        				<li class="b0211" id="clubCd">车系：奥迪</li>
+	        			</ul>
+	        		</div>
+	        	</div>
+	       	  	<div class="b01" id="notice"></div>
+	            <div class="b001">
+	           	  <div class="info">管理员</div>
+	                <div class="content1" id="president">
+		                
+	                	 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称</a></div>
+							<div class="rq11">会长</div>
+                    		</div>
+              			</div>
+					</div>
+		         </div>
+		         
+		         <div class="b001">
+	           	  <div class="info">最近访客</div>
+	                <div class="content1" id="clubVisitors">
+		                <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">收到名称</a></div>
+	                    	</div>
+	              		</div>
+		                 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">sdfasf三名称</a></div>
+	                    	</div>
+	              		</div>
+	              		 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+	                     <div class="scrt11">
+                        	<div class="zt11"><a href="#">上帝发誓名称</a></div>
+                    	</div>
+	              		</div>
+	              		 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称124334</a></div>
+                    		</div>
+              			</div>
+              			 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称a234sdf</a></div>
+                    		</div>
+              			</div>
+              			 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称</a></div>
+                    		</div>
+              			</div>
+	                	 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称</a></div>
+                    		</div>
+              			</div>
+					</div>
+		         </div>
+		         
+	        </div>
+    	</div>
+ 	</div> 
+	 
+	 
+</div>
+</body>
+</html>

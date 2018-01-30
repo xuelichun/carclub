@@ -1,0 +1,70 @@
+package com.zeepn.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.ChaEvent;
+
+@Repository("chaEventDao")
+public interface ChaEventDao {
+	
+	/**
+	 * 添加慈善活动
+	 * @param chaEvent
+	 * @return 添加成功返回1
+	 */
+	int insertChaEvent(ChaEvent chaEvent);
+
+	/**
+	 * 删除慈善活动
+	 * @param ce_id
+	 * @return 删除成功返回1
+	 */
+	int deleteChaEvent(int ce_id);
+	
+	/**
+	 * 修改慈善活动
+	 * @param chaEvent
+	 * @return 修改成功返回1
+	 */
+	int updateChaEvent(ChaEvent chaEvent);
+	
+	/**
+	 * 根据ID查询慈善活动
+	 * @param ce_id
+	 * @return 慈善活动
+	 */
+	ChaEvent selectChaEventById(int ce_id);
+	
+	/**
+	 * 分页查询慈善活动
+	 * @param map
+	 * @return 
+	 */
+	List<ChaEvent> selectChaEventByPage(Map<String , Integer> map);
+	
+	/**
+	 * 根据用户id分页查询用户参加的慈善活动
+	 * @param u_id  用户id
+	 * @param page 页数
+	 * @return
+	 */
+	List<ChaEvent> selectChaEventByUId(@Param("u_id")int u_id,@Param("pageIndex")int pageIndex);
+	
+	/**
+	 * 计算用户参加慈善活动的总条数
+	 * @param u_id  用户id
+	 * @return
+	 */
+	public int selectChaEventPage(int u_id);
+	
+	/**
+	 * 计算一个慈善活动下人数
+	 * @param ce_id
+	 * @return
+	 */
+	public int countNum(int ce_id);
+}

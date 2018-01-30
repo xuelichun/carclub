@@ -1,0 +1,66 @@
+$(function(){
+	selectMemFee();	
+	showClubFee(1);
+	showPayCon(1,1);
+});
+
+function expressMemFee(){
+	var club_id=1;
+	var mf_money=$("#mf_money").val();
+	var mf_grade=$("#mf_grade").val();
+	var mf_money_ck=/^[0-9]*$/;
+	var mf_grade_ck=/^0\.[1-9]\d*$/;
+	if(!mf_money_ck.test(mf_money)){
+		$("#msg").html(alert("会费应为整数"));
+	}else if(!mf_grade_ck.test(mf_grade)){
+		$("#msg").html(alert("折扣须在0~1之间"));
+	}else{
+		$.getJSON("../clubAdmint.do",{"mf_money":mf_money,"mf_grade":mf_grade,"club_id":club_id},function(data){
+			if(data==1){
+				$("#msg").html(alert("设置成功"));
+			}else{
+				$("#msg").html(alert("设置失败"));
+			}
+		});
+	}
+}
+
+function selectMemFee(){
+	var club_id=1;
+	$.getJSON("../clubAdminu.do",{"club_id":club_id},function(data){
+		$("#mf_money").val(data.mf_money);
+		$("#mf_grade").val(data.mf_grade);
+	});
+}
+
+function showClubFee(club_id){
+	$.getJSON("../clubAdminh.do",{"club_id":club_id},function(data){
+		var content="<span class='clubfeetixian'>账户余额:&nbsp;"+data.cf_money+"&nbsp;&nbsp;元</span><br/>"+
+	        "<span class='clubfeetixian'>账户积分:&nbsp;"+data.cf_grade+"&nbsp;&nbsp;L</span><br/>"+
+	        "<input type='button' class='clubfeetixianbtn' value='提现'/>";
+		$("#clubFee").html(content);
+	});
+}
+
+function showClubFeeFunc(){
+	$("#clubFee").show();
+	$("#clubFeeSet").hide();
+}
+
+function showPayCon(club_id,page){
+	var content="";
+	alert(11);
+	//alert(new Date());
+	/*if("2016-02-06 02:23:34">dateFormat(new Date())){
+		alert(1);
+	}else{
+		alert(2);
+	}*/
+	alert(dateFormat(new Date()));
+	alert(22);
+	//alert(pc_mattime);
+	/*$.getJSON("../clubAdminw.do",{"club_id":club_id,"pc_mattime":pc_mattime,"page":page},function(data){
+		alert(data.length);
+	});*/
+}
+

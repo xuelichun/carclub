@@ -1,0 +1,44 @@
+package com.zeepn.service;
+
+import com.zeepn.bean.PreInfo;
+
+public interface PreInfoService {
+	
+	/**
+	 * 初始化会长表
+	 * @param p_id
+	 * @param club_id
+	 * @return 成功返回1，失败返回0
+	 */
+	public int insertPreInfo(int p_id,int club_id);
+	/**
+	 * 设置副会长
+	 * @param p_id
+	 * @return 设置成功返回1
+	 */
+	public int updateProInfo(int p_id,int vp_id);
+	
+	/**
+	 * 查询会长
+	 * @param p_id
+	 * @return
+	 */
+	public PreInfo selectPreInfo(int p_id);
+	
+	/**
+	 * 设置副会长
+	 * @param p_id
+	 * @param vp_id
+	 * @return 设置成功返回1，失败返回0，人数已满返回2
+	 */
+	public int updatePreInfoAdd(int p_id,int vp_id);
+	
+	/**
+	 * 取消副会长
+	 * @param p_id
+	 * @param vp_id
+	 * @return 取消成功返回1，失败返回0
+	 */
+	public int updatePreInfoDelete(int p_id,int vp_id);
+
+}

@@ -1,0 +1,3 @@
+.expressClubNotice{ background:url(../images/dr.jpg) 0px 0px; width:89px; height:27px; text-align:center; line-height:27px;margin-left: 520px;}
+.expressClubNotice a{color:#a83d04; display:block;}
+.expressClubNotice a:hover{ background:url(../images/dr.jpg) 0px 27px; width:89px; height:27px; text-align:center; line-height:27px; }

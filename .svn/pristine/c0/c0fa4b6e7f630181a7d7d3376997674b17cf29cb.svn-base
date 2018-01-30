@@ -1,0 +1,189 @@
+var now=0;
+var count=0;
+$(function(){
+	//保存按钮事件
+	$("#submit").click(function(){
+		//alert($("#a_tit").val());
+		if($("#a_tit").val().trim()==''){
+			$("#c").html("标题不能为空");
+			return;
+		}
+		if($("#a_des").val().trim()==''){
+			$("#c1").html("描述不能为空");
+			return;
+		}
+		$("#f5").submit();
+	});
+	$('#f5').form({
+		success:function(data) {
+			var rss = $.parseJSON(data);
+			if (rss.rs == 'ok') {
+				//$.messager.alert('提示信息','修改成功！');
+				$("#c").html("");
+				$("#c1").html("");
+				var a_id=$("#a_id").val();
+				showdetail(a_id);
+				$("#a3").hide();
+			}else{
+				$.messager.alert('提示','修改失败！');
+			}
+		}
+	}); 
+});
+
+function createAlbum(){
+	var a_title=$("#a_title").val().trim();
+	var a_desc=$("#a_desc").val().trim();
+	var u_id=$("#u_id").val();
+	var a=2;
+	if(a_title==''){
+		$("#span").html("标题不能为空");
+		a--;
+		return ;	
+	}
+	if(a_desc==''){
+		$("#span").html("描述不能为空");
+		a--;
+		return ;
+	}
+	if(a==2){
+		$("#span").html("");
+		$.getJSON("../album/createAlbum.do",{"u_id":u_id,"a_title":a_title,"a_desc":a_desc},function(data){
+			if(data.rs=='ok'){
+				alert("创建成功");
+				$("#TB_overlayBG").css("display","none");
+				$(".box ").css("display","none");
+				var u_id=$("#u_id").val();
+				countPage(u_id);	
+				showAlbum(u_id,now);
+//				now=count;
+//				$("#sss").html("第"+now+"页");
+			}else{
+				alert("创建失败");
+			}
+		});
+	}
+}
+function showphoto(){
+	var data=$('#h2').form('load',"../user/islogin.do");
+	$.getJSON("../user/islogin.do",{},function(data){
+		if(data==null){
+			alert("请先登录");
+			location.href="./index.html";
+		}else{
+			showAlbum(data.u_id,1);
+			now=1;
+			$("#sss").html("第"+now+"页");
+			countPage(data.u_id);
+		}
+	});
+}
+function showAlbum(u_id,pageIndex){
+	$.getJSON("../album/showPhotoFenye.do",{"u_id":u_id,"pageIndex":pageIndex},function(data){
+		if(data.length>0){
+			var context="";
+			$("#div1").show();
+			for(var i=0;i<data.length;i++){
+				context+="<div class='prod'><div class='tip'><a href='javascript:showdetail("+data[i].a_id+")'>" +
+						"<img src='../"+data[i].a_main+"' width='205' height='180'></a></div><div class='scrt'>" +
+						"<div class='zt'><a href='#'>"+data[i].a_title+"("+data[i].a_num+")</a></div>" +
+						"<div class='rq'>"+data[i].a_time+"</div></div></div>";
+			}
+			$("#d3").html(context);
+		}else{
+			$("#div1").hide();
+			$("#d3").html("没有相册");
+		}
+		$("#td").html(context);
+	});	
+}
+function goback(){
+	var u_id=$("#u_id").val();
+	if(now==1){
+		alert("没有上一页");
+	}else{
+		now=parseInt(now);
+		now=now-1;
+		showAlbum(u_id,now);
+	}
+	$("#sss").html("第"+now+"页");
+}
+function gofont(){
+	var u_id=$("#u_id").val();
+	if(now==count){
+		alert("没有下一页");
+	}else{
+		now=parseInt(now);
+		now=now+1;
+		showAlbum(u_id,now);
+	}
+	$("#sss").html("第"+now+"页");
+}
+function countPage(u_id){
+	$.getJSON("../album/countPage.do",{"u_id":u_id},function(data){
+		count=data.rs;
+		$("#ss").html("总"+data.rs+"页");
+		if(now>count){
+			now=count;
+			$("#sss").html("第"+now+"页");
+		}
+	});
+}
+
+function showdetail(a_id){
+	$("#a1").hide();
+	$("#a2").show();
+	var context="";
+	$.getJSON("../album/selectAllAlbumPic.do",{"a_id":a_id},function(data){
+		context+="<div class='r_name'>我的相册>>"+data[0].a_title+"&nbsp;&nbsp;&nbsp;<a href='javascript:updateAlbum("+data[0].a_id+")'>修改</a>&nbsp;|&nbsp;&nbsp;<a href='javascript:deleteAlbum("+data[0].a_id+")'>删除</a></div><div class='matter2'><div class='choose'>" +
+				"<div class='r_name'>描述:"+data[0].a_desc+"<br/>创建时间:"+data[0].a_time+"</div></div><div class='content'>";
+		if(data.length>1){
+			for(var i=1;i<data.length;i++){
+				context+="<div class='prod1'><div class='tip1'>" +
+						"<img src='../"+data[i].ap_img+"' width='200px' height='160px'></a></div>" +
+						"<div class='scrt1'><div class='zt1'>"+data[i].ap_time+"</div><div class='rq1'>" +
+						"<a href='javascript:deleteAlbumPic("+data[i].ap_id+","+data[0].a_id+")'>删除</a></div></div></div>"
+			}
+		}else{
+			context+="<div class='r_name'>该相册没有图片</div>";
+		}
+		context+="</div></div></div>";
+		$("#a2").html(context);
+	});
+}
+function deleteAlbumPic(ap_id,a_id){
+	$.getJSON("../album/deleteAlbumPic.do",{"ap_id":ap_id,"a_id":a_id},function(data){
+		if(data.rs=='ok'){
+			alert("删除成功");
+			showdetail(a_id);
+		}else{
+			alert("删除失败");
+		}
+	});
+}
+function updateAlbum(a_id){
+	$('#f5').form('load',"../album/selectOneAlbum.do?a_id="+a_id);
+	$("#a1").hide();
+	$("#a2").hide();
+	$("#a3").show();
+}
+function deleteAlbum(a_id){
+	if(confirm("确定要删除么？")){
+		$.getJSON("../album/deleteAlbum.do",{"a_id":a_id},function(data){
+			if(data.rs=='ok'){
+				alert("删除成功");
+				var u_id=$("#u_id").val();
+				$("#a2").hide();
+				$("#a3").hide();
+				$("#a1").show();
+				countPage(u_id);
+				//alert(count+"---------"+now);
+				
+				showAlbum(u_id,1);
+				
+			}else{
+				alert("删除失败");
+			}
+		});
+	}
+}

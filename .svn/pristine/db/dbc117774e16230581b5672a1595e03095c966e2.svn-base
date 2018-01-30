@@ -1,0 +1,49 @@
+package com.zeepn.service;
+
+
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.FnetAnt;
+
+public interface FnetAntService {
+	
+
+	/**
+	 * 添加全网公告
+	 * @param fnetant 全网公告对象
+	 * @return 添加成功返回1
+	 */
+	public int relesAnt(FnetAnt fnetAnt);
+	
+	/**
+	 * 分页查询全网公告
+	 * @param map 
+	 * @return 公告列表
+	 */
+	public List<FnetAnt> selectFnetAntByPage(Map<String, Integer> map);
+	
+	/**
+	 * 根据ID查询全网公告
+	 * @param fa_id 公告id
+	 * @return 公告
+	 */
+	public FnetAnt selectOneFnetAntById(int fa_id);
+	
+	/**
+	 * 计算全网公告页数
+	 * 
+	 * @return 公告页数
+	 */
+	public int selectFnetAntPage();
+	
+	/**
+	 * 删除车友会公告
+	 * @param fa_id 全网公告id
+	 * @return 删除成功返回1
+	 */
+	public int deleteFnetAnt(int fa_id);
+}

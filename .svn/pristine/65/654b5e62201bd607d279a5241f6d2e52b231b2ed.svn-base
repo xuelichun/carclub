@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/user.css" rel="stylesheet" type="text/css" />
+<link href="css/message.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="user.html">首页</a></li>
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>消息</a>
+                       <ul>
+                           <li><a href="#">系统消息</a></li>
+                           <li><a href="#">查看私信</a></li>
+                           <li><a href="#">收到的回复</a></li>
+                           <li><a href="#">收到的赞</a></li>
+                           <li><a href="#">任务奖励</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>设置</a>
+                       <ul>
+                           <li><a href="#">个人资料</a></li>
+                           <li><a href="#">修改密码</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>会员管理</a>
+                   </li> 
+                   <li class="navthis25"><a href="index.html" >返回首页</a></li>
+             	</ul>
+		</div>
+  	</div>
+ </div>
+
+<div class="user clearfix">
+    	<div class="u_l">
+        	<div class="u_la">
+            	<div class="box_h"><span>我的账户</span></div>
+                <div class="box_m">
+                	<img src="images/qq.jpg" alt=""/>
+                    <p>用户名：黄瓒</p>
+                    <p>关注</p>
+                </div>
+            </div>
+            <div class="space_hx">&nbsp;</div>
+            <div class="u_lb">
+            	<div class="box_h"><span>车友会管理</span></div>
+                <div class="box_m">
+                	<ul>
+                    	<li><a href="noticeManage.html">公告管理</a></li>
+                        <li><a href="memberManage.html">会员管理</a></li>
+                        <li><a href="membershipManage.html">会费管理</a></li>
+                        <li><a href="photoManage.html">相册管理</a></li>
+                        <li><a href="activityManage.html">活动管理</a></li>
+                        <li><a href="changeCarClub.html">修改车友会</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="u_r">
+	        <div class="content01">发布公告</div>
+	       	<div class="content2">
+	       	
+	        	<div class="inputLong"><textarea name="" cols="100" rows="10"></textarea></div>
+	           	<div class="commentFunc"><a href="#">发表</a></div>
+	        </div>
+	        <div class="liuyan">
+	        	<div class="title"><a href="#">公告（2）</a></div>
+	            <div class="recListS borderTop">
+			     	<ul>
+			         	<li>
+			                 <div class="layout recListLeft f14">
+			                 	<a class="fLeft" target="_blank" href="#">
+			              		<img width="48" height="48" alt="水玩" src="images/qq.jpg">
+			              	</a>
+			                     <div class="recDes">
+									<div class="vm bold c999">
+				                   		<a class="c4095ce" target="_blank" href="#">水玩</a>	
+				                   		<span>2013-1-5</span>
+				                   	</div>
+			                       <p class="recBox">能给我一份吗？1924828707@qq.com<br>小菜鸟在这里拜谢了！能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？</p>
+			                       <div class="mblFunc mt10 f12 downWh">
+			                        <a  style="color:#4095ce" href="#">删除</a>
+			                       </div>
+			                     </div>
+			                 </div>
+			             </li> 
+			             <li>
+			                 <div class="layout recListLeft f14">
+			                 	<a class="fLeft" target="_blank" href="#">
+			              		<img width="48" height="48" alt="水玩" src="images/qq.jpg">
+			              	</a>
+			                     <div class="recDes">
+									<div class="vm bold c999">
+				                   		<a class="c4095ce" target="_blank" href="#">水玩</a>	
+				                   		<span>2013-1-5</span>
+				                   	</div>
+			                       <p class="recBox">能给我一份吗？1924828707@qq.com<br>小菜鸟在这里拜谢了！能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？能给我一份吗？</p>
+			                       <div class="mblFunc mt10 f12 downWh">
+			                        <a  style="color:#4095ce" href="#">删除</a>
+			                       </div>
+			                     </div>
+			                 </div>
+			             </li> 
+			             </ul>
+	             </div>
+	         </div>
+        </div>
+</div>
+</body>
+</html>

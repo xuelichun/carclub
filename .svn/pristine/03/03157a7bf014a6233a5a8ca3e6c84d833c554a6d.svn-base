@@ -1,0 +1,23 @@
+package com.zeepn.dao;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.PreInfo;
+
+@Repository("preInfoDao")
+public interface PreInfoDao {
+	
+	public int insertPreInfo(@Param("p_id")int p_id,@Param("club_id")int club_id);
+	
+	public PreInfo selectPreInfo(int p_id);
+	
+	public int updatePreInfoOne(@Param("p_id")int p_id,@Param("vp1_id")int vp1_id);
+	
+	public int updatePreInfoTwo(@Param("p_id")int p_id,@Param("vp2_id")int vp2_id);
+	
+	public int isPresident(int u_id);
+	
+	public int isVicePresident(int u_id);
+
+}

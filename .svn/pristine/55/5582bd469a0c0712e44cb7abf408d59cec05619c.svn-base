@@ -1,0 +1,114 @@
+package com.zeepn.controller;
+
+import java.util.HashMap;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.bean.Adm;
+import com.zeepn.service.AdmService;
+import com.zeepn.utils.CompObUtils;
+
+@Controller
+@RequestMapping("/adm")
+public class AdmController {
+
+	/**
+	 * 自动注入dao 
+	 */
+	@Resource(name="admService")
+	private AdmService admService;
+	
+	@RequestMapping("/login")
+	@ResponseBody
+	public Object admLogin(String adm_name,String adm_pwd,String adm_level,HttpServletRequest request){
+		HttpSession session=request.getSession();
+		CompObUtils cbu=new CompObUtils();
+		if(!cbu.isNotNull(adm_name)||!cbu.isNotNull(adm_pwd)){
+			return "{\"result\":\"error\"}";
+		}else if(!admService.isAdmOwn(adm_name,adm_pwd,adm_level)){
+			return "{\"result\":\"notOwn\"}";
+		}else if(admService.admLogin(adm_name,adm_pwd,adm_level)){
+			Adm adm=admService.selectAdm(adm_name,adm_pwd,adm_level);
+			session.setAttribute("adm", adm);
+			return "{\"result\":\"ok\"}";
+		}else{
+			return "{\"result\":\"sorry\"}";
+		}
+	}
+	@RequestMapping("/updatePwd")
+	@ResponseBody
+	public Object admUpPwd(String adm_pwd,HttpServletRequest request){
+		HttpSession session=request.getSession();
+		Adm adm=(Adm)session.getAttribute("adm");
+		String adm_name=adm.getAdm_name();
+		CompObUtils cbu=new CompObUtils();
+		if(!cbu.isNotNull(adm_pwd)){
+			return "{\"result\":\"error\"}";
+		}else if(cbu.compareString(adm.getAdm_pwd(), adm_pwd)){
+			return "{\"result\":\"identi\"}";
+		}else if(!admService.nameIsExit(adm_name)){
+			return "{\"result\":\"exit\"}";
+		}else if(admService.updatePwd(adm_name,adm_pwd)){
+			return "{\"result\":\"ok\"}";
+		}else{
+			return "{\"result\":\"sorry\"}";
+		}
+	}
+	@RequestMapping("/nameIsExist")
+	@ResponseBody
+	public Object nameIsExist(String adm_name){
+		if(admService.nameIsExit(adm_name)){
+			return "{\"result\":\"ok\"}";
+		}else{
+			return "{\"result\":\"sorry\"}";
+		}
+	}
+	@RequestMapping("/addAdm")
+	@ResponseBody
+	public Object addAdm(String adm_name,String adm_pwd,String rePwd,String adm_level,HttpServletRequest request){
+		CompObUtils cbu=new CompObUtils();
+		HttpSession session=request.getSession();
+		Adm adm=(Adm)session.getAttribute("adm");
+		if(!cbu.comparePL(adm_name,adm_pwd,rePwd)){
+			return "{\"result\":\"error\"}";
+		}else if(!cbu.compareString(adm_pwd, rePwd)){
+			return "{\"result\":\"diff\"}";
+		}else if(admService.insertAdm(adm_name,adm_pwd,adm_level,adm)){
+			return "{\"result\":\"ok\"}";
+		}else{
+			return "{\"result\":\"sorry\"}";
+		}
+	}
+	@RequestMapping("/isLogin")
+	@ResponseBody
+	public Adm isLogin(HttpServletRequest request){
+		HttpSession session=request.getSession();
+		Adm adm=(Adm)session.getAttribute("adm");
+		return adm;
+	}
+	@RequestMapping("/selectAllGa")
+	@ResponseBody
+	public HashMap<Integer, Object> selectAllGa(int pageIndex){
+		HashMap<Integer, Object> anMap=admService.selectAllGa(pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/admAuthority")
+	@ResponseBody
+	public Object admAuthority(HttpServletRequest request){
+		HttpSession session=request.getSession();
+		Adm adm=(Adm)session.getAttribute("adm");
+		if(adm==null){
+			return "{\"result\":\"error\"}";
+		}else if(adm.getAdm_level().equals("2")){
+			return "{\"result\":\"sorry\"}";
+		}else{
+			return "{\"result\":\"ok\"}";
+		}
+	}
+}

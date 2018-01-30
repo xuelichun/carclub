@@ -1,0 +1,88 @@
+package com.zeepn.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.AdvDesc;
+import com.zeepn.bean.AdvType;
+import com.zeepn.bean.Advertiser;
+import com.zeepn.dao.AdvertiserDao;
+import com.zeepn.service.AdvertiserService;
+
+@Component("advertiserService")
+public class AdvertiserServiceImpl implements AdvertiserService{
+		@Autowired
+		AdvertiserDao advertiserDao;
+		/**
+		 * 查询所有广告商
+		 * @return
+		 */
+		public List<Advertiser> selectAllAdvertiser(int adv_id){
+			return advertiserDao.selectAllAdvertiser(adv_id);
+		}
+		/**
+		 * 添加广告商
+		 * @param adv
+		 */
+		public int insertAdvertiser(Advertiser adv){
+			return advertiserDao.insertAdvertiser(adv);
+		}
+		@Override
+		public int deleteAdvertiser(int adv_id) {
+			return advertiserDao.deleteAdvertiser(adv_id);
+		}
+		@Override
+		public int updateAdvertiser(Advertiser adv) {
+			return advertiserDao.updateAdvertiser(adv);
+		}
+		@Override
+		public void deleteAdvertiserById(int adv_id) {
+			advertiserDao.deleteAdvertiserById(adv_id);
+			
+		}
+		@Override
+		public int deleteAdvDesc(int ad_id) {
+			return advertiserDao.deleteAdvDesc(ad_id);
+		}
+		@Override
+		public List<Advertiser> selectAdvertiseByPage(Map<String, Integer> map) {
+			List<Advertiser> advertiser=advertiserDao.selectAdvertiserByPage(map);
+			return advertiser;
+		}
+		@Override
+		public int insertAdvDesc(AdvDesc advDesc) {
+			return advertiserDao.insertAdvDesc(advDesc);
+		}
+		@Override
+		public int updateAdverDesc(AdvDesc advDesc) {
+			return advertiserDao.updateAdverDesc(advDesc);
+		}
+		@Override
+		public List<AdvDesc> selectAdvDesc(int adv_id) {
+			return advertiserDao.selectAdvDesc(adv_id);
+		}
+		@Override
+		public int insertAdvType(AdvType advType) {
+			return advertiserDao.insertAdvType(advType);
+		}
+		@Override
+		public int deleteAdvType(int at_id) {
+			return advertiserDao.deleteAdvType(at_id);
+		}
+		@Override
+		public int updateAdverType(AdvType advType) {
+			return advertiserDao.updateAdverType(advType);
+		}
+		@Override
+		public List<AdvType> selectAllAdvType(int at_id) {
+			return advertiserDao.selectAllAdvType(at_id);
+		}
+		@Override
+		public AdvType selectAdvType(int ad_id) {
+			return advertiserDao.selectAdvType(ad_id);
+		}
+
+}

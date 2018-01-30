@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.zeepn.dao.UserDynDao">
+ 	<insert id="publishdyn">
+	insert into person_dyn values(person_dyn_seq.nextval,#{u_id},#{pd_msg},#{pd_time},#{pd_num})
+	</insert>
+	<insert id="insertdynPicture">
+	insert into dyn_pic values(dyn_pic_seq.nextval,#{pd_id},#{dp_msg})
+	</insert>	
+	<insert id="insertComments">
+	insert into comments values(comments_seq.nextval,#{pd_id},#{u_id},#{u_nick},#{user_id},#{com_msg},#{com_time},0)
+	</insert>
+	<insert id="insertReply">
+	insert into reply values(reply_seq.nextval,#{com_id},#{rp_pid},#{rp_nick},#{rp_rpid},#{rp_rnick},#{rp_text},#{rp_time},0)
+	</insert>
+  	<select id="countPic" resultType="java.lang.Integer">
+  		select count(dp_id)  from dyn_pic where pd_id=#{pd_id}
+  	</select>
+  	<select id="countPyn" resultType="java.lang.Integer">
+  		select count(pd_id) from person_dyn where u_id=#{u_id} 
+  	</select>
+  	<select id="counrSpare" resultType="java.lang.Integer">
+  	select count(pd_id) from person_dyn where u_id in (select fu_id from friends where u_id=#{u_id})  or u_id=#{u_id} order by  pd_time desc
+  	</select>
+  	<select id="showSpare" resultMap="person">
+  		select * from(select s.*,rownum as rn from (select * from person_dyn where u_id in 
+	(select fu_id from friends where u_id=#{u_id})  or u_id=#{u_id} order by  pd_time desc) s)
+	where rn between (#{pageIndex}-1)*7+1 and #{pageIndex}*7
+  	</select>
+  	<resultMap type="PersonDyn" id="person">
+  		<id column="pd_id" property="pd_id"/>
+		<id column="u_id" property="u_id"/>
+		<id column="pd_msg" property="pd_msg"/>
+		<id column="pd_time" property="pd_time"/>
+		<id column="pd_num" property="pd_num"/>  	
+  	</resultMap>
+  	<select id="showNewReply" resultType="Reply">
+  <!--  select * from(select s.*,rownum as rn from (select * from reply where rp_time=0 and com_id in
+  	(select com_id from comments where u_id=#{u_id}) order by rp_time desc) s)
+	where rn between (#{pageIndex}-1)*7+1 and #{pageIndex}*7
+	-->	
+	select * from reply where rp_read=0 and rp_rpid=#{u_id}
+  	</select>
+  	<!--  
+  	<resultMap type="Reply" id="reply">
+  		<id column="rp_id" property="rp_id"/>
+		<id column="com_id" property="com_id"/>
+		<id column="rp_pid" property="rp_pid"/>
+		<id column="rp_nick" property="rp_nick"/>
+		<id column="rp_rpid" property="rp_rpid"/>  	
+		<id column="rp_rnick" property="rp_rnick"/>  	
+		<id column="rp_text" property="rp_text"/>  	
+		<id column="rp_time" property="rp_time"/>  	
+		<id column="rp_read" property="rp_read"/>  	
+  	</resultMap>
+  	-->
+ <select id="countNewReply" resultType="java.lang.Integer">
+ 	select count(rp_id) from reply where rp_read=0 and rp_rpid=#{rp_rpid}
+ </select>
+  <select id="countNewComments" resultType="java.lang.Integer">
+  	select count(com_id) from comments where user_id=#{user_id} and com_read=0
+  </select>
+  	
+  </mapper>

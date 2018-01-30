@@ -1,0 +1,355 @@
+package com.zeepn.dao;
+import java.util.List;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
+import com.zeepn.bean.AccountLog;
+import com.zeepn.bean.Album;
+import com.zeepn.bean.AlbumPic;
+import com.zeepn.bean.Car;
+import com.zeepn.bean.ClickLike;
+import com.zeepn.bean.Club;
+import com.zeepn.bean.Comments;
+import com.zeepn.bean.DynPic;
+import com.zeepn.bean.Friends;
+import com.zeepn.bean.PersonDyn;
+import com.zeepn.bean.Reply;
+import com.zeepn.bean.Sign;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.bean.Visitor;
+@Repository("userDao")
+public interface UserDao {
+	
+	/**
+	 * 用户手机号登陆
+	 * @param u_phone  手机号
+	 * @param u_pwd  密码
+	 * @return  userinfo对象
+	 */
+	@Select("select * from userinfo where u_phone=#{u_phone} and u_pwd=#{u_pwd}")
+	public UserInfo userLoginByPhone(@Param("u_phone")String u_phone,@Param("u_pwd")String u_pwd);
+	
+	/**
+	 * 用户邮箱登陆
+	 * @param u_email  邮箱
+	 * @param u_pwd  密码
+	 * @return  userinfo对象
+	 */
+	@Select("select * from userinfo where u_email=#{u_email} and u_pwd=#{u_pwd}")
+	public UserInfo userLoginByEmail(@Param("u_email")String u_email,@Param("u_pwd")String u_pwd);
+	
+	/**用户注册方法
+	 * @param user
+	 * @return  返回影响数据库的行数
+	 */
+	public int userReg(UserInfo user);
+	
+	/**
+	 * 完善用户个人信息
+	 * @param user
+	 * @return 返回影响数据库的行数
+	 */
+	public int perfectUser(UserInfo user);
+	
+	
+	/**
+	 * 根据用户的id查询用户的昵称
+	 * @param u_id  用户的id
+	 * @return  用户的昵称
+	 */
+	@Select("select u_nick from userinfo where u_id=#{u_id}")
+	public String selectUserNameById(int u_id);
+	
+	/**
+	 * 通过用户ID查询用户信息
+	 * @param u_id
+	 * @return  返回userinfo对象
+	 */
+	@Select("select * from userinfo where u_id=#{u_id}")
+	public UserInfo selectUserById(int u_id);
+	
+	/**
+	 * 用户修改密码
+	 * @param user里面包括用户ID和新的密码
+	 * @return 返回影响数据库的行数
+	 */
+	public int updateUserPwd(UserInfo user);		
+	
+	/**
+	 * 验证手机号码是否存在
+	 * @param u_phone  文本框里输入的手机号
+	 * @return  数据库中该手机号的个数
+	 */
+	public int countPhone(String  u_phone);
+	
+	/**
+	 * 验证邮箱是否存在
+	 * @param u_email  邮箱
+	 * @return    数据库中该邮箱的个数
+	 */ 
+	public int countEmail(String u_email);
+	
+	/**
+	 * 用户查询自己所处车友会的信息
+	 * @param club_id  车友会ID
+	 * @return  车友会对象
+	 */
+	@Select("select * from club where club_id=#{club_id}")
+	public Club selectClubByUser (int club_id);
+	
+	/**
+	 * 用户添加好友
+	 * @param u_id  用户id
+	 * @param fu_id  好友id
+	 * @return  影响数据库行数
+	 */
+	@Insert("insert into friends values(friends_seq.nextval,#{u_id},#{fu_id})")
+	public int addFriends(@Param("u_id")int u_id,@Param("fu_id")int fu_id);
+	
+	/**
+	 * 用户删除好友
+	 * @param u_id 用户id
+	 * @param fu_id  好友ID
+	 * @return  影响数据库行数
+	 */
+	@Delete("delete from friends where u_id=#{u_id} and fu_id=#{fu_id}")
+	public int deleteFriends(@Param("u_id")int u_id,@Param("fu_id")int fu_id);
+
+	
+	
+	/**
+	 * 查询用户的好友列表
+	 * @param u_id  用户的ID
+	 * @return  list集合，里面装有friend对象
+	 */
+	
+	public List<UserInfo> selectFriends(@Param("u_id")int u_id,@Param("pageIndex")int pageIndex);
+	
+	/**
+	 * 删除动态时，删除点赞信息
+	 * @param pd_id  动态的id
+	 * @return 影响数据库行数
+	 */
+	@Delete("delete from click_like where pd_id=#{pd_id}")
+	public int deleteALLCLickLike(int pd_id);
+	
+	
+	/**
+	 * 计算用户是否已经点赞
+	 * @param clickLike  对象
+	 * @return  int 
+	 */
+	public int countId (ClickLike clickLike);
+	
+	/**
+	 * 用户点赞
+	 * @param clickLike  点赞对象
+	 * @return  影响数据库行数
+	 */
+	public int insertCLickLike(ClickLike clickLike);
+	
+	/**
+	 * 用户取消点赞
+	 * @param clickLike 点赞对象
+	 * @return  影响数据库行数
+	 */
+	public int deleteCLickLike(ClickLike clickLike);
+	
+	/**
+	 *增加点赞数量
+	 * @param pd_id 动态id
+	 * @return  返回数据库行数
+	 */
+	@Update("update person_dyn set pd_num=pd_num+1 where pd_id=#{pd_id}")
+	public int addNum(int pd_id);
+	
+	/**
+	 * 减少点赞数量
+	 * @param pd_id 动态id
+	 * @return 返回数据库行数
+	 */
+	@Update("update person_dyn set pd_num=pd_num-1 where pd_id=#{pd_id}")
+	public int reduceNum(int pd_id);
+	
+	/**
+	 * 用户添加我的爱车
+	 * @param car 对象
+	 * @return  影响数据库行数
+	 */
+	public int insertCar(Car car);
+	
+	/**
+	 * 用户修改爱车信息
+	 * @param car 对象
+	 * @return 影响数据库行数
+	 */
+	public int updateCar(Car car);
+	
+	/**
+	 * 删除爱车信息
+	 * @param u_id 用户的ID
+	 * @return  影响数据库行数
+	 */
+	@Delete("delete from car where u_id={u_id} ")
+	public int deleteCar(int u_id);
+	
+	
+	/**
+	 * 删除爱车
+	 * @param c_id 爱车id
+	 * @return
+	 */
+	@Delete("delete from car where c_id=#{c_id}")
+	public int deleteCarById(int c_id);
+	
+	/**
+	 * 用户查询爱车信息
+	 * @param u_id  用户iD
+	 * @return car对象集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from( select * from car where u_id=#{u_id}) s)"
+			+ " where rn between (#{pageIndex}-1)*3+1 and #{pageIndex}*3")
+	public List<Car> showCar(@Param("u_id")int u_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 访客数加1
+	 * @param u_id  被访问人用户id
+	 * @return  影响数据库的行数
+	 */
+	@Update("update userinfo set u_total=total+1 where u_id=#{u_id}")
+	public int updateTotal(int u_id);
+	
+	/**
+	 * 查询最近的访客
+	 * @param v_uid2  用户的ID
+	 * @return  list集合。里面装有最近的访客用户对象
+	 */
+	//需要分页
+	@Select("select * from(select s.*,rownum as rn from( select u_id ,u_nick,u_head  from userinfo"
+			+ " where u_id in (select v_uid1 from visitor where v_uid2=#{v_uid2} order by v_time desc)) s) "
+			+ "where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<UserInfo> showVisitor(@Param("v_uid2")int v_uid2,@Param("pageIndex")int pageIndex);
+	
+	/**
+	 * 用户加入车友会
+	 * @param u_id   用户的ID
+	 * @param club_id  车友会的id
+	 * @return  因影响数据库的行数
+	 */
+	@Update("update userinfo set club_id=#{club_id} where u_id=#{u_id}") 
+	public int addClub(@Param("u_id")int u_id,@Param("club_id")int club_id);
+	
+	/**
+	 * 用户退出车友会
+	 * @param u_id  用户id
+	 * @return  影响数据库行数
+	 */
+	@Update("update userinfo set club_id=0 where u_id={u_id}")
+	public int ExitClub(int u_id);
+	
+	/**
+	 * 用户升级 
+	 * @param u_id 用户id
+	 * @return  影响数据库行数
+	 */
+	@Update("update userinfo set u_level=u_level+1 where u_id=#{u_id}")
+	public int changeLevel(int u_id);
+	
+	/**
+	 * 用户修改头像
+	 * @param u_id 用户id
+	 * @param u_head  新头像
+	 * @return  影响数据库行数
+	 */
+	@Update("update userinfo set u_head=#{u_head} where u_id=#{u_id}")
+	public int updateHead(@Param("u_id")int u_id,@Param("u_head")String u_head);
+	
+	/**
+	 * 增加用户积分
+	 * @param u_id  用户id
+	 * @param u_grade  积分增量
+	 * @return  影响数据库行数
+	 */
+	@Update("update userinfo set u_grade=u_grade+#{u_grade} where u_id=#{u_id}")
+	public int addGrade(@Param("u_id")int u_id,@Param("u_grade")int u_grade);
+	
+	/**
+	 * 减少用户积分
+	 * @param u_id 用户id
+	 * @param u_grade 积分减少量
+	 * @return 影响数据库行数
+	 */
+	@Update("update userinfo set u_grade=u_grade-#{u_grade} where u_id=#{u_id}")
+	public int ReduceGrade(@Param("u_id")int u_id,@Param("u_grade")int u_grade);
+	
+	/**
+	 * 用户经验增加
+	 * @param u_id  用户id
+	 * @param u_exp  经验增加量
+	 * @return 影响数据库行数
+	 */
+	@Update("update userinfo set u_exp=u_exp+#{u_exp} where u_id=#{u_id}")
+	public int AddExp(@Param("u_id")int u_id,@Param("u_exp")int u_exp);
+	
+	/**
+	 * 删除用户，逻辑删除
+	 * @param u_id  用户id
+	 * @return  影响数据库行数
+	 */
+	@Update("update userinfo set u_del=1 where u_id=#{u_id}")
+	public int deleteUser(int u_id);
+	
+	/**
+	 * 计算用户在所有活动中贡献值
+	 * @param u_id 用户id
+	 * @return 总贡献值
+	 */
+	public int sumValue(int u_id);
+	
+	/**
+	 * 用户账户充值
+	 * @param u_id  用户id
+	 * @param u_money  充值的钱
+	 * @return 影响数据库行数
+	 */
+	@Update("update userinfo set u_money=#{u_money}+u_money where u_id=#{u_id}")
+	public int addMoney(@Param("u_id")int u_id,@Param("u_money")double u_money);
+	
+	/**
+	 * 用户账户花费
+	 * @param u_id  用户id
+	 * @param u_money  花费的钱
+	 * @return 影响数据库行数
+	 */
+	@Update("update userinfo set u_money=u_money-#{u_money} where u_id=#{u_id}")
+	public int reduceMoney(@Param("u_id")int u_id,@Param("u_money")double u_money);
+	
+	/**
+	 * 增加用户账户日子
+	 * @param accountLog
+	 * @return  影响数据库行数
+	 */
+	public int insertAccountLog(AccountLog accountLog);
+	/**
+	 * 查询所有用户
+	 * @return  用户集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from userinfo ) s) "
+			+ "where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10 ")
+	public List<UserInfo> selectAllUser(int pageIndex);
+	
+	/**
+	 * 计算用户的总数
+	 * @return  总数值
+	 */
+	public int countuser();
+	
+	/**
+	 * 查询用户头像，昵称，
+	 * @param u_id 用户id
+	 * @return 
+	 */
+	public UserInfo selectHeadAndNick(int u_id);
+}	

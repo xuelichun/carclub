@@ -1,0 +1,24 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.utils.Page;
+
+@Repository("backPreInfoDao")
+public interface BackPreInfoDao {
+	/**
+	 * 查询所有的会主信息
+	 * @param page 行数对象
+	 * @return 会主信息集合
+	 */
+	public List<Object> selectAllPreInfoByTime(Page page);
+	public List<Object> selectAllPreInfoById(Page page);
+	/**
+	 * 查询会主信息表的数据记录数
+	 * @return 数据记录数
+	 */
+	public int selectPiCount();
+	
+}

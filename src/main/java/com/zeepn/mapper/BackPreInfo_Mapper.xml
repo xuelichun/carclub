@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.BackPreInfoDao">
+	<resultMap type="PiPayRecord" id="PI">
+		<id column="club_id" property="club_id"/>
+		<id column="p_id" property="p_id"/>
+		<id column="pr_time" property="pr_time"/>
+		<id column="pr_day" property="pr_day"/>
+	</resultMap>
+	<select id="selectPiAfList"  resultMap="PI">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.club_id,pi.p_id,afs.as_time as pr_time,afs.as_day as pr_day from anf_sta afs,pre_info pi where afs.club_id=pi.club_id order by pr_time desc) s)
+where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+	<select id="selectPiFcList" resultMap="PI">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.club_id,pi.p_id,afs.as_time as pr_time,afs.as_day as pr_day from anf_sta afs,pre_info pi where afs.club_id=pi.club_id order by pr_time desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+	<select id="selectPiNlfList" resultMap="PI">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.club_id,pi.p_id,fcs.fs_time as pr_time,fcs.fs_day as pr_day from fc_sta fcs,pre_info pi where fcs.club_id=pi.club_id order by pr_time desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+	<select id="selectCountPiAf" resultType="int">
+		<![CDATA[
+		select count(club_id) from (select pi.club_id,pi.p_id,afs.as_time as pr_time,afs.as_day as pr_day from anf_sta afs,pre_info pi where afs.club_id=pi.club_id)
+		]]>
+	</select>
+	<select id="selectCountPiFc" resultType="int">
+		<![CDATA[ 
+		select count(club_id) from (select pi.club_id,pi.p_id,nfs.ns_time as pr_time,nfs.ns_day as pr_day from nlf_sta nfs,pre_info pi where nfs.club_id=pi.club_id)
+		]]>
+	</select>
+	<select id="selectCountPiNlf" resultType="int">
+		<![CDATA[ 
+		select count(club_id) from (select pi.club_id,pi.p_id,fcs.fs_time as pr_time,fcs.fs_day as pr_day from fc_sta fcs,pre_info pi where fcs.club_id=pi.club_id)
+		]]>
+	</select>
+	<resultMap type="PriView" id="pr">
+		<id column="pri_pi" property="pri_pi"/>
+		<id column="pri_vp1" property="pri_vp1"/>
+		<id column="pri_vp2" property="pri_vp2"/>
+		<id column="pri_cid" property="pri_cid"/>
+		<id column="pri_cname" property="pri_cname"/>
+	</resultMap>
+	<select id="selectAllPIByTime" resultMap="pr"> 
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.p_id as pri_pi,pi.vp1_id as pri_vp1,pi.vp2_id as pri_vp2,pi.club_id as pri_cid,club.club_name as pri_cname from club club,pre_info pi where club.club_id=pi.club_id  order by club.club_id desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+	<select id="selectAllPIByName" resultMap="pr"> 
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.p_id as pri_pi,pi.vp1_id as pri_vp1,pi.vp2_id as pri_vp2,pi.club_id as pri_cid,club.club_name as pri_cname from club club,pre_info pi where club.club_id=pi.club_id  order by club.club_id desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10 and pri_cname like #{pri_cname}
+		]]>
+	</select>
+	<select id="selectAllPIByCId" resultMap="pr"> 
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.p_id as pri_pi,pi.vp1_id as pri_vp1,pi.vp2_id as pri_vp2,pi.club_id as pri_cid,club.club_name as pri_cname from club club,pre_info pi where club.club_id=pi.club_id  order by club.club_id desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10 and pri_cid=#{pri_cid}
+		]]>
+	</select>
+	<select id="selectCountPIByTime" resultType="int"> 
+		<![CDATA[ 
+		select count(pri_pi) from(select s.*,rownum as rn from(select pi.p_id as pri_pi,pi.vp1_id as pri_vp1,pi.vp2_id as pri_vp2,pi.club_id as pri_cid,club.club_name as pri_cname from club club,pre_info pi where club.club_id=pi.club_id  order by club.club_id desc) s)
+		]]>
+	</select>
+	<select id="selectCountPIByCName" resultType="int"> 
+		<![CDATA[ 
+		select count(pri_pi) from(select s.*,rownum as rn from(select pi.p_id as pri_pi,pi.vp1_id as pri_vp1,pi.vp2_id as pri_vp2,pi.club_id as pri_cid,club.club_name as pri_cname from club club,pre_info pi where club.club_id=pi.club_id  order by club.club_id desc) s)
+			where pri_cname like #{pri_cname}
+		]]>
+	</select>
+	<select id="selectCountPIByCId" resultType="int"> 
+		<![CDATA[ 
+		select count(pri_pi) from(select s.*,rownum as rn from(select pi.p_id as pri_pi,pi.vp1_id as pri_vp1,pi.vp2_id as pri_vp2,pi.club_id as pri_cid,club.club_name as pri_cname from club club,pre_info pi where club.club_id=pi.club_id  order by club.club_id desc) s)
+			where pri_cid=#{pri_cid}
+		]]>
+	</select>
+	<resultMap type="UserInfo" id="UI">
+		<id column="u_id" property="u_id"/>
+		<id column="u_nick" property="u_nick"/>
+		<id column="club_id" property="club_id"/>
+		<id column="u_head" property="u_head"/>
+		<id column="u_con" property="u_con"/>
+	</resultMap>
+	<select id="selectFrontPreRank" resultMap="UI">
+		<![CDATA[ 
+		 select * from(select s.*,rownum as rn from(select ui.u_id as u_id,ui.u_nick as u_nick,pi.club_id as club_id,ui.u_head u_head,ui.u_con as u_con from userinfo ui,pre_info pi where ui.u_id=pi.pi_id order by u_con desc) s)
+			where rn<=7
+		]]>
+	</select>
+	<select id="selectAllPreRank" resultMap="UI">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select ui.u_id as u_id,ui.u_nick as u_nick,pi.club_id as club_id,ui.u_head u_head,ui.u_con as u_con from userinfo ui,pre_info pi where ui.u_id=pi.pi_id order by u_con desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+</mapper>

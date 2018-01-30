@@ -1,0 +1,691 @@
+$(function(){
+	var pageIndex=1;
+	var selObject=$("#fyHx")
+	var readSign=$(selObject).find("option:selected").val();
+	var repliTime=$("#Calendar").val();
+	var an_id=$("#an_id").val();
+	selectAllAn(pageIndex,readSign,repliTime,an_id);
+});
+/**
+ * 页面加载时查询申请通知列表
+ */
+function selectAllAn(pageIndex,readSign,repliTime,an_id){
+	var readRe="";
+	if(readSign==2){
+		readRe+="已读";
+	}else{
+		readRe+="未读";
+	}
+	if(an_id!=""&&an_id!=null){
+		//根据申请编号查询已读申请通知列表
+		if(readSign==2){
+			type6(pageIndex,readSign,readRe,an_id);
+		//根据申请编号查询未读申请通知列表
+		}else{
+			type5(pageIndex,readSign,readRe,an_id);
+		}
+	}else{
+		if(repliTime!=""&&repliTime!=null){
+			//根据申请时间查询已读申请通知列表
+			if(readSign==2){
+				type4(pageIndex,readSign,readRe,repliTime);
+			//根据申请时间查询未读申请通知列表
+			}else{
+				type3(pageIndex,readSign,readRe,repliTime);
+			}
+		}else{
+			//查询已读申请通知列表
+			if(readSign==2){
+				type2(pageIndex,readSign,readRe);
+			//默认查询未读申请通知列表
+			}else{
+				type1(pageIndex,readSign,readRe);
+			}
+		}
+	}
+}
+/**
+ * 申请通过按钮点击事件
+ */
+function passApli(){
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	var title="失败";
+	var icon="face-sad";
+	$.getJSON("../appliNotice/userIsLogin.do",{},function(data){
+		if(data.result=="ok"){
+			noPassApi();
+		}else{
+			var id=12;
+			var content="对不起，您还没有登录，请去登录吧";
+			opTips(icon,id,title,content,width,height,left,top);
+		}
+	});
+}
+function noPassApi(){
+	var chk_value =[];
+	$('input[name="IDCheck"]:checked').each(function(){
+	    chk_value.push($(this).val());
+	});
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	var title="操作成功";
+	var icon="face-smile";
+	var id=7;
+	$.ajax({  
+        type:'post',  
+        traditional :true,  
+        url:'../appliNotice//passApli.do',  
+        data:"chk_value="+chk_value,  
+        success:function(data){  
+        	var content="审批成功"+data[0]+"个,审批失败"+data[1]+"个";
+        	opTips(icon,id,title,content,width,height,left,top);
+        	var pageIndex=1;
+        	var selObject=$("#fyHx");
+        	var readSign=$(selObject).find("option:selected").val();
+        	var repliTime=$("#Calendar").val();
+        	var an_id=$("#an_id").val();
+        	selectAllAn(pageIndex,readSign,repliTime,an_id);
+        	selectPassUser(chk_value,1);
+        	insertClub(chk_value);
+        }  
+    });
+}
+/**
+ * 添加车友会和会主表记录
+ * @param chk_value 申请通知编号数组
+ */
+function insertClub(chk_value){
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	var title="操作成功";
+	var icon="face-smile";
+	var id=6;
+	$.ajax({  
+        type:'post',  
+        traditional :true,  
+        url:'../backClub//insetClub.do',  
+        data:"chk_value="+chk_value,  
+        success:function(data){  
+        	var content="操作成功"+data[0]+"次,操作失败"+data[1]+"次";
+        	opTips(icon,id,title,content,width,height,left,top);
+        }  
+    });
+}
+/**
+ * 申请不通过按钮点击事件
+ */
+function negApli(){
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	var title="失败";
+	var icon="face-sad";
+	$.getJSON("../appliNotice/userIsLogin.do",{},function(data){
+		if(data.result=="ok"){
+			passApi();
+		}else{
+			var id=12;
+			var content="对不起，您还没有登录，请去登录吧";
+			opTips(icon,id,title,content,width,height,left,top);
+		}
+	});
+}
+function passApi(){
+	var chk_value =[];
+	$('input[name="IDCheck"]:checked').each(function(){
+	    chk_value.push($(this).val());
+	});
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	var title="操作成功";
+	var icon="face-smile";
+	var id=5;
+	$.ajax({  
+        type:'post',  
+        traditional :true,  
+        url:'../appliNotice//negApli.do',  
+        data:"chk_value="+chk_value,  
+        success:function(data){  
+        	var content="审批成功"+data[0]+"个,审批失败"+data[1]+"个";
+        	opTips(icon,id,title,content,width,height,left,top);
+        	var pageIndex=1;
+        	var selObject=$("#fyHx");
+        	var readSign=$(selObject).find("option:selected").val();
+        	var repliTime=$("#Calendar").val();
+        	var an_id=$("#an_id").val();
+        	selectAllAn(pageIndex,readSign,repliTime,an_id);
+        	selectNegUser(chk_value,2);
+        }  
+    });
+}
+/**
+ * 查询申请通过用户编号数组
+ * @param chk_value 申请通知编号数组
+ * @param passId 申请通过与否标记
+ */
+function selectPassUser(chk_value,passId){
+	$.ajax({  
+        type:'post',  
+        traditional :true,  
+        url:'../appliNotice//selectPassUser.do',  
+        data:"chk_value="+chk_value,  
+        success:function(data){  
+        	sendPassInfoToUser(data,passId);
+        }  
+    });
+}
+/**
+ * 查询申请不通过用户编号数组
+ * @param chk_value 申请通知编号数组
+ * @param passId 申请通过与否标记
+ */
+function selectNegUser(chk_value,passId){
+	$.ajax({  
+        type:'post',  
+        traditional :true,  
+        url:'../appliNotice//selectNegUser.do',  
+        data:"chk_value="+chk_value,  
+        success:function(data){  
+        	sendNegInfoToUser(data,passId);
+        }  
+    });
+}
+/**
+ * 发送申请通过消息给用户
+ * @param data 用户编号数组
+ * @param passId 申请通过与否标记
+ */
+function sendPassInfoToUser(arr,mt_id){
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	$.getJSON("../messages.do",{"arr":arr,"mt_id":mt_id},function(data){
+		if(data>0){
+			var title="操作成功";
+			var icon="face-smile";
+			var content="发送成功";
+			var id=3;
+			opTips(icon,id,title,content,width,height,left,top);
+		}else{
+			var title="操作失败";
+			var icon="face-sad";
+			var content="发送失败";
+			var id=4;
+			opTips(icon,id,title,content,width,height,left,top);
+		}
+	});
+}
+/**
+ * 发送申请不通过消息给用户
+ * @param data 用户编号数组
+ * @param passId 申请通过与否标记
+ */
+function sendNegInfoToUser(arr,mt_id){
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	$.getJSON("../messages.do",{"arr":arr,"mt_id":mt_id},function(data){
+		if(data>0){
+			var title="操作成功";
+			var icon="face-smile";
+			var content="发送成功";
+			var id=1;
+			opTips(icon,id,title,content,width,height,left,top);
+		}else{
+			var title="操作失败";
+			var icon="face-sad";
+			var content="发送失败";
+			var id=2;
+			opTips(icon,id,title,content,width,height,left,top);
+		}
+	});
+}
+/**
+ * 默认查询未读申请通知列表
+ * @param pageIndex 页数索引
+ * @param read_sign 读取标记
+ * @param readRe 读取状态
+ */
+function type1(pageIndex,readSign,readRe){
+	var content1="<table class='table' cellspacing='0' cellpadding='0' width='100%' align='center' border='0'>"+
+	"<tr><th width='30'><input type='checkbox' id='all' onclick='selectOrClearAllCheckbox(this);' /></th>"+
+	"<th>申请编号</th>"+
+	"<th>申请人编号</th>"+
+	"<th>申请内容</th>"+
+	"<th>申请时间</th>"+
+	"<th>申请状态</th>"+
+	"<th>申请详情</th>"+
+	"<th>读取状态</th>";
+	$.getJSON("../appliNotice/selectAllAn.do",{"pageIndex":pageIndex,"readSign":readSign},function(data){
+		for(var i=0;i<data[0].length;i++){
+			content1+="<tr id='"+i+"' onmouseover='aa("+i+")' onmouseout='bb("+i+")'><td><input type='checkbox' name='IDCheck' value="+data[0][i].an_id+
+					" class='acb' />"+
+			"</td><td>"+data[0][i].an_id+
+			"</td><td>"+data[0][i].p_id+
+			"</td><td>"+data[0][i].p_id+
+			"号用户希望申请车友会</td><td>"+data[0][i].an_time+
+			"</td><td>"+data[0][i].an_status+
+			"</td><td><a href='javascript:selectOneApli("+data[0][i].an_id+","+data[0][i].p_id+")'>查看</a>"+
+			"</td><td>"+readRe
+			"</td></tr>";
+		}
+		$("#countRecord").html(data[1][1]);
+		$("#currentPage").html(pageIndex);
+		$("#endPage").html(data[1][3]);
+		content1+="</table>";
+		$("#ui_tb").html(content1);
+	});
+}
+/**
+ * 查询已读申请通知列表
+ * @param pageIndex 页数索引
+ * @param read_sign 读取标记
+ * @param readRe 读取状态
+ */
+function type2(pageIndex,readSign,readRe){
+	var content1="<table class='table' cellspacing='0' cellpadding='0' width='100%' align='center' border='0'>"+
+	"<tr><th width='30'><input type='checkbox' id='all' onclick='selectOrClearAllCheckbox(this);' /></th>"+
+	"<th>申请编号</th>"+
+	"<th>申请人编号</th>"+
+	"<th>申请内容</th>"+
+	"<th>申请时间</th>"+
+	"<th>申请状态</th>"+
+	"<th>申请详情</th>"+
+	"<th>读取状态</th>";
+	$.getJSON("../appliNotice/selectAllAn.do",{"pageIndex":pageIndex,"readSign":readSign},function(data){
+		for(var i=0;i<data[0].length;i++){
+			content1+="<tr id='"+i+"' onmouseover='aa("+i+")' onmouseout='bb("+i+")'><td><input type='checkbox' name='IDCheck' value='14458579642011' class='acb' />"+
+			"</td><td>"+data[0][i].an_id+
+			"</td><td>"+data[0][i].p_id+
+			"</td><td>"+data[0][i].p_id+
+			"号用户希望申请车友会</td><td>"+data[0][i].an_time+
+			"</td><td>"+data[0][i].an_status+
+			"</td><td><a href='javascript:selectOneApli("+data[0][i].an_id+","+data[0][i].p_id+")'>查看</a>"+
+			"</td><td>"+readRe
+			"</td></tr>";
+		}
+		$("#countRecord").html(data[1][1]);
+		$("#currentPage").html(pageIndex);
+		$("#endPage").html(data[1][3]);
+		content1+="</table>";
+		$("#ui_tb").html(content1);
+	});
+}
+/**
+ * 根据申请时间查询未读申请通知列表
+ * @param pageIndex 页数索引
+ * @param read_sign 读取标记
+ * @param readRe 读取状态
+ * @param repliTime 申请时间
+ */
+function type3(pageIndex,readSign,readRe,repliTime){
+	var content1="<table class='table' cellspacing='0' cellpadding='0' width='100%' align='center' border='0'>"+
+	"<tr><th width='30'><input type='checkbox' id='all' onclick='selectOrClearAllCheckbox(this);' /></th>"+
+	"<th>申请编号</th>"+
+	"<th>申请人编号</th>"+
+	"<th>申请内容</th>"+
+	"<th>申请时间</th>"+
+	"<th>申请状态</th>"+
+	"<th>申请详情</th>"+
+	"<th>读取状态</th>";
+	$.getJSON("../appliNotice/selectAllAnByApliTime.do",{"repliTime":repliTime,"readSign":readSign,"pageIndex":pageIndex},function(data){
+		for(var i=0;i<data[0].length;i++){
+			content1+="<tr id='"+i+"' onmouseover='aa("+i+")' onmouseout='bb("+i+")'><td><input type='checkbox' name='IDCheck' value='14458579642011' class='acb' />"+
+			"</td><td>"+data[0][i].an_id+
+			"</td><td>"+data[0][i].p_id+
+			"</td><td>"+data[0][i].p_id+
+			"号用户希望申请车友会</td><td>"+data[0][i].an_time+
+			"</td><td>"+data[0][i].an_status+
+			"</td><td><a href='javascript:selectOneApli("+data[0][i].an_id+","+data[0][i].p_id+")'>查看</a>"+
+			"</td><td>"+readRe
+			"</td></tr>";
+		}
+		$("#countRecord").html(data[1][1]);
+		$("#currentPage").html(pageIndex);
+		$("#endPage").html(data[1][3]);
+		content1+="</table>";
+		$("#ui_tb").html(content1);
+	});
+}
+/**
+ * 根据申请时间查询已读申请通知列表
+ * @param pageIndex 页数索引
+ * @param read_sign 读取标记
+ * @param readRe 读取状态
+ * @param repliTime 申请时间
+ */
+function type4(pageIndex,readSign,readRe,repliTime){
+	var content1="<table class='table' cellspacing='0' cellpadding='0' width='100%' align='center' border='0'>"+
+	"<tr><th width='30'><input type='checkbox' id='all' onclick='selectOrClearAllCheckbox(this);' /></th>"+
+	"<th>申请编号</th>"+
+	"<th>申请人编号</th>"+
+	"<th>申请内容</th>"+
+	"<th>申请时间</th>"+
+	"<th>申请状态</th>"+
+	"<th>申请详情</th>"+
+	"<th>读取状态</th>";
+	$.getJSON("../appliNotice/selectAllAnByApliTime.do",{"repliTime":repliTime,"readSign":readSign,"pageIndex":pageIndex},function(data){
+		for(var i=0;i<data[0].length;i++){
+			content1+="<tr id='"+i+"' onmouseover='aa("+i+")' onmouseout='bb("+i+")'><td><input type='checkbox' name='IDCheck' value='14458579642011' class='acb' />"+
+			"</td><td>"+data[0][i].an_id+
+			"</td><td>"+data[0][i].p_id+
+			"</td><td>"+data[0][i].p_id+
+			"号用户希望申请车友会</td><td>"+data[0][i].an_time+
+			"</td><td>"+data[0][i].an_status+
+			"</td><td><a href='javascript:selectOneApli("+data[0][i].an_id+","+data[0][i].p_id+")'>查看</a>"+
+			"</td><td>"+readRe
+			"</td></tr>";
+		}
+		$("#countRecord").html(data[1][1]);
+		$("#currentPage").html(pageIndex);
+		$("#endPage").html(data[1][3]);
+		content1+="</table>";
+		$("#ui_tb").html(content1);
+	});
+}
+/**
+ * 根据申请编号查询未读申请通知列表
+ * @param pageIndex 页数索引
+ * @param read_sign 读取标记
+ * @param readRe 读取状态
+ * @param an_id 申请编号
+ */
+function type5(pageIndex,readSign,readRe,an_id){
+	var content1="<table class='table' cellspacing='0' cellpadding='0' width='100%' align='center' border='0'>"+
+	"<tr><th width='30'><input type='checkbox' id='all' onclick='selectOrClearAllCheckbox(this);' /></th>"+
+	"<th>申请编号</th>"+
+	"<th>申请人编号</th>"+
+	"<th>申请内容</th>"+
+	"<th>申请时间</th>"+
+	"<th>申请状态</th>"+
+	"<th>申请详情</th>"+
+	"<th>读取状态</th>";
+	$.getJSON("../appliNotice/selectAllAnByAnId.do",{"an_id":an_id,"readSign":readSign,"pageIndex":pageIndex},function(data){
+		for(var i=0;i<data[0].length;i++){
+			content1+="<tr id='"+i+"' onmouseover='aa("+i+")' onmouseout='bb("+i+")'><td><input type='checkbox' name='IDCheck' value='14458579642011' class='acb' />"+
+			"</td><td>"+data[0][i].an_id+
+			"</td><td>"+data[0][i].p_id+
+			"</td><td>"+data[0][i].p_id+
+			"号用户希望申请车友会,查看详细信息</td><td>"+data[0][i].an_time+
+			"</td><td>"+data[0][i].an_status+
+			"</td><td><a href='javascript:selectOneApli("+data[0][i].an_id+","+data[0][i].p_id+")'>查看</a>"+
+			"</td><td>"+readRe
+			"</td></tr>";
+		}
+		$("#countRecord").html(data[1][1]);
+		$("#currentPage").html(pageIndex);
+		$("#endPage").html(data[1][3]);
+		content1+="</table>";
+		$("#ui_tb").html(content1);
+	});
+}
+/**
+ * 根据申请编号查询已读申请通知列表
+ * @param pageIndex 页数索引
+ * @param read_sign 读取标记
+ * @param readRe 读取状态
+ * @param an_id 申请编号
+ */
+function type6(pageIndex,readSign,readRe,an_id){
+	var content1="<table class='table' cellspacing='0' cellpadding='0' width='100%' align='center' border='0'>"+
+	"<tr><th width='30'><input type='checkbox' id='all' onclick='selectOrClearAllCheckbox(this);' /></th>"+
+	"<th>申请编号</th>"+
+	"<th>申请人编号</th>"+
+	"<th>申请内容</th>"+
+	"<th>申请时间</th>"+
+	"<th>申请状态</th>"+
+	"<th>申请详情</th>"+
+	"<th>读取状态</th>";
+	$.getJSON("../appliNotice/selectAllAnByAnId.do",{"an_id":an_id,"readSign":readSign,"pageIndex":pageIndex},function(data){
+		for(var i=0;i<data[0].length;i++){
+			content1+="<tr id='"+i+"' onmouseover='aa("+i+")' onmouseout='bb("+i+")'><td><input type='checkbox' name='IDCheck' value='14458579642011' class='acb' />"+
+			"</td><td>"+data[0][i].an_id+
+			"</td><td>"+data[0][i].p_id+
+			"</td><td>"+data[0][i].p_id+
+			"号用户希望申请车友会,查看详细信息</td><td>"+data[0][i].an_time+
+			"</td><td>"+data[0][i].an_status+
+			"</td><td><a href='javascript:selectOneApli("+data[0][i].an_id+","+data[0][i].p_id+")'>查看</a>"+
+			"</td><td>"+readRe
+			"</td></tr>";
+		}
+		$("#countRecord").html(data[1][1]);
+		$("#currentPage").html(pageIndex);
+		$("#endPage").html(data[1][3]);
+		content1+="</table>";
+		$("#ui_tb").html(content1);
+	});
+}
+/**
+ * 查看超链接点击事件
+ * @param an_id 申请通知编号
+ * @param p_id 申请人编号
+ */
+function selectOneApli(an_id,p_id){
+	$.getJSON("../appliNotice/selectOneApli.do",{"an_id":an_id,"p_id":p_id},function(data){
+		var content="该用户于"+data[0].an_time+"申请创建车友会，详细信息如下："+
+		"车友会信息：车友会名-"+data[0].club_name+"；车友会域名-"+data[0].club_domnam+
+		"；省份-"+data[0].club_pro+"；城市-"+data[0].club_city;
+		var width=300;
+		var height=200;
+		var left=500;
+		var top=200;
+		anDetail(an_id,content,width,height,left,top);
+	});
+}
+/**
+ * 弹出申请详细信息框
+ * @param id 唯一标识对话框，防止点击链接弹出多个相同对话框
+ * @param title 消息框标题
+ * @param content 消息框内容
+ * @param width 消息框宽度
+ * @param height  消息框高度
+ * @param left 消息框离屏幕左侧的宽度
+ * @param top 消息框距离屏幕上方的距离
+ * @param time 消息框显示的总时长
+ */
+function anDetail(id,content,width,height,left,top){
+	var list = art.dialog.list;
+	for (var i in list) {
+	    list[i].close();
+	};
+	art.dialog({
+		id:id,
+		width:  width,
+		height: height,
+		left:left,
+		top:top,
+		content: content,
+		fixed: true,
+		drag: false,
+		resize: false,
+	    init: function () {
+	    	var that = this, i = 5;
+	        var fn = function () {
+	            that.title(i + '秒后关闭');
+	            !i && that.close();
+	            i --;
+	        };
+	        timer = setInterval(fn, 1000);
+	        fn();
+	    },
+	    close: function () {
+	    	clearInterval(timer);
+	    }
+		});
+}
+/**
+ * 首页按钮点击事件
+ */
+function selectStartAn(){
+	var selObject=$("#fyHx")
+	var readSign=$(selObject).find("option:selected").val();
+	var repliTime=$("#Calendar").val();
+	var an_id=$("#an_id").val();
+	selectAllAn(1,readSign,repliTime,an_id);
+}
+/**
+ * 上一页按钮点击事件
+ */
+function selectFrontAn(){
+	var selObject=$("#fyHx");
+	var readSign=$(selObject).find("option:selected").val();
+	var repliTime=$("#Calendar").val();
+	var an_id=$("#an_id").val();
+	var currentPage=parseInt($("#currentPage").html());
+	var title="操作失败";
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	var icon="face-sad";
+	if(currentPage-1<=0){
+		var content="没有上一页了";
+		var id=11;
+		opTips(icon,id,title,content,width,height,left,top);
+	}else{
+		selectAllAn(currentPage-1,readSign,repliTime,an_id);
+	}
+}
+/**
+ * 下一页按钮点击事件
+ */
+function selectNextAn(){
+	var selObject=$("#fyHx");
+	var readSign=$(selObject).find("option:selected").val();
+	var repliTime=$("#Calendar").val();
+	var an_id=$("#an_id").val();
+	var currentPage=parseInt($("#currentPage").html());
+	var endPage=parseInt($("#endPage").html());
+	var pageIndex=0;
+	var title="操作失败";
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	var icon="face-sad";
+	if(currentPage-endPage>=0){
+		var content="没有下一页了";
+		var id=11;
+		opTips(icon,id,title,content,width,height,left,top);
+	}else{
+		pageIndex=currentPage+1;
+		$("#currentPage").html(pageIndex);
+		selectAllAn(pageIndex,readSign,repliTime,an_id);
+	}
+}
+/**
+ * 尾页按钮点击事件
+ */
+function selectEndAn(){
+	var selObject=$("#fyHx");
+	var readSign=$(selObject).find("option:selected").val();
+	var repliTime=$("#Calendar").val();
+	var an_id=$("#an_id").val();
+	var endPage=parseInt($("#endPage").html());
+	selectAllAn(endPage,readSign,repliTime,an_id);
+}
+/**
+ * 跳转指定页面按钮点击事件
+ */
+function selectIndexAn(){
+	var pageIndex=$("#text1").val();
+	var selObject=$("#fyHx");
+	var readSign=$(selObject).find("option:selected").val();
+	var repliTime=$("#Calendar").val();
+	var an_id=$("#an_id").val();
+	var endPage=parseInt($("#endPage").html());
+	var title="操作失败";
+	var width=170;
+	var height=40;
+	var left=480;
+	var top=200;
+	var icon="face-sad";
+	if(pageIndex==""||pageIndex==null){
+		var content="页数索引不能为空";
+		var id=8;
+		opTips(icon,id,title,content,width,height,left,top);
+	}else if(pageIndex<=0){
+		var content="页数索引无效";
+		var id=9;
+		opTips(icon,id,title,content,width,height,left,top);
+	}else if(pageIndex-endPage>0){
+		var content="页数索引超出范围";
+		var id=10;
+		opTips(icon,id,title,content,width,height,left,top);
+	}else{
+		selectAllAn(pageIndex,readSign,repliTime,an_id);
+	}
+}
+/**
+ * 搜索超链接点击事件
+ */
+function selectRepByParam(){
+	var pageIndex=1;
+	var selObject=$("#fyHx")
+	var readSign=$(selObject).find("option:selected").val();
+	var repliTime=$("#Calendar").val();
+	var an_id=$("#an_id").val();
+	selectAllAn(pageIndex,readSign,repliTime,an_id);
+}
+/**
+ * 读取类型下拉框点击事件
+ */
+function selectAnByRG(){
+	var pageIndex=1;
+	var selObject=$("#fyHx")
+	var readSign=$(selObject).find("option:selected").val();
+	var repliTime=$("#Calendar").val();
+	var an_id=$("#an_id").val();
+	selectAllAn(pageIndex,readSign,repliTime,an_id);
+}
+/**
+ * 操作结果提示对话框
+ */
+function opTips(icon,id,title,content,width,height,left,top){
+	var list = art.dialog.list;
+	for (var i in list) {
+	    list[i].close();
+	};
+	art.dialog({
+	icon:icon,
+	id:id,
+	title:title,
+	content:content,
+	width:width,
+	height:height,
+	left:left,
+	top:top,
+	fixed: true,
+	drag: false,
+	resize: false,
+	ok: function () {
+	    return true;
+	}
+	});
+}
+/**
+ * 表格单行鼠标移入事件触发，背景色改变
+ * @param v tr的id
+ */
+function  aa(v){
+	$("#"+v).css("background-color","#CDDAEB");
+}
+/**
+ * 表格单行鼠标移入事件触发，背景色改变
+ * @param p tr的id
+ */
+function bb(p){
+	$("#"+p).css("background-color","#ffffff");
+}

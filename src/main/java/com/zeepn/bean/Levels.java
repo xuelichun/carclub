@@ -1,0 +1,53 @@
+package com.zeepn.bean;
+
+import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
+
+@Component
+@Alias("Levels")
+public class Levels {
+	private int lev_id;
+	private String lev_name;
+	private int lev_lefboun;
+	private int lev_rigboun;
+	public Levels() {
+	}
+	public Levels(int lev_id, String lev_name, int lev_lefboun, int lev_rigboun) {
+		this.lev_id = lev_id;
+		this.lev_name = lev_name;
+		this.lev_lefboun = lev_lefboun;
+		this.lev_rigboun = lev_rigboun;
+	}
+	public int getLev_id() {
+		return lev_id;
+	}
+	public void setLev_id(int lev_id) {
+		this.lev_id = lev_id;
+	}
+	public String getLev_name() {
+		return lev_name;
+	}
+	public void setLev_name(String lev_name) {
+		this.lev_name = lev_name;
+	}
+	public int getLev_lefboun() {
+		return lev_lefboun;
+	}
+	public void setLev_lefboun(int lev_lefboun) {
+		this.lev_lefboun = lev_lefboun;
+	}
+	public int getLev_rigboun() {
+		return lev_rigboun;
+	}
+	public void setLev_rigboun(int lev_rigboun) {
+		this.lev_rigboun = lev_rigboun;
+	}
+	@Override
+	public String toString() {
+		return "Levels [lev_id=" + lev_id + ", lev_name=" + lev_name
+				+ ", lev_lefboun=" + lev_lefboun + ", lev_rigboun="
+				+ lev_rigboun + "]";
+	}
+	
+	
+}		

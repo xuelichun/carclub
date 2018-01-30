@@ -1,0 +1,25 @@
+package com.zeepn.dao;
+
+import java.util.List;
+import java.util.Map;
+
+
+
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.FnetAnt;
+import com.zeepn.bean.FusMsg;
+@Repository("fusMsgDao")
+public interface FusMsgDao {
+	public int  createFusMsg(FusMsg fusMsg);
+	public List<FusMsg> selectFusMsgByPage(Map<String, Integer> map);
+	public FusMsg selectOneFusMsgById(int fm_id);
+	public int selectFusMsgPage();
+	public int deleteFusMsg(int fm_id);
+	public int updateFusMsgShow(int fm_id);
+	
+	
+	
+
+}

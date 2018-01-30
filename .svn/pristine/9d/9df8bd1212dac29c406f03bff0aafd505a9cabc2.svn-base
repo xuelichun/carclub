@@ -1,0 +1,61 @@
+$(function(){
+	showMembers(1);
+	showRank(1);
+});
+function showMembers(club_id){
+	var content=""
+	var j=0;
+	var k=0;
+	$.getJSON("../clubHomea.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			k++;
+			if(data[i]==null){
+				break;
+			}
+		}
+		if(k==data.length){
+			content+="<div class='title1'>所有会员("+data.length+")人</div>";
+		}else{
+			content+="<div class='title1'>所有会员("+(data.length-1)+")人</div>";
+		}
+		for(var i=0;i<data.length;i++){
+			if(data[i]==null){
+				break;
+			}else{
+				if(i==0){
+					content+="<div class='divcss22'><div class='tip22'><a href='user.html'><img src=../"+data[i].u_head+" width='100px' height='100px'></a></div><div class='scrt22'><div class='zt22'><a href='#'>"+data[i].u_nick+"</a></div><div class='rq22'>会长</div></div></div>";
+				}else{
+					content+="<div class='divcss22'><div class='tip22'><a href='user.html'><img src=../"+data[i].u_head+" width='100px' height='100px'></a></div><div class='scrt22'><div class='zt22'><a href='#'>"+data[i].u_nick+"</a></div><div class='rq22'>副会长</div></div></div>";
+				}
+				j++;
+			}
+		}
+		for(var i=j+1;i<data.length;i++){
+			content+="<div class='divcss22'><div class='tip22'><a href='user.html'><img src=../"+data[i].u_head+" width='100px' height='100px'></a></div><div class='scrt22'><div class='zt22'><a href='#'>"+data[i].u_nick+"</a></div><div class='rq22'>成员</div></div></div>";
+		}
+		$("#member").html(content);
+	});
+}
+
+function showRank(club_id){
+	var content="";
+	$.getJSON("../clubHomec.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			if(i<=2){
+				content+="<li>"+
+		           	  		"<span class='sp sp"+(i+1)+"'>"+(i+1)+"</span>"+
+		           	  		"<span class='name'><a href='#'>"+data[i].u_nick+"</a></span>"+
+		           	  		"<span class='oil'>"+data[i].u_grade+"L</span>"+
+		           	  	"</li>";
+			}else{
+				content+="<li>"+
+       	  		"<span class='sp sp'>"+(i+1)+"</span>"+
+       	  		"<span class='name'><a href='#'>"+data[i].u_nick+"</a></span>"+
+       	  		"<span class='oil'>"+data[i].u_grade+"L</span>"+
+       	  	"</li>";
+			}
+		}
+		$("#Rank").html(content);
+	});
+}
+

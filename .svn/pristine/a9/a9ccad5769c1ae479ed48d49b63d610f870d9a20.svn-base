@@ -1,0 +1,121 @@
+package com.zeepn.dao;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.AdvDesc;
+import com.zeepn.bean.AdvType;
+import com.zeepn.bean.Advertiser;
+@Repository("advertiserDao")
+public interface AdvertiserDao {
+
+	/**
+	 * 前台查询总广告商
+	 * @return 
+	 */
+	List<Advertiser> selectAllAdvertiser(int adv_id);
+
+	/**
+	 * 添加广告商
+	 * @param adv
+	 */
+	int insertAdvertiser(Advertiser advertiser);
+	
+	/**
+	 * 广告商添加广告
+	 * @param advType
+	 * @return 添加失败返回1
+	 */
+	int insertAdvDesc(AdvDesc advDesc);
+	
+	/**
+	 * 查询广告商广告
+	 * @param adv_id
+	 * @return 广告商广告对象列表
+	 */
+	List<AdvDesc> selectAdvDesc(int adv_id);
+	/**
+	 * 删除广告商广告
+	 * @param ad_id
+	 * @return 删除成功返回1
+	 */
+	int deleteAdvDesc(int ad_id);
+	
+	/**
+	 * 后台分页查询广告商
+	 * @param map
+	 * @return	广告商列表
+	 */
+	List<Advertiser> selectAdvertiserByPage(Map<String, Integer> map);
+	
+	
+	/**
+	 * 删除广告商
+	 * @param adv_id
+	 */
+	int deleteAdvertiser(int adv_id);
+	
+	
+	/**
+	 * 修改广告商
+	 * @param adv
+	 * @return
+	 */
+	int updateAdvertiser(Advertiser adv);
+
+	/**
+	 * 用ID删除广告商
+	 * @param adv_id
+	 */
+	void deleteAdvertiserById(int adv_id);
+	
+	/**
+	 * 修改广告信息
+	 * @param advType
+	 * @return
+	 */
+	int updateAdverDesc(AdvDesc advDesc);
+	
+	/**
+	 * 查询广告商广告
+	 * @param adv_id
+	 * @return 广告商广告列表
+	 */
+	List<AdvDesc> selectAdverDesc(int adv_id);
+	
+	/**
+	 * 添加广告类型
+	 * @param advType
+	 * @return 添加成功返回1
+	 */
+	int insertAdvType(AdvType advType);
+	
+	/**
+	 * 删除广告类型
+	 * @param at_id
+	 * @return	删除成功返回1
+	 */
+	int deleteAdvType(int at_id);
+
+	/**
+	 * 修改广告类型
+	 * @param advType
+	 * @return 修改成功返回1
+	 */
+	int updateAdverType(AdvType advType);
+
+	/**
+	 * 查询全部广告类型
+	 * @param at_id
+	 * @return 广告类型列表
+	 */
+	List<AdvType> selectAllAdvType(int at_id);
+	
+	/**
+	 * 查询单个广告的广告类型
+	 * @param ad_id
+	 * @return 广告类型
+	 */
+	AdvType selectAdvType(int ad_id);
+}

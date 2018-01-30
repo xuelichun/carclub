@@ -1,0 +1,215 @@
+var head="";
+var nick="";
+var now=0;
+var count=0;
+$(function (){
+	$("#submit").click(function(){	
+			$("#f1").submit();	
+			
+	});
+	$("#submit2").click(function(){
+			var img=document.getElementsByName("img");
+			var j=0;
+			for( var i=0;i<img.length;i++){
+				if(img[i].value==''){
+					alert("请添加图片");
+					break;
+				}else{
+					j++;
+				}
+			}
+			if(j==img.length){
+				$("#f2").submit();
+				
+			}
+});
+	//表单提交成功后		
+	$('#f1').form({
+		success:function(data) {
+			var rss = $.parseJSON(data);
+			if (rss.rs == 'ok') {
+				$.messager.alert('提示信息','发表成功！');
+				var u_id=$("#u_id").val();
+				selectPyn(u_id,1);
+			}else{
+				$.messager.alert('提示','发表失败！');
+			}
+		}
+	}); 
+	//表单提交成功后		
+	$('#f2').form({
+		success:function(data) {
+			var rss = $.parseJSON(data);
+			if (rss.rs == 'ok') {
+				$.messager.alert('提示信息','发表成功！');
+				var u_id=$("#u_id").val();
+				selectPyn(u_id,1);
+			}else if(rss.rs == 'no'){
+				$.messager.alert('提示信息','发表失败！');
+			}else{
+				$.messager.alert('提示信息','图片上传失败！');
+			}
+		}
+	}); 
+	$.getJSON("../user/islogin.do",{},function(data){
+		$("#u_head").prop("src","../"+data.u_head);
+		head="../"+data.u_head;
+		nick=data.u_nick;
+		selectPyn(data.u_id,1);
+		now=1;
+		$("#sss").html("第"+now+"页");
+		countPyn(data.u_id);	
+	});
+});
+
+function shows(){
+	$('#h2').form('load',"../user/islogin.do");
+}
+
+function goback(){
+	var u_id=$("#u_id").val();
+	if(now==1){
+		alert("没有上一页");
+	}else{
+		selectPyn(u_id,now-1);
+	}
+	now=now-1;
+	$("#sss").html("第"+now+"页");
+}
+function gofont(){
+	var u_id=$("#u_id").val();
+	if(now==count){
+		alert("没有下一页");
+	}else{
+		selectPyn(u_id,now+1);
+	}
+	now=now+1;
+	$("#sss").html("第"+now+"页");
+}
+function countPyn(u_id){
+	$.getJSON("../userDyn/countDyn.do",{"u_id":u_id},function(data){
+		count=data.rs;
+		$("#ss").html("总"+data.rs+"页");
+	});
+}
+function indyn(){
+	if($("#pd_msg1").val().trim()=="说点什么吧"){
+		$("#pd_msg1").val("");
+	}
+	if($("#pd_msg2").val().trim()=="说点什么吧"){
+		$("#pd_msg2").val("");
+	}
+}
+function outdyn(){
+	if($("#pd_msg1").val().trim()==''){
+		$("#pd_msg1").val("说点什么吧");
+	}
+	if($("#pd_msg2").val().trim()==''){
+		$("#pd_msg2").val("说点什么吧");
+	}
+}
+
+function pdyn(){
+	$("#pdyn").show();
+	$("#imag").hide();
+			
+}
+function imag(){
+	$("#imag").show();
+	$("#pdyn").hide();
+}
+function addimg(){
+	var input2=document.createElement("input");
+	input2.type="file";
+	input2.name="img";
+	input2.style.float="right";
+	input2.style.width='100px';
+	input2.style.border='none';
+	var in1=document.getElementById("img");
+	in1.appendChild(input2);
+}
+function selectPyn(u_id,indexPage){
+	$.getJSON("../userDyn/showDyn.do",{"u_id":u_id,"indexPage":indexPage},function(data){
+		var context="";
+		
+	for(var p in data){
+		//alert(p.person_dyn.u_id);
+//		alert($.parseJSON(p));
+		
+		context+=" <li> <div class='layout recListLeft f14'><a class='fLeft' target='_blank' >" +
+				"<img width='48' height='48' alt='"+nick+"' src='"+head+"'></a><div class='recDes'>" +
+				"<div class='vm bold c999'><a class='c4095ce' target='_blank'>"+nick+"</a><span>"+p.pd_time+"</span></div> " +
+				"<p class='recBox'>"+p.pd_msg+"</p>";
+		if(data[p].length>0){
+			for(var i=0;i<data[p].length;i++){
+				context+=" 	<img src='../"+data[p][i].dp_msg+"' class='a'/>";
+			}
+		}
+			context+="<div class='mblFunc mt10 f12 downWh'><a  style='color:#4095ce' >点赞("+p.pd_num+")</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+					"<a  style='color:#4095ce' href='javascript:comments("+p.pd_id+")'>评论</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+					"<a  style='color:#4095ce' href='javascript:deletedyn("+p.pd_id+")'>删除</a></div></div></div></li>";
+		
+		//alert(context);	
+	}
+	$("#ul").html(context);	
+	//alert(context);
+	});
+}
+
+function Serializeobj(obj){
+    switch(obj.constructor){
+        case Object:
+            var str = "{";
+            for(var o in obj){
+                str += o + ":" + Serialize(obj[o]) +",";
+            }
+            if(str.substr(str.length-1) == ",")
+                str = str.substr(0,str.length -1);
+            return str + "}";
+            break;
+        case Array:            
+            var str = "[";
+            for(var o in obj){
+                str += Serialize(obj[o]) +",";
+            }
+            if(str.substr(str.length-1) == ",")
+                str = str.substr(0,str.length -1);
+            return str + "]";
+            break;
+        case Boolean:
+            return "\"" + obj.toString() + "\"";
+            break;
+        case Date:
+            return "\"" + obj.toString() + "\"";
+            break;
+        case Function:
+            break;
+        case Number:
+            return "\"" + obj.toString() + "\"";
+            break; 
+        case String:
+            return "\"" + obj.toString().replace(/"/g,"\\\"") + "\"";
+            break;    
+    }
+}
+
+function deletedyn(pd_id){
+	$.getJSON("../userDyn/deletedyn.do",{"pd_id":pd_id},function(data){
+		if(data.rs=='ok'){
+			alert("删除成功");
+			var u_id=$("#u_id").val();
+			countPyn(u_id);
+			if(count==0){
+				$("#ul").html("没有动态");	
+			}else if(count>now){
+				selectPyn(u_id,now);
+			}else if(count<now){
+				selectPyn(u_id,count);
+				now=count;
+				$("#sss").html("第"+now+"页");
+			}
+		}else{
+			alert("删除失败");
+		}
+	});
+}

@@ -1,0 +1,27 @@
+package com.zeepn.controller;
+
+import java.util.HashMap;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.service.AppliNoticeService;
+@Controller
+@RequestMapping("/appliNotice")
+public class AppliNoticeController {
+	/**
+	 * 自动注入dao
+	 */
+	@Resource(name="appliNoticeService")
+	private AppliNoticeService appliNoticeService;
+	
+	@RequestMapping("/selectAllAn")
+	@ResponseBody
+	public HashMap<Integer, Object> selectAllAn(int pageIndex,int read_sign){
+		HashMap<Integer, Object> anMap=appliNoticeService.selectApplicNoticeByReadSign(pageIndex, read_sign);
+		return anMap;
+	} 
+}

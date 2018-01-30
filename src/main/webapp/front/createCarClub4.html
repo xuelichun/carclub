@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/activity.css" rel="stylesheet" type="text/css" />
+<link href="css/message.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/userShow.js"></script>
+</head>
+<body>
+<div class="top11" id="top11" >
+	
+</div>
+<div id="cc">
+<div id="TB_overlayBG"></div>
+	<div class="box" style="display:none">
+		<h2>网站登录<a href="#" class="close">关闭</a></h2>
+		<div class="mainlist">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">电话\邮箱：</td>
+                <td width="67%"><input type="text" name="u_name" id="u_name"  class="yanse" onblur="javascript:checkName()"></td>
+                <td width="6%">&nbsp;</td>          
+              </tr>
+    
+              <tr>
+                <td>&nbsp;</td>
+                <td align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">密 码：</td>
+                <td>
+                <input type="password" name="u_pwd" id="u_pwd" class="yanse"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><span id="span" style="color:#FF0000"></span></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="41"><div class="login"><a href="javascript:login()">登录</a></div></td>
+                    <td width="10">&nbsp;</td>
+                    <td width="69"><a href="findPwd.html" style="color:#999">忘记密码</a></td>
+                    <td width="14" align="center" style="color:#999">|</td>
+                    <td width="47"><a href="regUser.html" style="color:#999">注册</a></td>
+                    <td width="17">&nbsp;</td>
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+
+		</div>
+	</div>
+</div>
+<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="index.html">网站首页</a></li>
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>活动</a>
+                       <ul>
+                           <li><a href="chaInfo.html">慈善活动</a></li>
+                           <li><a href="draTravel.html">自驾旅游</a></li>
+                       </ul>
+                   </li> 
+                    <li class="navthis22"><a href="join.html" >全国车友会</a></li>
+               </ul>
+		</div>
+  	</div>
+ </div>
+<div class="cjbj">
+	<div class="cjbj001">
+		<div class="cjbj002">
+			<div class="cjbj002_1">温馨提示</div>
+		</div>
+		<div class="cjbj003">
+			你已经有车友会或者还在申请或创建</br>&nbsp;&nbsp;&nbsp;其他车友会中,
+			请退出后，再创建!
+		</div>
+	</div>
+</div>   
+</body>
+</html>

@@ -1,0 +1,248 @@
+var club_id=0;
+var act_idArray=new Array();
+$(function(){
+	var strHref=decodeURI(this.location.href);
+	club_id=strHref.getQuery("club_id");
+	if(club_id==null){
+		club_id=0;
+	}else{
+		club_id=club_id.replace("#","");
+	}
+	isMember();
+	isExistClub();
+	if(club_id!=0){
+		showClub(club_id);
+		showActivity(club_id,1);
+		showActivityAttendeeByClubId(club_id);
+		selectActivityPage(club_id,1);
+	}
+	
+	setUrl(club_id);
+});
+
+function setUrl(club_id){
+	$("#carClub").attr("href","carClub.html?club_id="+club_id);
+	$("#carClubActivity").attr("href","carClubActivity.html?club_id="+club_id);
+	$("#carClubMember").attr("href","carClubMember.html?club_id="+club_id);
+	$("#carClubPhoto").attr("href","carClubPhoto.html?club_id="+club_id);
+}
+
+function showActivity(club_id,page){
+	var content="";
+	$.ajax({
+		url:'../clubHomeh.do',
+		type:'GET',
+		dataType:'json',
+		async:false,
+		data:"club_id="+club_id+"&page="+page,
+		success:function(data){
+			for(var i=0;i<data.length;i++){
+				act_idArray[i]=data[i].act_id;
+				content+= "<div class='a01' >"+
+	        	"<div class='biaoti'>"+
+	        	"<h1>"+data[i].act_name+"</h1>"+
+	       " </div>"+
+	        "<div class='content'>"+
+	       	  "<div class='m'>"+
+	            "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"+
+	              "<tr>"+
+	                "<td id='isOut"+i+"'><a href='carClubActivityDetail.html?club_id="+club_id+"&act_id="+data[i].act_id+"'><img src='images/img_22.jpg' width='206' height='61' /></a></td>"+
+	              "</tr>"+
+	              "<tr>"+
+	                "<td height='20'></td>"+
+	              "</tr>"+
+	              "<tr>"+
+	                "<td align='center' class='baomi'>报名人数：40人</td>"+
+	              "</tr>"+
+	              "<tr>"+
+	                "<td height='20'></td>"+
+	              "</tr>"+
+	              "<tr>"+
+	                "<td align='center' class='shuzi'>¥"+data[i].act_money+" </td>"+
+	              "</tr>"+
+	              "<tr>"+
+	                "<td>&nbsp;</td>"+
+	              "</tr>"+
+	            "</table>"+
+	            "</div>"+
+	            "<div class='n'><img src=../"+data[i].act_img+" width='458' height='279' /></div>"+
+	      "</div>"+
+	    "</div>";
+			}
+			$("#clubActivities").html(content);
+			modifyAct();
+		}
+	});
+	/*$.getJSON("../clubHomeh.do",{"club_id":club_id,"page":page},function(data){
+		for(var i=0;i<data.length;i++){
+			act_idArray[i]=data[i].act_id;
+			content+= "<div class='a01' >"+
+        	"<div class='biaoti'>"+
+        	"<h1>"+data[i].act_name+"</h1>"+
+       " </div>"+
+        "<div class='content'>"+
+       	  "<div class='m'>"+
+            "<table width='100%' border='0' cellspacing='0' cellpadding='0'>"+
+              "<tr>"+
+                "<td id='isOut"+i+"'><a href='carClubActivityDetail.html?club_id="+club_id+"&act_id="+data[i].act_id+"'><img src='images/img_22.jpg' width='206' height='61' /></a></td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td height='20'></td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td align='center' class='baomi'>报名人数：40人</td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td height='20'></td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td align='center' class='shuzi'>¥"+data[i].act_money+" </td>"+
+              "</tr>"+
+              "<tr>"+
+                "<td>&nbsp;</td>"+
+              "</tr>"+
+            "</table>"+
+            "</div>"+
+            "<div class='n'><img src=../"+data[i].act_img+" width='458' height='279' /></div>"+
+      "</div>"+
+    "</div>";
+		}
+		$("#clubActivities").html(content);
+	});*/
+}
+
+function showActivityAttendeeByClubId(club_id){
+	var content="";
+	$.getJSON("../clubHomeg.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			content+="<div class='divcss'>"+
+		                        "<div class='tip11'><a href='user.html'><img src=../"+data[i].u_head+" width='50px' height='50px'></a></div>"+
+		                     "<div class='scrt11'>"+
+	                        	"<div class='zt11'><a href='#'>"+data[i].u_nick+"</a></div>"+
+	                    	"</div>"+
+	              		"</div>";
+		}
+		$("#clubActivityAttendeeByClubId").html(content);
+	});
+}
+
+function pageUpAndDown(club_id,page,allPage){
+	if(page<=0){
+		alert("没有上一页了");
+	}else if(page>allPage){
+		alert("没有下一页了")
+	}else{
+		showActivity(club_id,page);
+		selectActivityPage(club_id,page);
+	}
+}
+
+function selectActivityPage(club_id,page){
+	var content="";
+	$.getJSON("../clubHomei.do",{"club_id":club_id},function(data){
+			content+="<div class='digg'><a href='javascript:pageUpAndDown("+club_id+","+(page-1)+","+data+")'>&lt;</a>";
+			for(var i=0;i<data;i++){
+				content+="<a href=javascript:showActivity("+1+","+(i+1)+")>"+(i+1)+"</a>";
+			}
+			content+="<a href='javascript:pageUpAndDown("+club_id+","+(page+1)+","+data+")'>&gt;</a></div>";
+		$("#activityPage").html(content);
+		//$("#noticePage1").html(content);
+	});
+}
+
+
+function showClub(club_id){
+	$.getJSON("../clubHomes.do",{"club_id":club_id},function(data){
+		$("#clubName").html(data.club_name);
+		//$("#carClubName").attr("href","carClub.html?club_id="+club_id+"&isMember=1"+"&u_id="+u_id);
+		$("#clubDesc").html("简介:"+data.club_desc);
+		$("#clubDomnam").html("域名:"+data.club_domnam);
+		$("#carClubCb").html("车系:"+data.club_cb+"&nbsp;"+data.club_cd);
+		$("#carClubPro").html("地区:"+data.club_pro+"&nbsp;"+data.club_city);
+		$("#carClubPnum").html("人数:"+data.club_pnum+"人");
+	});
+	$.getJSON("../clubHomel.do",{"club_id":club_id},function(data){
+		$("#clubGrade").html("油值:"+data+"L");
+	});
+}
+
+function isMember(){
+	if(club_id==null){
+		club_id=0;
+	}
+	$.ajax({
+		url:'../clubHomem.do',
+		type:'GET',
+		dataType:'json',
+		async:false,
+		data:"club_id="+club_id,
+		success:function(data){
+			if(data[0]==0&&data[1]==0){
+				location.href="index.html";
+			}else if(data[0]==0&&data[1]==club_id){
+				$("#signFunc").hide();
+			}else if(data[0]==1&&data[1]==0){
+				ensureClubId();
+				$("#appliFunc").hide();
+			}else if(data[0]==1&&data[1]==club_id){
+				$("#appliFunc").hide();
+			}else{
+				$("#signFunc").hide();
+			}
+		}
+	});
+}
+
+function ensureClubId(){
+	if(club_id==0){
+		$.ajax({
+			url:'../clubHomen.do',
+			type:'GET',
+			dataType:'json',
+			async:false,
+			success:function(data){
+				club_id=data;
+			}
+		});
+	}
+}
+
+function isExistClub(){
+	$.ajax({
+		url:'../clubHomeo.do',
+		type:'GET',
+		dataType:'json',
+		async:false,
+		data:"club_id="+club_id,
+		success:function(data){
+			if(data==0){
+				club_id=0;
+				location.href="index.html";
+			}
+		}
+	});
+}
+
+function modifyAct(){
+	$.ajax({
+		url:'../clubHomeae.do',
+		type:'GET',
+		dataType:'json',
+		async:false,
+		data:"act_id="+act_idArray,
+		success:function(data){
+			for(var i=0;i<data.length;i++){
+				if(data[i]==1){
+					$("#isOut"+i).html("<img src='images/act_jiesu.jpg' width='206' height='61' />");
+				}
+			}
+		}
+	});
+	/*$.getJSON("../clubHomee",{"act_id":act_idArray},function(data){
+		for(var i=0;i<data.length;i++){
+			if(data[i]==1){
+				$("#isOut"+i).html("<img src='act_jiesu.jpg'/>");
+			}
+		}
+	});*/
+}

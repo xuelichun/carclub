@@ -1,0 +1,160 @@
+package com.zeepn.service.impl;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.zeepn.bean.ActReg;
+import com.zeepn.bean.Activity;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.dao.ActRegDao;
+import com.zeepn.dao.ActivityDao;
+import com.zeepn.dao.ClubFeeDao;
+import com.zeepn.service.ActivityService;
+import com.zeepn.service.ClubFeeService;
+import com.zeepn.service.UserService;
+import com.zeepn.utils.DateFormat;
+@Component("activityService")
+public class ActivityServiceImpl implements ActivityService{
+	
+	@Autowired
+	ActivityDao activityDao;
+	@Autowired
+	ActRegDao actRegDao;
+	@Autowired
+	ClubFeeDao clubFeeDao;
+	@Autowired
+	ClubFeeService clubFeeService;
+	@Autowired
+	UserService userService;
+	
+	@Override
+	public int insertActivity(Activity activity) {
+		int row=activityDao.insertActivity(activity);
+		return row;
+	}
+	@Override
+	public List<Activity> selecActivities(int club_id) {
+		List<Activity> activities=activityDao.selectActivities(club_id);
+		return activities;
+	}
+	@Override
+	public Activity selectActivity(int act_id) {
+		Activity activity=activityDao.selectActivity(act_id);
+		return activity;
+	}
+	@Override
+	public int updateActivity(Activity activity) {
+		int row=activityDao.updateActivity(activity);
+		return row;
+	}
+	@Override
+	public int deleteActivity(int act_id) {
+		int row=activityDao.deleteActivity(act_id);
+		return row;
+	}
+	@Override
+	public int insertActReg(ActReg actReg) {
+		actReg.setAr_regtime(DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_SEC));
+		actReg.setAr_money(1);
+		actReg.setAr_refund(1);
+		int row=actRegDao.insertActReg(actReg);
+		return row;
+	}
+	
+	@Transactional
+	@Override
+	public int updateActRegOnPay(ActReg actReg) {
+		actReg.setAr_money(0);
+		actReg.setAr_refund(1);
+		Activity activity=activityDao.selectActivity(actReg.getAct_id());
+		int row=actRegDao.updateActReg(actReg);
+		int club_id=actRegDao.selectClubIdByArId(actReg.getU_id());
+		double fee=0;
+		if(clubFeeService.isVip(actReg.getU_id())){
+			fee=activity.getAct_money()*activity.getAct_dis();
+			clubFeeDao.updateClubFee(club_id, fee, 0);
+		}else{
+			fee=activity.getAct_money();
+			clubFeeDao.updateClubFee(club_id, fee, 0);
+		}
+		boolean flag=userService.reduceMoney(actReg.getU_id(), fee);
+		if(flag){
+			row=1;
+		}
+		return row;
+	}
+	@Override
+	public double selectActivityFee(ActReg actReg) {
+		double fee=0;
+		Activity activity=activityDao.selectActivity(actReg.getAct_id());
+		if(clubFeeService.isVip(actReg.getU_id())){
+			fee=activity.getAct_money()*activity.getAct_dis();
+		}else{
+			fee=activity.getAct_money();
+		}
+		return fee;
+	}
+	
+	@Transactional
+	@Override
+	public int updateActRegOnRefund(ActReg actReg) {
+		int row=0;
+		actReg.setAr_money(0);
+		actReg.setAr_refund(0);
+		actRegDao.updateActReg(actReg);
+		double fee=selectActivityFee(actReg);
+		clubFeeDao.updateClubFee(actRegDao.selectClubIdByArId(actReg.getU_id()), -fee, 0);
+		boolean flag=userService.addMoney(actReg.getU_id(), fee);
+		if(flag){
+			row=1;
+		}
+		return row;
+	}
+	@Override
+	public List<ActReg> selectActRegByUId(int u_id) {
+		List<ActReg> actReg=actRegDao.selectActRegByUId(u_id);
+		return actReg;
+	}
+	
+	@Override
+	public List<UserInfo> selectUserInfoAttendee(int act_id) {
+		List<ActReg> actReg=actRegDao.selectActRegByActId(act_id);
+		List<UserInfo> userInfo=new ArrayList<UserInfo>();
+		for(ActReg actreg:actReg){
+			userInfo.add(userService.selectUserById(actreg.getU_id()));
+		}
+		return userInfo;
+	}
+	@Override
+	public ArrayList<UserInfo> selectUserInfoAttendeeByClubId(int club_id) {
+		List<Activity> activity=activityDao.selectActivities(club_id);
+		List<ActReg> actReg=new ArrayList<ActReg>();
+		ArrayList<UserInfo> userInfo=new ArrayList<UserInfo>();
+		for(Activity activityTemp:activity){
+			actReg.addAll(actRegDao.selectActRegByActId(activityTemp.getAct_id()));
+		}
+		for(ActReg actRegTemp:actReg){
+			userInfo.add(userService.selectUserById(actRegTemp.getU_id()));
+		}
+		if(userInfo.size()>10){
+			userInfo.subList(10, userInfo.size()+1);
+		}
+		return userInfo;
+	}
+	@Override
+	public List<Activity> selectActivitiesByPage(int club_id, int page) {
+		List<Activity> activities=activityDao.selectActivitiesByPage(club_id, page);
+		return activities;
+	}
+	@Override
+	public int selectActivityPage(int club_id) {
+		int page=(activityDao.selectActivityPage(club_id)-1)/4+1;
+		return page;
+	}
+	
+	
+
+}

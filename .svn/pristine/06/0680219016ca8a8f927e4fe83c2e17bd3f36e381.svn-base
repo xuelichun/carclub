@@ -1,0 +1,341 @@
+package com.zeepn.bean;
+import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
+
+@Component
+@Alias("UserInfo")
+public class UserInfo {
+	private int u_id;
+	private String u_name;
+	private int  club_id;
+	private String u_head;
+	private String u_sex;
+	private String u_pro;
+	private String u_city;
+	private String u_level;
+	private String u_nick;
+	private String u_pwd;
+	private String u_sign;
+	private String u_addr;
+	private String u_qq;
+	private String u_email;
+	private int cd_id;
+	private String u_phone;
+	private String u_zip;
+	private int u_grade;
+	private String u_idcard;
+	private int u_exp;
+	private int u_del;
+	private double u_money;
+	private String u_alipy;
+	private int u_con;
+	private int u_total;
+	public UserInfo() {
+	}
+	
+	public UserInfo(int u_id, String u_pwd) {
+	
+		this.u_id = u_id;
+		this.u_pwd = u_pwd;
+	}
+
+	
+	public UserInfo(int u_id, String u_head, String u_nick) {
+		
+		this.u_id = u_id;
+		this.u_head = u_head;
+		this.u_nick = u_nick;
+	}
+
+	public UserInfo(String u_name, String u_addr, String u_idcard) {
+		this.u_name = u_name;
+		this.u_addr = u_addr;
+		this.u_idcard = u_idcard;
+	}
+
+	public UserInfo(int u_id, String u_name, String u_sex, String u_pro,
+			String u_city, String u_nick, String u_pwd, String u_sign,
+			String u_addr, String u_qq, String u_email, int cd_id,
+			String u_zip, String u_idcard, String u_alipy) {
+	
+		this.u_id = u_id;
+		this.u_name = u_name;
+		this.u_sex = u_sex;
+		this.u_pro = u_pro;
+		this.u_city = u_city;
+		this.u_nick = u_nick;
+		this.u_pwd = u_pwd;
+		this.u_sign = u_sign;
+		this.u_addr = u_addr;
+		this.u_qq = u_qq;
+		this.u_email = u_email;
+		this.cd_id = cd_id;
+		this.u_zip = u_zip;
+		this.u_idcard = u_idcard;
+		this.u_alipy = u_alipy;
+	}
+
+	public UserInfo(String u_name, int club_id, String u_head, String u_sex,
+			String u_pro, String u_city, String u_level, String u_nick,
+			String u_pwd, String u_sign, String u_addr,
+			String u_qq, String u_email, int cd_id, String u_phone,
+			String u_zip, int u_grade, String u_idcard, int u_exp,
+			int u_del, double u_money, String u_alipy, int u_con, int u_total) {
+		this.u_name = u_name;
+		this.club_id = club_id;
+		this.u_head = u_head;
+		this.u_sex = u_sex;
+		this.u_pro = u_pro;
+		this.u_city = u_city;
+		this.u_level = u_level;
+		this.u_nick = u_nick;
+		this.u_pwd = u_pwd;
+		this.u_sign = u_sign;
+		this.u_addr = u_addr;
+		this.u_qq = u_qq;
+		this.u_email = u_email;
+		this.cd_id = cd_id;
+		this.u_phone = u_phone;
+		this.u_zip = u_zip;
+		this.u_grade = u_grade;
+		this.u_idcard = u_idcard;
+		this.u_exp = u_exp;
+		this.u_del = u_del;
+		this.u_money = u_money;
+		this.u_alipy = u_alipy;
+		this.u_con = u_con;
+		this.u_total = u_total;
+	}
+
+	public UserInfo(int u_id, String u_name, int club_id, String u_head,
+			String u_sex, String u_pro, String u_city, String u_level,
+			String u_nick, String u_pwd, String u_sign, 
+			String u_addr, String u_qq, String u_email, int cd_id,
+			String u_phone, String u_zip, int u_grade, String u_idcard,
+			int u_exp, int u_del, double u_money, String u_alipy, int u_con,
+			int u_total) {
+		this.u_id = u_id;
+		this.u_name = u_name;
+		this.club_id = club_id;
+		this.u_head = u_head;
+		this.u_sex = u_sex;
+		this.u_pro = u_pro;
+		this.u_city = u_city;
+		this.u_level = u_level;
+		this.u_nick = u_nick;
+		this.u_pwd = u_pwd;
+		this.u_sign = u_sign;
+		this.u_addr = u_addr;
+		this.u_qq = u_qq;
+		this.u_email = u_email;
+		this.cd_id = cd_id;
+		this.u_phone = u_phone;
+		this.u_zip = u_zip;
+		this.u_grade = u_grade;
+		this.u_idcard = u_idcard;
+		this.u_exp = u_exp;
+		this.u_del = u_del;
+		this.u_money = u_money;
+		this.u_alipy = u_alipy;
+		this.u_con = u_con;
+		this.u_total = u_total;
+	}
+	
+	
+	public UserInfo(String u_head, String u_sex, String u_pro,
+			String u_city, String u_nick, String u_pwd, String u_email,
+			String u_phone) {
+		
+		
+		this.u_head = u_head;
+		this.u_sex = u_sex;
+		this.u_pro = u_pro;
+		this.u_city = u_city;
+		this.u_nick = u_nick;
+		this.u_pwd = u_pwd;
+		this.u_email = u_email;
+		this.u_phone = u_phone;
+	}
+	
+	
+	
+	public UserInfo(String u_sex, String u_pro, String u_city, String u_nick,
+			String u_pwd, String u_email, String u_phone) {
+	
+		this.u_sex = u_sex;
+		this.u_pro = u_pro;
+		this.u_city = u_city;
+		this.u_nick = u_nick;
+		this.u_pwd = u_pwd;
+		this.u_email = u_email;
+		this.u_phone = u_phone;
+	}
+
+	public int getU_id() {
+		return u_id;
+	}
+	public void setU_id(int u_id) {
+		this.u_id = u_id;
+	}
+	public String getU_name() {
+		return u_name;
+	}
+	public void setU_name(String u_name) {
+		this.u_name = u_name;
+	}
+	public int getClub_id() {
+		return club_id;
+	}
+	public void setClub_id(int club_id) {
+		this.club_id = club_id;
+	}
+	public String getU_head() {
+		return u_head;
+	}
+	public void setU_head(String u_head) {
+		this.u_head = u_head;
+	}
+	public String getU_sex() {
+		return u_sex;
+	}
+	public void setU_sex(String u_sex) {
+		this.u_sex = u_sex;
+	}
+	public String getU_pro() {
+		return u_pro;
+	}
+	public void setU_pro(String u_pro) {
+		this.u_pro = u_pro;
+	}
+	public String getU_city() {
+		return u_city;
+	}
+	public void setU_city(String u_city) {
+		this.u_city = u_city;
+	}
+	public String getU_level() {
+		return u_level;
+	}
+	public void setU_level(String u_level) {
+		this.u_level = u_level;
+	}
+	public String getU_nick() {
+		return u_nick;
+	}
+	public void setU_nick(String u_nick) {
+		this.u_nick = u_nick;
+	}
+	public String getU_pwd() {
+		return u_pwd;
+	}
+	public void setU_pwd(String u_pwd) {
+		this.u_pwd = u_pwd;
+	}
+	public String getU_sign() {
+		return u_sign;
+	}
+	public void setU_sign(String u_sign) {
+		this.u_sign = u_sign;
+	}
+	
+	public String getU_addr() {
+		return u_addr;
+	}
+	public void setU_addr(String u_addr) {
+		this.u_addr = u_addr;
+	}
+	public String getU_qq() {
+		return u_qq;
+	}
+	public void setU_qq(String u_qq) {
+		this.u_qq = u_qq;
+	}
+	public String getU_email() {
+		return u_email;
+	}
+	public void setU_email(String u_email) {
+		this.u_email = u_email;
+	}
+	public int getCd_id() {
+		return cd_id;
+	}
+	public void setCd_id(int cd_id) {
+		this.cd_id = cd_id;
+	}
+	public String getU_phone() {
+		return u_phone;
+	}
+	public void setU_phone(String u_phone) {
+		this.u_phone = u_phone;
+	}
+	public String getU_zip() {
+		return u_zip;
+	}
+	public void setU_zip(String u_zip) {
+		this.u_zip = u_zip;
+	}
+	public int getU_grade() {
+		return u_grade;
+	}
+	public void setU_grade(int u_grade) {
+		this.u_grade = u_grade;
+	}
+	public String getU_idcard() {
+		return u_idcard;
+	}
+	public void setU_idcard(String u_idcard) {
+		this.u_idcard = u_idcard;
+	}
+	public int getU_exp() {
+		return u_exp;
+	}
+	public void setU_exp(int u_exp) {
+		this.u_exp = u_exp;
+	}
+	public int getU_del() {
+		return u_del;
+	}
+	public void setU_del(int u_del) {
+		this.u_del = u_del;
+	}
+	public double getU_money() {
+		return u_money;
+	}
+	public void setU_money(double u_money) {
+		this.u_money = u_money;
+	}
+	public String getU_alipy() {
+		return u_alipy;
+	}
+	public void setU_alipy(String u_alipy) {
+		this.u_alipy = u_alipy;
+	}
+	public int getU_con() {
+		return u_con;
+	}
+	public void setU_con(int u_con) {
+		this.u_con = u_con;
+	}
+	public int getU_total() {
+		return u_total;
+	}
+	public void setU_total(int u_total) {
+		this.u_total = u_total;
+	}
+
+	@Override
+	public String toString() {
+		return "UserInfo [u_id=" + u_id + ", u_name=" + u_name + ", club_id="
+				+ club_id + ", u_head=" + u_head + ", u_sex=" + u_sex
+				+ ", u_pro=" + u_pro + ", u_city=" + u_city + ", u_level="
+				+ u_level + ", u_nick=" + u_nick + ", u_pwd=" + u_pwd
+				+ ", u_sign=" + u_sign + ", u_addr=" + u_addr + ", u_qq="
+				+ u_qq + ", u_email=" + u_email + ", cd_id=" + cd_id
+				+ ", u_phone=" + u_phone + ", u_zip=" + u_zip + ", u_grade="
+				+ u_grade + ", u_idcard=" + u_idcard + ", u_exp=" + u_exp
+				+ ", u_del=" + u_del + ", u_money=" + u_money + ", u_alipy="
+				+ u_alipy + ", u_con=" + u_con + ", u_total=" + u_total + "]";
+	}
+	
+}
+

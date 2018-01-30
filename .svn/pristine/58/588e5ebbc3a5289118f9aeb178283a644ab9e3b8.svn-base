@@ -1,0 +1,92 @@
+package com.zeepn.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.zeepn.bean.ClubFee;
+import com.zeepn.bean.PayCon;
+import com.zeepn.dao.ClubFeeDao;
+import com.zeepn.dao.PayConDao;
+import com.zeepn.service.ClubFeeService;
+import com.zeepn.service.UserService;
+import com.zeepn.utils.DateFormat;
+
+@Component("clubFeeService")
+public class ClubFeeServiceImpl implements ClubFeeService{
+	
+	@Autowired
+	ClubFeeDao clubFeeDao;
+	@Autowired
+	PayConDao payConDao;
+	@Autowired
+	UserService userService;
+	@Override
+	public int updateClubFee(int club_id, double cf_money, int cf_grade) {
+		int row=clubFeeDao.updateClubFee(club_id, cf_money, cf_grade);
+		return row;
+	}
+	
+	@Override
+	public int insertClubFee(int club_id) {
+		int row=clubFeeDao.insertClubFee(club_id);
+		return row;
+	}
+
+	@Override
+	public ClubFee selectClubFee(int club_id) {
+		ClubFee clubFee=clubFeeDao.selectClubFee(club_id);
+		return clubFee;
+	}
+
+	@Transactional
+	@Override
+	public int insertPayCon(PayCon payCon) {
+		int row=0;
+		if(payConDao.countPayConByUId(payCon.getU_id())==0){
+			payCon.setPc_paytime(DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_SEC));
+			payCon.setPc_mattime(DateFormat.getNextYearTime(payCon.getPc_paytime()));
+			payConDao.insertPayCon(payCon);
+		}else{
+			if(DateFormat.isOutOfDate(payCon.getPc_mattime())){
+				payCon.setPc_paytime(DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_SEC));
+				payCon.setPc_mattime(DateFormat.getNextYearTime(payCon.getPc_paytime()));
+				payConDao.updatePayConOutOfdate(payCon);
+			}else{
+				payCon.setPc_mattime(DateFormat.getNextYearTime(payCon.getPc_mattime()));
+				payConDao.updatePayCon(payCon);
+			}
+		}
+		clubFeeDao.updateClubFee(payCon.getClub_id(), payCon.getPc_money(), payCon.getPc_grade());
+		userService.reduceMoney(payCon.getU_id(), payCon.getPc_money());
+		row=userService.ReduceGrade(payCon.getU_id(), payCon.getPc_grade());
+		return row;
+	}
+
+	@Override
+	public boolean isVip(int u_id) {
+		boolean flag=true;
+		PayCon payCon=payConDao.selectPayConByUId(u_id);
+		if(payCon==null){
+			flag=false;
+		}else if(DateFormat.isOutOfDate(payCon.getPc_mattime())){
+			flag=false;
+		}
+		return flag;
+	}
+
+	@Override
+	public List<PayCon> selectPayCons(int club_id,String pc_mattime,int page) {
+		List<PayCon> payCons=payConDao.selectPayCons(club_id,pc_mattime,page);
+		return payCons;
+	}
+
+	@Override
+	public int countPayConPage(int club_id, String pc_mattime) {
+		int page=(payConDao.countPayConPage(club_id, pc_mattime)-1)/4+1;
+		return page;
+	}
+
+}

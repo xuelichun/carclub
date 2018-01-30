@@ -1,0 +1,23 @@
+$(function (){
+	
+});
+
+function showphoto(){
+	$('#h2').form('load',"../user/islogin.do");
+	showAlbumList();
+}
+function showAlbumList(){
+	var u_id=$("#u_id").val();
+	$.getJSON("../album/uploadPhoto.do",{"u_id":44},function(data){
+		var context="上传到：<select name='album' id='a_id' style='width: 150px' size='1' >";
+		for(var i=0;i<data.length;i++){
+			context+="<option value="+data[i].a_id+">"+data[i].a_title+"</option>";
+		}
+		context+="</select>";
+		$("#td").html(context);
+	});	
+}
+function createAlbums(){
+	createAlbum();
+	showAlbumList();
+}

@@ -1,0 +1,62 @@
+package com.zeepn.service;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.zeepn.bean.ClubFee;
+import com.zeepn.bean.PayCon;
+public interface ClubFeeService {
+	
+	/**
+	 * 更新车友会账户
+	 * @param club_id
+	 * @param cf_money
+	 * @param cf_grade
+	 * @return 成功返回1，失败返回0
+	 */
+	public int updateClubFee(int club_id,double cf_money,int cf_grade);
+	
+	/**
+	 * 初始化车友会账户
+	 * @param club_id
+	 * @return 成功返回1,失败返回0
+	 */
+	public int insertClubFee(int club_id);
+	
+	/**
+	 * 查询车友会账户
+	 * @param club_id
+	 * @return 车友会账户对象
+	 */
+	public ClubFee selectClubFee(int club_id);
+	
+	/**
+	 * 缴纳会费或者续费
+	 * @param payCon
+	 * @return 成功返回1，失败返回0
+	 */
+	public int insertPayCon(PayCon payCon,HttpServletRequest request);
+	
+	/**
+	 * 判断是否为会员
+	 * @param u_id
+	 * @return 是会员返回true，否则返回false
+	 */
+	public boolean isVip(int u_id);
+	
+	/**
+	 * 分页查询车友会缴费记录
+	 * @param club_id
+	 * @return
+	 */
+	public List<PayCon> selectPayCons(int club_id,String pc_mattime,int page);
+	
+	/**
+	 * 计算车友会缴费记录页数
+	 * @param club_id
+	 * @param pc_mattime
+	 * @return
+	 */
+	public int countPayConPage(int club_id,String pc_mattime);
+
+}

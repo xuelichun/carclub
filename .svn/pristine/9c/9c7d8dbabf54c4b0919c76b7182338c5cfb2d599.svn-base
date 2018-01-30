@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>活动详情</title>
+<link href="./css/public.css" rel="stylesheet" type="text/css" />
+<link href="./css/activity.css" rel="stylesheet" type="text/css" />
+<link href="./css/user.css" rel="stylesheet" type="text/css" />
+<link href="./css/message.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/jquery.Xslider.js"></script>
+<script type="text/javascript" src="./js/advertiser.js"></script>
+<script type="text/javascript" src="./js/chaDetail.js"></script>
+<script type="text/javascript" src="./js/userShow.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".showbox").click(function(){
+		$("#TB_overlayBG").css({
+			display:"block",height:$(document).height()
+		});
+		$(".box").css({
+			left:($("body").width()-$(".box").width())/2-20+"px",
+			top:($(window).height()-$(".box").height())/2+$(window).scrollTop()+"px",
+			display:"block"
+		});
+	});
+	
+	$(".close").click(function(){
+		$("#TB_overlayBG").css("display","none");
+		$(".box ").css("display","none");
+	});
+});
+</script>
+</head>
+<body>
+<div class="top11" id="top11"></div>
+<div class="carclub">
+<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="index.html">网站首页</a></li>
+                   <li class="navthis1"><a href="photo.html"  rel='dropmenu1'>活动</a>
+                       <ul>
+                           <li><a href="chaInfo.html">慈善活动</a></li>
+                           <li><a href="draTravel.html">自驾旅游</a></li>
+                       </ul>
+                   </li> 
+                    <li class="navthis22"><a href="join.html" >全国车友会</a></li>
+                   <li class="navthis8"><a href="#" target="aaa" rel='dropmenu8'>最近活动</a>
+                   </li>
+                   <li class="navthis25"><a href="#" >联系我们</a></li>
+               </ul>
+		</div>
+  	</div>
+ </div>
+<div id="TB_overlayBG"></div>
+<div class="box" style="display:none">
+		<h2>网站登录<a href="#" class="close">关闭</a></h2>
+		<div class="mainlist">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">电话\邮箱：</td>
+                <td width="67%"><input type="text" name="u_account" id="u_account"  class="yanse" onblur="javascript:checkName()"></td>
+                <td width="6%">&nbsp;</td>          
+              </tr>
+    
+              <tr>
+                <td>&nbsp;</td>
+                <td align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">密 码：</td>
+                <td>
+                <input type="password" name="u_pwd" id="u_pwd" class="yanse"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><span id="span" style="color:#FF0000"></span></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="41"><div class="login"><a href="javascript:login()">登录</a></div></td>
+                    <td width="10">&nbsp;</td>
+                    <td width="69"><a href="findPwd.html" style="color:#999">忘记密码</a></td>
+                    <td width="14" align="center" style="color:#999">|</td>
+                    <td width="47"><a href="regUser.html" style="color:#999">注册</a></td>
+                    <td width="17">&nbsp;</td>
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+
+		</div>
+	</div>
+<div id="slider1" class="slider">
+			<div class="conbox" id="cba">
+				<div><a href="#" title=""><img src="images/top0001.jpg" width="1000" height="150" /></a></div>
+				<div><a href="#" title=""><img src="images/top0002.jpg" width="1000" height="150" /></a></div>
+				<div><a href="#" title=""><img width="1000" height="150" alt="" src="images/top0003.jpg"></a></div>
+				<div><a href="#" title=""><img width="1000" height="150" alt="" src="images/top0004.jpg"></a></div>
+				<div><a href="#" title=""><img width="1000" height="150" alt="" src="images/top0001.jpg"></a></div>
+			</div>
+
+			<div class="switcher" id="abc">
+				<a href="#" class="cur">1</a>
+				<a href="#">2</a>
+				<a href="#">3</a>
+				<a href="#">4</a>
+				<a href="#">5</a>
+			</div>
+</div>
+	
+	 <div class="allmain">
+		<div class="matter">
+    		<div class="left">
+            <div class="a01" id="clubActivities">
+
+            </div>
+            <div class="allphoto">
+        		<div class="title1"><a href="#">活动说明</a></div>
+        		<div id="activityIntroduction"></div>
+			</div>
+        	</div>
+        	<div id="pic">
+        	</div>
+        	<!--
+        	<div class="right">
+        		<div class="b001">
+	           	  <div class="info">活动发起人</div>
+	                <div class="content1">
+		                <div class="divcss" id="activityCreator">
+		                     <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">收到名称</a></div>
+	                        	<div class="rq11">会长</div>
+	                    	</div>
+	              		</div>
+	              	</div>
+	              </div>
+        	
+		         <div class="b001">
+	           	  <div class="info">最近报名</div>
+	                <div class="content1" id="clubActivityAttendee">
+		                <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">收到名称</a></div>
+	                    	</div>
+	              		</div>
+		                 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">sdfasf三名称</a></div>
+	                    	</div>
+	              		</div>
+	              		 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+	                     <div class="scrt11">
+                        	<div class="zt11"><a href="#">上帝发誓名称</a></div>
+                    	</div>
+	              		</div>
+	              		 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称124334</a></div>
+                    		</div>
+              			</div>
+              			 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称a234sdf</a></div>
+                    		</div>
+              			</div>
+              			 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称</a></div>
+                    		</div>
+              			</div>
+	                	 <div class="divcss">
+		                        <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">名称</a></div>
+                    		</div>
+              			</div>
+					</div>
+		         </div>
+	        </div>
+	          -->
+    	</div>
+ 	</div> 
+	 
+</div>
+</body>
+</html>

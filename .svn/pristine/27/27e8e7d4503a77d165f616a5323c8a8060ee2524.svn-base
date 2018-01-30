@@ -1,0 +1,76 @@
+package com.zeepn.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.Club;
+import com.zeepn.dao.ClubDao;
+import com.zeepn.service.BackClubService;
+import com.zeepn.utils.EasyJSON;
+import com.zeepn.utils.Page;
+import com.zeepn.utils.PageTool;
+
+@Service("backClubService")
+public class BackClubServiceImpl implements BackClubService{
+
+	private PageTool pageTool=new PageTool();
+	/**
+	 * 自动注入dao	
+	 */
+	@Autowired
+	ClubDao clubDao;
+	
+	@Override
+	public EasyJSON selectAllClubRank(int pageIndex) {
+		Page page=pageTool.selectPage(pageIndex);
+		List<Object> clubList=clubDao.selectAllClubByPageRank(page);
+		int total=clubDao.selectClubCount();
+		EasyJSON easyJSON=new EasyJSON(clubList, total); 
+		return easyJSON;
+	}
+
+	@Override
+	public List<Club> seleFrontClub() {
+		List<Club> clubList=clubDao.selectFrontClub();
+		return clubList;
+	}
+
+	@Override
+	public EasyJSON selectAllClubById(int pageIndex) {
+		Page page=pageTool.selectPage(pageIndex);
+		List<Object> clubList=clubDao.selectAllClubByPageId(page);
+		int total=clubDao.selectClubCount();
+		EasyJSON easyJSON=new EasyJSON(clubList, total); 
+		return easyJSON;
+	}
+
+	@Override
+	public EasyJSON selectAllClubByTime(int pageIndex) {
+		Page page=pageTool.selectPage(pageIndex);
+		List<Object> clubList=clubDao.selectAllClubByPageTime(page);
+		int total=clubDao.selectClubCount();
+		EasyJSON easyJSON=new EasyJSON(clubList, total); 
+		return easyJSON;
+	}
+
+	@Override
+	public EasyJSON selectOneClub(int club_id) {
+		Club club=clubDao.selectOneClub(club_id);
+		List<Object> clubList=new ArrayList<Object>();
+		clubList.add(club);
+		int total=1;
+		EasyJSON easyJSON=new EasyJSON(clubList, total);
+		return easyJSON;
+	}
+
+	
+	@Override
+	public EasyJSON selectAllClubLianDong(int pageIndex, String c) {
+		return null;
+	}
+	
+	
+}

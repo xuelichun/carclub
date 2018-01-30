@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>活动管理</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/user.css" rel="stylesheet" type="text/css" />
+<link href="css/message.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.Xslider.js"></script>
+<script src="js/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./js/userShow.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<script type="text/javascript" src="js/jquery.UrlParam.js"></script>
+<script type="text/javascript" src="js/activityManage.js"></script>
+<script type="text/javascript" src="laydate/laydate.js"></script>
+<script type="text/javascript" src="js/lopac.js"></script>
+<script type="text/javascript">
+$().ready(function () {
+    setStudMsgHeadTabCheck();
+   // showUnreadSysMsgCount();
+});
+
+ function setStudMsgHeadTabCheck() {
+        var currentUrl = window.location.href;
+        currentUrl = currentUrl.toLowerCase();
+        var asmhm = "";
+        $("#ulStudMsgHeadTab li").each(function () {
+            asmhm = $(this).find('a').attr("href").toLowerCase();
+            if (currentUrl.indexOf(asmhm) > 0) {
+                $(this).find('a').attr("class", "tab1");
+                return;
+            }
+        });
+    }
+</script>
+</head>
+<body onload="initP();show()" >
+<div class="top11" id="top11" >
+	
+</div>
+<div id="cc"></div>
+	<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="user.html">首页</a></li>
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>消息</a>
+                       <ul>
+                           <li><a href="#">系统消息</a></li>
+                           <li><a href="#">查看私信</a></li>
+                           <li><a href="#">收到的回复</a></li>
+                           <li><a href="#">收到的赞</a></li>
+                           <li><a href="#">任务奖励</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>设置</a>
+                       <ul>
+                           <li><a href="#">个人资料</a></li>
+                           <li><a href="#">修改密码</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>会员管理</a>
+                   </li> 
+                   <li class="navthis25"><a href="activity.html" >返回首页</a></li>
+             	</ul>
+		</div>
+  	</div>
+ </div>
+
+<div class="user clearfix">
+    	<div class="u_l">
+        	<div class="u_la">
+        		<form action="" id="h2">
+	            	<div class="box_h"><span>我的账户</span></div>
+	                <div class="box_m">
+	                	<div style="float:left;padding-right:10px;" >
+	          				<input type="hidden" name="u_id" id="u_id"/>
+	                		<img alt="" id="u_head"  alt="" style="width:70px; height:70px;"/>
+	                		<!--  <img src="./images/qq.jpg" alt="" style="width:70px; height:70px;"/>-->
+	                	</div>
+	                	<div >昵称:<input type="text" name="u_nick"  id="u_nick" style="border:0px; width:50px;" readonly="readonly"/><br/>
+	                	 	等级:<input type="text" name="u_level"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 	积分:<input type="text" name="u_grade" style="border:0px; width:50px;"readonly="readonly"/><br/>
+	               			经验:<input type="text" name="u_exp"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 </div>
+	                	<div>
+	                	总访客量:<input type="text" name="u_total"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	账户余额:<input type="text" name="u_money"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                   	个性签名:<input type="text" name="u_sign" style="border:0px; width:50px;" readonly="readonly"/>
+	                   	
+	                    </div>
+	                </div>
+                </form>
+            </div>
+            <div class="space_hx">&nbsp;</div>
+            <div class="u_lb">
+            	<div class="box_h"><span>车友会管理</span></div>
+                <div class="box_m">
+                	<ul>
+                    	<li><a id="noticeManage" href="noticeManage.html">公告管理</a></li>
+                        <li><a id="memberManage" href="memberManage.html">会员管理</a></li>
+                        <li id="clubFeeLi"><a id="clubFee" href="clubFee.html">会费管理</a></li>
+                        <li><a id="clubAlbum" href="clubAlbum.html">相册管理</a></li>
+                        <li><a id="activityManage" href="activityManage.html">活动管理</a></li>
+                        <li><a id="changeCarClub" href="changeCarClub.html">修改车友会</a></li>
+                        <li id="yearFeeLi"><a id="yearFee" href="yearFee.html">费用缴纳</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="u_r">
+	        <div class="morebt">
+				<ul id="ulStudMsgHeadTab">
+				    <li><a class="tab2" onclick="" id="activityManageFunc" href="activityManage.html">发表活动</a></li>
+				    <li><a class="tab2" onclick="" id="historyActivityFunc" href="historyActivity.html">历史活动</a></li>
+				</ul>
+	        </div>
+        	<div class="" id="expressActivity">
+        	<form id="clubActivityForm" action="../clubAdminj.do" method="post" enctype="multipart/form-data" onsubmit="return btnsubmit()">
+        	<input type="text" name="club_id" value=1 id="club_id1" hidden="hidden"/>
+			<ul>
+	          <li><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+	            <tr>
+	                <td>&nbsp;</td>
+	                <td><label for="checkbox"></label></td>
+	                <td>&nbsp;</td>
+	                <td>&nbsp;</td>
+	              </tr>
+	              <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">标题：</td>
+	                <td width="57%"><input type="text" name="act_name" id="act_name" class="yanse" onblur="testActName()"/><div id="testActNameMsg"></div></td>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	              
+	              <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">内容：</td>
+	                <td><textarea name="act_content" id="act_content" rows="3" cols="29" onblur="testActContent()"></textarea><div id="testActContentMsg"></div></td>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	              <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">活动图片：</td>
+	                <td width="57%"><div style="height:0px; width:0;">
+						<input type="file" name="act_img" id="act_img" /></div></div>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	              <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">报名截止时间：</td>
+	                <td width="57%"><input type="text" name="act_applitime" class="laydate-icon span1-1" id="Calendar" /></td>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	               <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">活动开始时间：</td>
+	                <td width="57%"><input type="text" name="act_starttime" class="laydate-icon span1-1" id="Calendar1" onfocusout="javascript:changetimebefore()"/></td>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	               <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">活动结束时间：</td>
+	                <td width="57%"><input type="text" name="act_stoptime" class="laydate-icon span1-1" id="Calendar2" /></td>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	               <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">地址：</td>
+	                <td width="57%"><select name="act_pro" id="act_pro" style="width: 100px" size="1" onchange="initC()">
+						    		<option value="-1">请选择</option>
+						    	</select>省
+						    	<select name="act_city" id="act_city" style="width:100px" size="1">
+						    		<option value="-1">请选择</option>
+						    	</select>市
+						    	</td>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	              <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">人均消费：</td>
+	                <td width="57%"><input type="text" name="act_money" id="act_money" class="yanse" onblur="testActMoney()"/><div id="testActMoneyMsg"></div></td>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	              <tr>
+	                <td width="6%">&nbsp;</td>
+	                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">活动折扣：</td>
+	                <td width="57%"><input type="text" name="act_dis" id="act_dis" class="yanse" onblur="testActDis()"/><div id="testActDisMsg"></div></td>
+	                <td width="6%">&nbsp;</td>
+	              </tr>
+	              <tr>
+	                <td>&nbsp;</td>
+	                <td>&nbsp;</td>
+	                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+	                	<tr>
+	                    <td width="89">&nbsp;</td>
+	                    <td width="6">&nbsp;</td>
+	                    <td width="10" align="center" style="color:#999">&nbsp;</td>
+	                    <td width="12">&nbsp;</td>
+	                  </tr>
+	                  <tr>
+	                    <td width="89"><input type="submit" value="发布"/><div id="yanzhenMsg"></div></td>
+	                    <td width="6">&nbsp;</td>
+	                    <td width="10" align="center" style="color:#999">&nbsp;</td>
+	                    <td width="12">&nbsp;</td>
+	                  </tr>
+	                </table></td>
+	                <td>&nbsp;</td>
+	              </tr>
+	              <tr>
+	                <td>&nbsp;</td>
+	                <td><label for="checkbox"></label></td>
+	                <td>&nbsp;</td>
+	                <td>&nbsp;</td>
+	              </tr>
+	            </table>
+		       </li>
+	 		</ul>
+	 		</form>
+		</div>
+        </div>
+</div>
+
+
+ <script>
+!function(){
+laydate.skin('molv');
+laydate({elem: '#Calendar'});
+laydate.skin('molv');
+laydate({elem: '#Calendar1'});
+laydate.skin('molv');
+laydate({elem: '#Calendar2'});
+}();
+ 
+</script>
+</body>
+</html>

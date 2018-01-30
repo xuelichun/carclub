@@ -1,0 +1,17 @@
+package com.zeepn.dao;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.ActReg;
+
+@Repository("actRegDao")
+public interface ActRegDao {
+	
+	public int insertActReg(ActReg actReg);
+	
+	public int updateActReg(ActReg actReg);
+	
+	public int selectClubIdByArId(int ar_id);
+	
+	public ActReg selectActRegByUId(int u_id);
+}

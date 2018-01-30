@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.DraTravel">
+<insert id="insertDraTravel">
+	insert into dra_travel values(dra_travel_seq.nextval,#{dt_time},#{dt_place},#{dt_content},#{dt_img},#{dt_msg})
+</insert>
+<update id="updateDraTravel">
+	update dra_travel set dt_time=#{dt_time},dt_place=#{dt_place},dt_content=#{dt_place},dt_img=#{dt_img},dt_msg=#{dt_msg}
+</update>
+<delete id="deleteDraTravel">
+	delete from dra_travel where dt_id=#{dt_id}
+</delete>
+<select id="selectDraTravel" resultType="DraTravel">
+	select * from dra_travel
+</select>
+<select id="selectDraTravelById" resultType="DraTravel">
+	select * from dra_travel where dt_id=#{dt_id}
+</select>
+</mapper>

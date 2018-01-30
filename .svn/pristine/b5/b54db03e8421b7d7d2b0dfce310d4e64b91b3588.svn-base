@@ -1,0 +1,19 @@
+package com.zeepn.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.FnetAnt;
+
+@Repository("fnetAntDao")
+public interface FnetAntDao {
+	
+	public int  relesAnt(FnetAnt fnetAnt);
+	public List<FnetAnt> selectFnetAntByPage(Map<String, Integer> map);
+	public FnetAnt selectOneFnetAntById(int fa_id);
+	public int selectFnetAntPage();
+	public int deleteFnetAnt(int fa_id);
+
+}

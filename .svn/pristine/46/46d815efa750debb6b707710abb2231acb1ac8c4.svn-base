@@ -1,0 +1,50 @@
+package com.zeepn.bean;
+
+public class SupAdm {
+	private int sa_id;
+	private String sa_name;
+	private String sa_pwd;
+	private String sa_level;
+	public SupAdm() {
+	}
+	public SupAdm(String sa_name, String sa_pwd, String sa_level) {
+		this.sa_name = sa_name;
+		this.sa_pwd = sa_pwd;
+		this.sa_level = sa_level;
+	}
+	public SupAdm(int sa_id, String sa_name, String sa_pwd, String sa_level) {
+		this.sa_id = sa_id;
+		this.sa_name = sa_name;
+		this.sa_pwd = sa_pwd;
+		this.sa_level = sa_level;
+	}
+	public int getSa_id() {
+		return sa_id;
+	}
+	public void setSa_id(int sa_id) {
+		this.sa_id = sa_id;
+	}
+	public String getSa_name() {
+		return sa_name;
+	}
+	public void setSa_name(String sa_name) {
+		this.sa_name = sa_name;
+	}
+	public String getSa_pwd() {
+		return sa_pwd;
+	}
+	public void setSa_pwd(String sa_pwd) {
+		this.sa_pwd = sa_pwd;
+	}
+	public String getSa_level() {
+		return sa_level;
+	}
+	public void setSa_level(String sa_level) {
+		this.sa_level = sa_level;
+	}
+	@Override
+	public String toString() {
+		return "SupAdm [sa_id=" + sa_id + ", sa_name=" + sa_name + ", sa_pwd="
+				+ sa_pwd + ", sa_level=" + sa_level + "]";
+	}
+}

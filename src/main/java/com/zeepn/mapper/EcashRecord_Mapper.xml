@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.EcashRecordDao">
+
+<insert id="insertEcashRecord">
+	insert into ecash_record values(ecash_record_seq.nextval,#{er_money},#{er_grade},
+	#{er_status},#{er_time},#{club_id})
+</insert>
+
+<update id="updateEcashRecord">
+	update ecash_record set er_status='提现成功' where er_id=#{er_id}
+</update>
+</mapper>

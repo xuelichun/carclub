@@ -1,0 +1,172 @@
+$(function (){
+	//保存按钮事件
+	$("#submit").click(function(){
+		if(checkNick()&& checkPwd()){
+			if($("#u_pro").val()==-1){
+				$("#scity").html("请选择省份");
+				$("#scity").prop("style","color:#f00;");
+				return;
+			}else{
+				$("#scity").html("");
+			}
+			if($("#u_city").val()==-1){
+				$("#scity").html("请选择城市");
+				$("#scity").prop("style","color:#f00;");
+				return;
+			}else{
+				$("#scity").html("");
+			}
+			if($("#u_email").val()==''){
+				$("#semail").prop("style","color:#f00;");
+				$("#semail").html("邮箱不能为空");
+				return;
+			}if($("#u_phone").val()==''){
+				$("#sphone").prop("style","color:#f00;");
+				$("#sphone").html("电话不能为空");
+				return;
+			}
+			if($("#code").val()==''){
+				$("#scode").prop("style","color:#f00;");
+				$("#scode").html("验证码不能为空");
+				return;
+			}
+			if($("#u_head").val()==''){
+				$("#shead").html("请选择头像");
+				return;
+			}else{
+				$("#shead").html("");
+			}
+			if($("#semail").html()!="邮箱合法"){
+				return;
+			}
+			if($("#sphone").html()!="电话号码合法"){
+				return;
+			}
+			if(!checkCode()){
+				return;
+			}
+			$("#f1").submit();
+		}
+	});
+	//表单提交成功后		
+	$('#f1').form({
+		success:function(data) {
+			var rss = $.parseJSON(data);
+			if (rss.rs == 'ok') {
+				$.messager.alert('提示信息','注册成功！');
+				$("#u_email").val("");
+				$("#u_phone").val("");
+				$("#semail").html("");
+				$("#sphone").html("");
+			}else{
+				$.messager.alert('提示','注册失败！');
+			}
+		}
+	}); 
+});
+function checkNick(){
+	if($("#u_nick").val().trim()==''){
+		$("#snick").html("昵称不能为空");
+		$("#snick").prop("style","color:#f00;");
+		return false;
+	}else{
+		$("#snick").html("");
+		return true;
+	}
+}
+function checkPwd(){
+	if($("#u_pwds").val().trim()==''){
+		$("#spwd").html("密码不能为空");
+		$("#spwd").prop("style","color:#f00;");
+		return false;
+	}else{
+		$("#spwd").html("");
+		return true;
+	}
+}
+function checkEmail(){
+	var u_email=$("#u_email").val();
+	var reg=/^\w+@\w+.[a-zA-Z]{2,3}(.[a-zA-Z]{2,3})?$/;
+	if(reg.test(u_email)){
+		$.getJSON("../user/countEmail.do",{"u_email":u_email},function(data){
+			if(data.rs=="ok"){
+				$("#semail").prop("style","color:#0f0;");
+				$("#semail").html("邮箱合法");
+			}else{
+				$("#semail").prop("style","color:#f00;");
+				$("#semail").html("该邮箱已被注册");
+			}
+		});
+	}else{
+		$("#semail").prop("style","color:#f00;");
+		$("#semail").html("邮箱格式错误");
+	}
+}
+function checkPhone(){
+	var u_phone=$("#u_phone").val();
+	var reg=/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/;
+	if(reg.test(u_phone)){
+		$.getJSON("../user/countPhone.do",{"u_phone":u_phone},function(data){
+			if(data.rs=="ok"){
+				$("#sphone").prop("style","color:#0f0;");
+				$("#sphone").html("电话号码合法");
+				 return true;
+			}else{
+				$("#sphone").prop("style","color:#f00;");
+				$("#sphone").html("该电话已被注册");
+			}
+		});
+	}else{
+		$("#sphone").prop("style","color:#f00;");
+		$("#sphone").html("电话格式错误");
+	}
+}
+var cod="";
+function checkCode(){
+	var code=$("#code").val();
+		if(cod==code&&code!=''){
+			$("#scode").prop("style","color:#0f0;");
+			$("#scode").html("验证码正确");
+			return true;
+		}else{
+			$("#scode").prop("style","color:#f00;");
+			$("#scode").html("验证码错误");
+			return false;
+		}	
+}
+function getPhoto(){
+	checkPhone();
+		if($("#sphone").html().trim()=="电话号码合法"){
+			load();
+			var u_phone=$("#u_phone").val();
+			$.getJSON("../note.do",{"u_phone":u_phone},function(data){
+				cod=data.rs;
+			});
+		}else{
+			return;
+		}
+}
+	
+
+var time=60;
+function load(){
+	var btn=document.getElementById("btn");
+	if(time>0){
+	btn.value=time+"s后重新获取";
+	btn.disabled=true;
+	time--;
+	setTimeout("load()",1000);
+	}else{
+		btn.value="免费获取短信验证码";
+		btn.disabled=false;
+		time=60;
+	}
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ActRegDao">
+
+<insert id="insertActReg">
+	insert into act_reg values(act_reg_seq.nextval,#{act_id},#{u_id},#{ar_regtime},#{ar_money},#{ar_refund})
+</insert>
+
+<update id="updateActReg">
+	update act_reg set ar_money=#{ar_money},ar_refund=#{ar_refund} where ar_id=#{ar_id}
+</update>
+
+<select id="selectClubIdByArId" resultType="int">
+	select club_id from userinfo where u_id=#{u_id} 
+</select>
+
+<select id="selectActRegByUId" resultType="ActReg">
+	select * from act_reg where u_id=#{u_id}
+</select>
+
+<select id="selectActRegByActId" resultType="ActReg">
+	select * from act_reg where act_id=#{act_id}
+</select>
+
+</mapper>

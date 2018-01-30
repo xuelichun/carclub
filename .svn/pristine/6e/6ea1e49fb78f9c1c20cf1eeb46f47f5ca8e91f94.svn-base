@@ -1,0 +1,65 @@
+package com.zeepn.bean;
+
+public class Comments {
+	private int com_id;
+	private int pd_id;
+	private int u_id;
+	private String com_msg;
+	private String com_time;
+	public Comments() {
+	}
+	public Comments(int com_id, int pd_id, int u_id, String com_msg,
+			String com_time) {
+		this.com_id = com_id;
+		this.pd_id = pd_id;
+		this.u_id = u_id;
+		this.com_msg = com_msg;
+		this.com_time = com_time;
+	}
+	public Comments(int pd_id, int u_id, String com_msg, String com_time) {
+		this.pd_id = pd_id;
+		this.u_id = u_id;
+		this.com_msg = com_msg;
+		this.com_time = com_time;
+	}
+	
+	
+	public int getCom_id() {
+		return com_id;
+	}
+	public void setCom_id(int com_id) {
+		this.com_id = com_id;
+	}
+	public int getPd_id() {
+		return pd_id;
+	}
+	public void setPd_id(int pd_id) {
+		this.pd_id = pd_id;
+	}
+	public int getU_id() {
+		return u_id;
+	}
+	public void setU_id(int u_id) {
+		this.u_id = u_id;
+	}
+	public String getCom_msg() {
+		return com_msg;
+	}
+	public void setCom_msg(String com_msg) {
+		this.com_msg = com_msg;
+	}
+	public String getCom_time() {
+		return com_time;
+	}
+	public void setCom_time(String com_time) {
+		this.com_time = com_time;
+	}
+	@Override
+	public String toString() {
+		return "comment [com_id=" + com_id + ", pd_id=" + pd_id + ", u_id="
+				+ u_id + ", com_msg=" + com_msg + ", com_time=" + com_time
+				+ "]";
+	}
+	
+	
+}

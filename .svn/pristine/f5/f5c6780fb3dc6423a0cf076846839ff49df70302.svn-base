@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.GenAdmDao">
+	<!-- 查询页面登录的管理员是否是二级管理员 -->
+	<select id="selectGenAdmLevel" resultType="int">
+		<![CDATA[ 
+			select count(ga_id) from gen_adm where ga_level=#{ga_level}
+		]]>
+	</select>
+	<!-- 二级管理员登录方法 -->
+	<select id="selectGenAdm" resultType="int">
+		<![CDATA[ 
+			select count(ga_id) from sup_adm where 
+				ga_name=#{ga_name} and ga_pwd=#{ga_pwd} 
+		]]>
+	</select>
+	<!-- 超级管理员添加二级管理员方法 -->
+	<insert id="insertGenAdm" parameterType="GenAdm">
+		<![CDATA[ 
+			insert into genAdm values(gen_adm_seq.nextval,
+				#{ga_name},#{ga_pwd},#{ga_level},#{sa_id})
+		]]>
+	</insert>
+	<!-- 二级管理员修改自己密码的方法 -->
+	<update id="updateGenAdmPwd">
+		<![CDATA[
+			update genAdm set ga_pwd=#{ga_pwd} 	
+		]]>
+	</update>
+	<!-- 根据二级管理员编号查询上级管理员编号 -->
+	<select id="selectGenAdmBySaid" resultType="int">
+		<![CDATA[ 
+			select sa_id from gen_adm where ga_id=#{ga_id}
+		]]>
+	</select>
+	<!-- 超级管理员删除二级管理员方法 -->
+	<delete id="delGenAdmByGaid">
+		<![CDATA[
+			delete from gen_adm where ga_id=#{ga_id}
+		]]>
+	</delete>
+</mapper>

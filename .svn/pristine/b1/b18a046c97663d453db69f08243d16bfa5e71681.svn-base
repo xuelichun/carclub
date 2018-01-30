@@ -1,0 +1,46 @@
+package com.zeepn.bean;
+
+public class DynPic {
+	private int dp_id;
+	private PersonDyn pd_id;
+	private String dp_msg;
+	public DynPic() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public DynPic(int dp_id, PersonDyn pd_id, String dp_msg) {
+		super();
+		this.dp_id = dp_id;
+		this.pd_id = pd_id;
+		this.dp_msg = dp_msg;
+	}
+	public DynPic(PersonDyn pd_id, String dp_msg) {
+		super();
+		this.pd_id = pd_id;
+		this.dp_msg = dp_msg;
+	}
+	@Override
+	public String toString() {
+		return "DynPic [dp_id=" + dp_id + ", pd_id=" + pd_id + ", dp_msg="
+				+ dp_msg + "]";
+	}
+	public int getDp_id() {
+		return dp_id;
+	}
+	public void setDp_id(int dp_id) {
+		this.dp_id = dp_id;
+	}
+	public PersonDyn getPd_id() {
+		return pd_id;
+	}
+	public void setPd_id(PersonDyn pd_id) {
+		this.pd_id = pd_id;
+	}
+	public String getDp_msg() {
+		return dp_msg;
+	}
+	public void setDp_msg(String dp_msg) {
+		this.dp_msg = dp_msg;
+	}
+	
+}

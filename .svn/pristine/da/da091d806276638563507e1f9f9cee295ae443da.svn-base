@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ActivityDao">
+
+<insert id="insertActivity">
+	insert into activity values(activity_seq.nextval,#{act_name},#{act_content},#{act_img},#{act_addr},
+	#{act_money},#{act_dis},#{act_applitime},#{act_time},#{club_id},0)
+</insert>
+
+<select id="selectActivities" resultType="Activity">
+	select * from activity where club_id=#{club_id} and act_del=0
+</select>
+
+<select id="selectActivity" resultType="Activity">
+	select * from activity where act_id=#{act_id} and act_del=0
+</select>
+
+<update id="updateActivity">
+	update activity set act_name=#{act_name},act_content=#{act_content},act_img=#{act_img},
+	act_addr=#{act_addr},act_money=#{act_money},act_dis=#{act_dis},act_applitime=#{act_applitime},
+	act_time=#{act_time} where act_id=#{act_id}
+</update>
+
+<update id="deleteActivity">
+	update activity set act_del=1 where act_id=#{act_id}
+</update>
+</mapper>

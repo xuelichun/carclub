@@ -1,0 +1,74 @@
+package com.zeepn.utils;
+
+import com.zeepn.bean.AppliNotice;
+import com.zeepn.bean.Club;
+import com.zeepn.bean.PreInfo;
+import com.zeepn.bean.UserInfo;
+/**
+ * 包装AppliNotice类的工具类
+ * @author scc
+ *
+ */
+public class PacketAppliNotice {
+	@SuppressWarnings("static-access")
+	public AppliNotice packAn(AppliNotice appliNotice,UserInfo userInfo,int u_id){
+		String an_time=new DateFormat().getCurrentTime(new DateFormat().DEFAULT_DATE_FORMAT_SEC);
+		String an_status="未通过";
+		int ga_id=1;
+		int club_del=1;
+		int read_sign=1;
+		AppliNotice appliNotice2=new AppliNotice();
+		String club_name=TransCoding.transCoding(appliNotice.getClub_name());
+		String club_domnam=TransCoding.transCoding(appliNotice.getClub_domnam());
+		String club_pro=TransCoding.transCoding(appliNotice.getClub_pro());
+		String club_city=TransCoding.transCoding(appliNotice.getClub_city());
+		String club_cb=TransCoding.transCoding(appliNotice.getClub_cb());
+		String club_cd=TransCoding.transCoding(appliNotice.getClub_cd());
+		appliNotice2.setAn_time(an_time);
+		appliNotice2.setAn_status(an_status);
+		appliNotice2.setP_id(u_id);
+		appliNotice2.setGa_id(ga_id);
+		appliNotice2.setClub_name(club_name);
+		appliNotice2.setClub_domnam(club_domnam);
+		appliNotice2.setClub_pro(club_pro);
+		appliNotice2.setClub_city(club_city);
+		appliNotice2.setClub_del(club_del);
+		appliNotice2.setClub_cb(club_cb);
+		appliNotice2.setClub_cd(club_cd);
+		appliNotice2.setRead_sign(read_sign);
+		return appliNotice2;
+	}
+	@SuppressWarnings("static-access")
+	public Club packageClub(AppliNotice appliNotice){
+		String club_cretime=new DateFormat().getCurrentTime(new DateFormat().DEFAULT_DATE_FORMAT_SEC);
+		Club club=new Club();
+		String club_name=TransCoding.transCoding(appliNotice.getClub_name());
+		String club_domnam=TransCoding.transCoding(appliNotice.getClub_domnam());
+		String club_pro=TransCoding.transCoding(appliNotice.getClub_pro());
+		String club_city=TransCoding.transCoding(appliNotice.getClub_city());
+		String club_cb=TransCoding.transCoding(appliNotice.getClub_cb());
+		String club_cd=TransCoding.transCoding(appliNotice.getClub_cd());
+		club.setClub_name(club_name);
+		club.setClub_domnam(club_domnam);
+		club.setClub_pro(club_pro);
+		club.setClub_city(club_city);
+		club.setP_id(appliNotice.getP_id());
+		club.setClub_cb(club_cb);
+		club.setClub_cd(club_cd);
+		club.setClub_desc("");
+		club.setClub_img("123.jpg");
+		club.setClub_cretime(club_cretime);
+		club.setClub_maxnum(300);
+		club.setClub_tcon(0);
+		club.setClub_pnum(1);
+		return club;
+	}
+	public PreInfo packagePreInfo(int p_id, int club_id){
+		PreInfo preInfo=new PreInfo();
+		preInfo.setP_id(p_id);
+		preInfo.setVp1_id(0);
+		preInfo.setVp2_id(0);
+		preInfo.setClub_id(club_id);
+		return preInfo;
+	}
+}

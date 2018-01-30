@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.zeepn.dao.UserDynDao">
+ 	<insert id="publishdyn">
+	insert into person_dyn values(person_dyn_seq.nextval,#{u_id},#{pd_msg},#{pd_time},#{pd_num})
+	</insert>
+	<insert id="insertdynPicture">
+	insert into dyn_pic values(dyn_pic_seq.nextval,#{pd_id},#{dp_msg})
+	</insert>	
+	<insert id="insertComments">
+	insert into comments values(comments_seq.nextval,#{pd_id},#{u_id},#{com_msg},#{com_time},0)
+	</insert>
+	<insert id="insertReply">
+	insert into reply values(reply_seq.nextval,#{com_id},#{rp_pid},#{rp_rpid},#{rp_text},#{rp_time},0)
+	</insert>
+  
+  </mapper>

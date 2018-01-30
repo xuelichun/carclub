@@ -1,0 +1,52 @@
+$(function(){
+	var strHref=this.location.href;
+	var ca_id=strHref.getQuery("ca_id");
+	showClubPhoto(ca_id,1);
+	showPhotoAlbumPage(ca_id,1);
+});
+String.prototype.getQuery = function(name) {
+     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+     var r = this.substr(this.indexOf("\?") + 1).match(reg);
+     if (r != null)
+    	  return unescape(r[2]);
+     return null;
+}
+
+function showClubPhoto(ca_id,page){
+	var content="";
+	$.getJSON("../clubAlbume.do",{"ca_id":ca_id,"page":page},function(data){
+		for(var i=0;i<data.length;i++){
+			content+="<div class='prod1'>"+
+	                   "<div class='tip1'><a href='myPhotoDetail.html'><img src=../"+data[i].pa_img+" width='200px' height='160px'></a></div>"+
+	                	"<div class='scrt1'>"+
+	                   		"<div class='zt1'>"+data[i].pa_name+"</div>"+
+							"<div class='rq1'><a href='#'>删除</a></div>"+
+	               		"</div>"+
+	         		"</div>";
+		}
+		$("#clubPhoto").html(content);
+	});
+}
+
+function showPhotoAlbumPage(ca_id,page){
+	var content="";
+	$.getJSON("../clubAlbumi.do",{"ca_id":ca_id},function(data){
+		content+="<div class='digg'><a href='javascript:pageUpAndDown("+ca_id+","+(page-1)+","+data+")'>&lt;</a>";
+		for(var i=0;i<data;i++){
+			content+="<a href=javascript:showClubPhoto("+ca_id+","+(i+1)+")>"+(i+1)+"</a>";
+		}
+		content+="<a href='javascript:pageUpAndDown("+ca_id+","+(page+1)+","+data+")'>&gt;</a></div>";
+		$("#photoAlbumPage").html(content);
+	});
+}
+
+function pageUpAndDown(ca_id,page,allPage){
+	if(page<=0){
+		alert("没有上一页了");
+	}else if(page>allPage){
+		alert("没有下一页了")
+	}else{
+		showClubPhoto(ca_id,page);
+		showPhotoAlbumPage(ca_id,page);
+	}
+}

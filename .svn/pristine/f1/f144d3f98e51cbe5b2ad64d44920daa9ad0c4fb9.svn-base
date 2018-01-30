@@ -1,0 +1,103 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.Album;
+import com.zeepn.bean.AlbumPic;
+
+@Repository("userAlbumDao")
+public interface UserAlbumDao {
+
+	/**
+	 * 用户新建相册
+	 * @param album 相册对象
+	 * @return  影响数据库行数
+	 */
+	public int insertAlbum(Album album);
+	
+	/**
+	 * 向相册里添加图片
+	 * @param albumPic  相册图片对象
+	 * @return  影响数据库行数
+	 */
+	public int insertAlbumPic(AlbumPic albumPic);
+	
+	/**
+	 * 查询用户的所有相册
+	 * @param u_id 用户id 
+	 * @return list集合，里面装有相册对象
+	 */
+	@Select("select * from album where u_id=#{u_id})")
+	public List<Album> selectAlbum(int u_id);
+	
+	/**
+	 * 根据id查询一个相册对象
+	 * @param a_id 相册id
+	 * @return 相册对象
+	 */
+	@Select("select * from album where a_id=#{a_id}")
+	public Album selectOneAlbumById(int a_id);
+	
+	
+	/**
+	 * 更改相册信息
+	 * @param albumPic  相册对象
+	 * @return 影响数据库行数
+	 */
+	public int updateAlbum(AlbumPic albumPic);
+	
+	/**
+	 * 计算相册里面的图片的 数量
+	 * @param a_id  相册id 
+	 * @return 图片数量
+	 */
+	
+	public int countNum(int a_id);
+	
+	/**
+	 * 跟新相册里图片的数量
+	 * @param a_id  相册id
+	 * @param a_num  图片数量
+	 * @return  影响数据库行数
+	 */
+	@Update("update album set a_num=#{a_num} where a_id=#{a_id}")
+	public int updateAblumNum(@Param("a_id")int a_id,@Param("a_num")int a_num);
+	
+	/**
+	 * 删除相册
+	 * @param a_id 相册id
+	 * @return 影响数据库行数
+	 */
+	@Delete("delete  from album where a_id=#{a_id}")
+	public int deleteAblum(int a_id);
+	
+	/**
+	 * 删除一个相册下的所有图片
+	 * @param a_id  相册id
+	 * @return  影响数据库行数
+	 */
+	@Delete("delete from album_pic where a_id=#{a_id}")
+	public int deleteAllAlbumPic(int a_id);
+	
+	/**
+	 * 查询相册下所有图片
+	 * @param a_id  相册id
+	 * @return  list集合，装有该相册下的所有图片对象
+	 */
+	@Select("select * from  album_pic where a_id=#{a_id}")
+	public List<AlbumPic> selectAllAlbumPic(int a_id);
+	
+	/**
+	 * 删除相册里的具体图片
+	 * @param ap_id
+	 * @return 影响数据库行数
+	 */
+	@Delete("delete from album_pic where ap_id=#{ap_id}")
+	public int deleteAlbumPicById(int ap_id);
+}

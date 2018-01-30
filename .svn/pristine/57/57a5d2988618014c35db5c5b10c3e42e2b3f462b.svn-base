@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>user</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/user.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+	<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="user.html">首页</a></li>
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>消息</a>
+                       <ul>
+                           <li><a href="#">系统消息</a></li>
+                           <li><a href="#">查看私信</a></li>
+                           <li><a href="#">收到的回复</a></li>
+                           <li><a href="#">收到的赞</a></li>
+                           <li><a href="#">任务奖励</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>设置</a>
+                       <ul>
+                           <li><a href="#">个人资料</a></li>
+                           <li><a href="#">修改密码</a></li>
+                           <li><a href="#">收到的回复</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis25"><a href="activity.html" >返回首页</a></li>
+             	</ul>
+		</div>
+  	</div>
+ </div>
+
+<div class="user clearfix">
+    	<div class="u_l">
+        	<div class="u_la">
+            	<div class="box_h"><span>我的账户</span></div>
+                <div class="box_m">
+                	<img src="images/qq.jpg" alt=""/>
+                    <p>用户名：黄瓒</p>
+                    <p>关注</p>
+                </div>
+            </div>
+            <div class="space_hx">&nbsp;</div>
+            <div class="u_lb">
+            	<div class="box_h"><span>个人中心</span></div>
+                <div class="box_m">
+                	<ul>
+                    	<li class="now"><a href="user.html">个人资料</a></li>
+                        <li><a href="myPhoto.html">我的相册</a></li>
+                        <li><a href="myCar.html">我的爱车</a></li>
+                        <li><a href="myCarClub.html">我的车友会</a></li>
+                        <li><a href="friends.html">我的好友</a></li>
+                        <li><a href="address.html">我的活动</a></li>
+                        <li><a href="changePwd.html">修改密码</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="u_r">
+        	<div class="r_name">个人资料</div>
+        	<div><h1>aaaaaaaaaaa</h1></div>
+        </div>
+        
+</div>
+
+</body>
+</html>

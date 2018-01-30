@@ -1,0 +1,61 @@
+package com.zeepn.dao;
+
+import java.util.List;
+import java.util.Map;
+import org.springframework.stereotype.Repository;
+import com.zeepn.bean.FusMsg;
+@Repository("fusMsgDao")
+public interface FusMsgDao {
+	/**
+	 * 创建全用户系统消息
+	 * @param fusMsg 消息对象
+	 * @return 数据库改变行数
+	 */
+	public int  createFusMsg(FusMsg fusMsg);
+	/**
+	 * 分页查询全用户系统消息
+	 * @param map
+	 * @return 消息集合
+	 */
+	public List<FusMsg> selectFusMsgByPage(Map<String, Integer> map);
+	
+	/**
+	 * 分页查询全用户系统消息按时间排序
+	 * @param map
+	 * @return 消息集合
+	 */
+	public List<FusMsg> selectFusMsgByPageTime(Map<String, Integer> map);
+	/**
+	 * 查询单个全用户系统消息
+	 * @param fm_id 消息id
+	 * @return 消息对象
+	 */
+	public FusMsg selectOneFusMsgById(int fm_id);
+	/**
+	 * 查询未删除全用户系统消息条数
+	 * @return 消息条数
+	 */
+	public int selectFusMsgPage();
+	/**
+	 * 逻辑删除全用户系统消息
+	 * @param fm_id 消息id
+	 * @return 数据库改变行数
+	 */
+	public int deleteFusMsg(int fm_id);
+	/**
+	 * 更改全用户系统消息是否推送
+	 * @param fm_id
+	 * @return 数据改变行数
+	 */
+	public int updateFusMsgShow(int fm_id);
+	/**
+	 * 查询该类型消息条数
+	 * @param mt_id 类型 id
+	 * @return 消息条数
+	 */
+	public int selectfusmsgpagebytype(int mt_id);
+	
+	
+	
+
+}

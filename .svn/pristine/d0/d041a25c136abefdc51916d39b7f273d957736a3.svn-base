@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ClubFeeDao">
+
+<update id="updateClubFee">
+	update club_fee set cf_money=cf_money+#{cf_money},cf_grade=cf_grade+#{cf_grade} where club_id=#{club_id}
+</update>
+
+<insert id="insertClubFee">
+	insert into club_fee values(club_fee_seq.nextval,0,0,#{club_id})
+</insert>
+
+<select id="selectClubFee" resultType="ClubFee">
+	select * from club_fee where club_id=#{club_id}
+</select>
+
+</mapper>

@@ -1,0 +1,39 @@
+package com.zeepn.controller;
+
+import java.util.ArrayList;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.zeepn.bean.Advertiser;
+import com.zeepn.service.AdvertiserService;
+import com.zeepn.utils.PageAdver;
+
+@Controller
+public class AdvertiserController {
+	@Autowired
+	AdvertiserService advertiserService;
+	@RequestMapping("/aa")
+	public ArrayList<Advertiser>  selectAdvertiser(){
+		ArrayList<Advertiser> a=advertiserService.selectAllAdvertiser();
+		if(a!=null){
+			return a;
+		}else{
+			return null;
+		}
+	}
+	@RequestMapping("/list")
+	public Object selectAdvertiserByPage(PageAdver p){
+			return advertiserService.selectAdvertiserByPage(p);
+	}
+	public void deleteAdvertiser(Advertiser adv_id){
+		
+	}
+	
+	public void updateAdvertiser(Advertiser adv){
+		
+	}
+}

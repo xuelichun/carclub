@@ -1,0 +1,41 @@
+package com.zeepn.dao;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.AnfSta;
+
+@Repository("anfStaDao")
+public interface AnfStaDao {
+	
+	/**
+	 * 查询所有的年费欠费记录
+	 * @param page 行数对象
+	 * @return 年费欠费的数据集合
+	 */
+	public List<AnfSta> selectAllAnfSta(int pageIndex);
+	/**
+	 * 查询年费收费表的数据记录数
+	 * @return 数据记录数
+	 */
+	public int selectAsCount();
+	/**
+	 * 添加年费欠费记录
+	 * @param anfSta 年费欠费对象
+	 * @return 影响年费欠费表的行数
+	 */
+	public int insertAnfSta(AnfSta anfSta);
+	/**
+	 * 按时间倒序排列年费欠费记录
+	 * @param page 行数对象
+	 * @return 年费欠费集合
+	 */
+	public List<AnfSta> selectAllAnfStaByTime(int pageIndex);
+	/**
+	 * 根据欠费编号查询年费欠费记录
+	 * @param payId 年费欠费编号
+	 * @return 年费欠费对象
+	 */
+	public AnfSta selectOneAnfSta(int payId);
+	
+}

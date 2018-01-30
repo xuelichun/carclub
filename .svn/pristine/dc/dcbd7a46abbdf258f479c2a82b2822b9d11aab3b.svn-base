@@ -1,0 +1,22 @@
+
+$(function(){
+alert("45")
+	viewFnetAnt()
+	
+});
+
+
+
+
+function viewFnetAnt(){
+
+$.getJSON("../FnetAntg.do",{},function(data){
+	alert(data);
+	
+	alert(data[0].fa_id);
+	var context="<span>"+data[0].fa_title+" </span>";
+	$("#title").html(context);
+});
+
+
+}

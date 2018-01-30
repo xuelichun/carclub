@@ -1,0 +1,149 @@
+package com.zeepn.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.Adm;
+import com.zeepn.bean.GenAdm;
+import com.zeepn.dao.GenAdmDao;
+import com.zeepn.dao.SupAdmDao;
+import com.zeepn.service.AdmService;
+import com.zeepn.utils.CompObUtils;
+import com.zeepn.utils.FeeUtils;
+//import com.zeepn.utils.FeeUtils;
+@Service("admService")    	
+public class AdmServiceImpl implements AdmService{
+	private boolean flag=false;
+	private int count=0;
+	/**
+	 * 自动注入dao
+	 */
+	@Autowired
+	SupAdmDao supAdmDao;
+	@Autowired
+	GenAdmDao genAdmDao;
+	@Override
+	public boolean admLogin(String adm_name,String adm_pwd,String adm_level) {
+		if(adm_level.equals("1")){
+			count=supAdmDao.selectSupAdm(adm_name,adm_pwd);
+			if(count>0){
+				flag=true;
+			}
+		}else if(adm_level.equals("2")){
+			count=genAdmDao.selectGenAdm(adm_name,adm_pwd);
+			if(count>0){
+				flag=true;
+			}
+		}
+		return flag;
+	}
+	@Override
+	public boolean insertGenAdm(GenAdm genAdm) {
+		int count=genAdmDao.insertGenAdm(genAdm);
+		if(count>0){
+			flag=true;
+		}
+		return flag;
+	}
+	@Override
+	public boolean updatePwd(String adm_name,String adm_pwd) {
+		int count1=supAdmDao.isSupAdm(adm_name);
+		int count=0;
+		if(count1>0){
+			count=supAdmDao.updateSaPwd(adm_pwd,adm_name);
+		}else{
+			count=genAdmDao.updateGaPwd(adm_name,adm_pwd);
+		}
+		if(count>0){
+			flag=true;
+		}
+		return flag;
+	}
+	@Override
+	public boolean insertAdm(String adm_name, String adm_pwd, String adm_level,Adm adm) {
+		int count=0;
+		CompObUtils cbu=new CompObUtils();
+		List<String> saNameList=supAdmDao.selectAllSaName();
+		List<String> gaNameList=genAdmDao.selectAllGaName();
+		if(!cbu.compareListStr(saNameList, adm_name)&&!cbu.compareListStr(gaNameList, adm_name)){
+			if(adm_level.equals("1")){
+				count=supAdmDao.insertSa(adm_name,adm_pwd);
+			}else if(adm_level.equals("2")){
+				int sa_id=supAdmDao.selectSaId(adm.getAdm_name());
+				count=genAdmDao.insertGa(adm_name,adm_pwd,sa_id);
+			}else{
+				count=0;
+			}
+		}else{
+			count=0;
+		}
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	@Override
+	public Adm selectAdm(String adm_name, String adm_pwd, String adm_level) {
+		int count=0;
+		Adm adm=new Adm();
+		if(adm_level.equals("1")){
+			count=supAdmDao.selectSupAdm(adm_name, adm_pwd);
+		}else if(adm_level.equals("2")){
+			count=genAdmDao.selectGenAdm(adm_name, adm_pwd);
+		}else{
+			count=0;
+		}
+		if(count>0){
+			adm.setAdm_name(adm_name);
+			adm.setAdm_pwd(adm_pwd);
+			adm.setAdm_level(adm_level);
+		}
+		return adm;
+	}
+	@Override
+	public boolean nameIsExit(String adm_name) {
+		CompObUtils cbu=new CompObUtils();
+		List<String> saNameList=supAdmDao.selectAllSaName();
+		List<String> gaNameList=genAdmDao.selectAllGaName();
+		if(!cbu.compareListStr(saNameList, adm_name)&&!cbu.compareListStr(gaNameList, adm_name)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	@Override
+	public HashMap<Integer, Object> selectAllGa(int pageIndex) {
+		List<GenAdm> gaList=genAdmDao.selectAllGa(pageIndex);
+		int count=genAdmDao.selectCountGenAdm();
+		HashMap<Integer, Object> anMap=new FeeUtils().packageGaTotal(gaList, pageIndex, count);
+		return anMap;
+	}
+	@Override
+	public boolean isSA(Adm adm) {
+		int count=supAdmDao.selectSaId(adm.getAdm_name());
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	@Override
+	public boolean isAdmOwn(String adm_name, String adm_pwd, String adm_level) {
+		if(adm_level.equals("1")){
+			count=supAdmDao.selectSupAdm(adm_name, adm_pwd);
+		}else if(adm_level.equals("2")){
+			count=genAdmDao.selectGenAdm(adm_name, adm_pwd);
+		}else{
+			count=0;
+		}
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}

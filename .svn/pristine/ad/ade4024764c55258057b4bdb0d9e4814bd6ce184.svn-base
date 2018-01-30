@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>findPwd</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+</head>
+<body>
+<div class="wrap_top">
+    	<div class="top">
+        	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+            <div id="navMenu">
+                <UL class="menu1">
+                    <li class="onelink"><a href="index.html">网站首页</a></li>
+                    <li class="navthis1"><a href="photo.html"  rel='dropmenu1'>作品欣赏</a>
+                        <ul>
+                            <li><a href="#">特色内景</a></li>
+                            <li><a href="#">时尚写真</a></li>
+                            <li><a href="#">高端外景</a></li>
+                        </ul>
+                    </li> 
+                     <li class="navthis22"><a href="customers.html" >每日客照</a></li>
+                    <li class="navthis8"><a href="activity.html"  rel='dropmenu8'>最近活动</a>
+                    </li>
+                    <li class="navthis27"><a href="#" >微博评价</a></li>   
+                    <li class="navthis9"><a href="news.html"  rel='dropmenu9'>新闻动态</a>
+                    </li>  
+                    <li class="navthis24"><a href="message.html" >留言板</a></li>
+                    <li class="navthis25"><a href="contact.html" >联系我们</a></li>
+                    </ul>
+			</div>
+        </div>
+</div>
+
+<div>
+	<ul>
+          <li><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">昵称：</td>
+                <td width="57%"><input type="text" name="textfield" id="textfield" / class="yanse"></td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">昵称：</td>
+                <td width="57%"><input type="text" name="textfield" id="textfield" / class="yanse"></td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+            </table>
+            </li>
+            </ul>
+            </div>
+
+
+<div class="bottomwrap">
+	<div class="bottom">
+		<div class="logo1"></div>
+    	<div class="wenzi">何拉拉 设计制作 伯爵婚纱摄影 版权所有 - 网站统计<br />
+Copyright © 2013 STBJHS PHOTOGRAPHY AGENCY,SUPPORT BY STBJHS ad-agency CO.,Ltd.</div>
+    </div>
+</div>
+</body>
+</html>

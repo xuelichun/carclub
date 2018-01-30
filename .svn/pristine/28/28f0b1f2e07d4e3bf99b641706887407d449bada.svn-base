@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="../note.do" method="post">
+    	手机号：<input type="text" name="phoneNo"/><br>
+    	<input type="submit" value="发送验证码"/>
+    </form>
+</body>
+</html>

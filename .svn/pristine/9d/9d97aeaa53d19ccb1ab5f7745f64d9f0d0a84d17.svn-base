@@ -1,0 +1,292 @@
+package com.zeepn.service;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import com.zeepn.bean.Car;
+import com.zeepn.bean.ClickLike;
+import com.zeepn.bean.Club;
+import com.zeepn.bean.Friends;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.bean.Visitor;
+public interface UserService {
+	/**
+	 * 用户手机号登陆
+	 * @param u_phone  电话号码
+	 * @param u_pwd 密码
+	 * @return  userinfo对象
+	 */
+	public UserInfo userLoginByPhone(String u_phone,String u_pwd);
+	
+	/**
+	 * 用户邮箱登录
+	 * @param u_email 邮箱
+	 * @param u_pwd 密码
+	 * @return  userinfo对象
+	 */
+	public UserInfo userLoginByEmail(String u_email,String u_pwd);
+	
+	
+	
+	/**用户注册方法
+	 * @param user
+	 * @return  返回影响数据库的行数
+	 */
+	public int userReg(UserInfo user);
+	
+	/**
+	 * 完善用户个人信息
+	 * @param user
+	 * @return 返回影响数据库的行数
+	 */
+	public int perfectUser(UserInfo user);
+	
+
+	/**
+	 * 用户修改密码
+	 * @param user里面包括用户ID和新的密码
+	 * @return 返回影响数据库的行数
+	 */
+	public int updateUserPwd(UserInfo user);		
+	
+	/**
+	 * 用户查询自己所处车友会的信息
+	 * @param club_id  车友会ID
+	 * @return  车友会对象
+	 */
+	public Club selectClubByUser (int club_id);
+	
+	/**
+	 * 用户添加好友
+	 * @param u_id  用户id
+	 * @param fu_id  好友id
+	 * @return  影响数据库行数
+	 */
+	
+	public int addFriends(int u_id,int fu_id);
+	
+	/**
+	 * 用户删除好友
+	 * @param u_id 用户id
+	 * @param fu_id  好友ID
+	 * @return  影响数据库行数
+	 */
+	public int deleteFriends(int u_id,int fu_id);
+
+	
+	//要分页
+	/**
+	 * 查询用户的好友列表
+	 * @param u_id  用户的ID
+	 * @return  list集合，里面装有user对象
+	 */
+	public List<UserInfo> selectFriends(int u_id,int pageIndex);
+	
+	/**
+	 * 用户点赞
+	 * @param clickLike  点赞对象
+	 * @return  返回1 表示，点赞成功。返回2 ，点赞失败。返回3 ，用户已经点赞
+	 */
+	public int CLickLike(ClickLike clickLike);
+	
+	/**
+	 * 用户取消点赞
+	 * @param clickLike 点赞对象
+	 * @return  成功返回ture,失败返回false
+	 */
+	public boolean deleteCLickLike(ClickLike clickLike);
+	/**
+	 * 用户添加我的爱车
+	 * @param car 对象
+	 * @return  影响数据库行数
+	 */
+	public int insertCar(Car car);
+	
+	/**
+	 * 用户修改爱车信息
+	 * @param car 对象
+	 * @return 影响数据库行数
+	 */
+	public int updateCar(Car car);
+	
+	/**
+	 * 删除爱车信息
+	 * @param u_id 用户的ID
+	 * @return  影响数据库行数
+	 */
+	public int deleteCar(int u_id);
+	
+
+	/**
+	 * 查询最近的访客
+	 * @param v_uid2  用户的ID
+	 * @return  list集合。里面装有最近的访客用户对象
+	 */
+	//需要分页
+	public List<UserInfo> showVisitor(int v_uid2,int pageIndex);
+	
+	/**
+	 * 用户加入车友会
+	 * @param u_id   用户的ID
+	 * @param club_id  车友会的id
+	 * @return  因影响数据库的行数
+	 */
+	public int addClub(int u_id,int club_id);
+	
+	/**
+	 * 用户退出车友会
+	 * @param u_id  用户id
+	 * @return  影响数据库行数
+	 */
+	public int ExitClub(int u_id);
+	
+	/**
+	 * 通过用户ID查询用户信息
+	 * @param u_id
+	 * @return  返回userinfo对象
+	 */
+	public UserInfo selectUserById(int u_id);
+	
+
+	/**
+	 * 验证手机号码是否存在
+	 * @param u_phone  文本框里输入的手机号
+	 * @return  数据库中该手机号的个数
+	 */
+	public int countPhone(String  u_phone);
+	
+	/**
+	 * 验证邮箱是否存在
+	 * @param u_email  邮箱
+	 * @return    数据库中该邮箱的个数
+	 */ 
+	public int countEmail(String u_email);
+	
+	/**
+	 * 用户升级 
+	 * @param u_id 用户id
+	 * @return  影响数据库行数
+	 */
+	public int changeLevel(int u_id);
+	
+	/**
+	 * 用户修改头像
+	 * @param u_id 用户id
+	 * @param u_head  新头像
+	 * @return  影响数据库行数
+	 */
+	public int updateHead(int u_id,String u_head);
+	
+	/**
+	 * 增加用户积分
+	 * @param u_id  用户id
+	 * @param u_grade  积分增量
+	 * @return  影响数据库行数
+	 */
+	public int addGrade(int u_id,int u_grade);
+	
+	/**
+	 * 减少用户积分
+	 * @param u_id 用户id
+	 * @param u_grade 积分减少量
+	 * @return 影响数据库行数
+	 */
+	public int ReduceGrade(int u_id,int u_grade);
+	
+	/**
+	 * 用户经验增加
+	 * @param u_id  用户id
+	 * @param u_exp  经验增加量
+	 * @return 影响数据库行数
+	 */
+	public int AddExp(int u_id,int u_exp);
+	
+	/**
+	 * 删除用户，逻辑删除
+	 * @param u_id  用户id
+	 * @return  影响数据库行数
+	 */
+	public int deleteUser(int u_id);
+	
+	/**
+	 * 用户账户充值
+	 * @param u_id  用户id
+	 * @param u_money  充值的钱
+	 * @return 成功返回true,失败返回false
+	 */
+	public boolean addMoney(int u_id,double u_money);
+	
+	/**
+	 * 用户账户花费
+	 * @param u_id  用户id
+	 * @param u_money  花费的钱
+	 * @return 影响数据库行数
+	 */
+	public boolean reduceMoney(int u_id,double u_money);
+	
+	/**
+	 * 计算用户在所有活动中贡献值
+	 * @param u_id 用户id
+	 * @return 总贡献值
+	 */
+	public int sumValue(int u_id);
+	/**
+	 * 查询所有用户
+	 * @return  用户集合
+	 */
+	public List<UserInfo> selectAllUser(int pageIndex);
+	
+	/**
+	 * 用户查询爱车信息
+	 * @param u_id  用户iD
+	 * @return car对象集合
+	 */
+	public List<Car> showCar(int u_id,int pageIndex);
+	
+	/**
+	 * 删除爱车
+	 * @param c_id 爱车id
+	 * @return
+	 */
+	
+	public int deleteCarById(int c_id);
+	/**
+	 * 计算用户的总数
+	 * @return  总数值
+	 */
+	public int countuser();
+	
+	/**
+	 * 查询用户头像，昵称，
+	 * @param u_id 用户id
+	 * @return 
+	 */
+	public UserInfo selectHeadAndNick(int u_id);
+
+	/**
+	 * 计算用户爱车的总数
+	 * @param u_id
+	 * @return
+	 */
+	public int countCar(int u_id);
+	
+	/**
+	 * 访客数加1
+	 * @param u_id  被访问人用户id
+	 * @return  影响数据库的行数
+	 */
+	public int updateTotal(int u_id);
+	/**
+	 * 添加一条访客记录
+	 * @param visitor
+	 * @return
+	 */
+	public int insertVisitor(Visitor visitor);
+	
+	
+
+}

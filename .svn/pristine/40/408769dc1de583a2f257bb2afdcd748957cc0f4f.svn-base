@@ -1,0 +1,136 @@
+package com.zeepn.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.bean.Comments;
+import com.zeepn.bean.DynPic;
+import com.zeepn.bean.PersonDyn;
+import com.zeepn.bean.Reply;
+import com.zeepn.service.PersonDynService;
+
+@Controller
+public class PersonDynController {
+	@Autowired
+	PersonDynService personDynService;
+	@RequestMapping("/personDyna")
+	@ResponseBody
+	public int createPersonDyn(PersonDyn personDyn){
+		System.out.println(personDyn);
+		int row=personDynService.createPersonDyn(personDyn);
+		System.out.println(row);
+		return row;
+	}
+	@RequestMapping("/personDynb")
+	@ResponseBody
+	public int createDynPicture(DynPic dynPic){
+		int row=personDynService.createDynPicture(dynPic);
+		return row;
+	}
+	@RequestMapping("/personDync")
+	@ResponseBody
+	public int deletePersonDyn(int pd_id){
+		int row=personDynService.deletePersonDyn(pd_id);
+		return row;
+	}
+	@RequestMapping("/personDynd")
+	@ResponseBody
+	public int deleteDynPic(int pd_id){
+		int row=personDynService.deleteDynPic(pd_id);
+		return row;
+	}
+	@RequestMapping("/personDyne")
+	@ResponseBody
+	public List<PersonDyn> showDyn(int u_id,int indexPage){
+		List<PersonDyn> personDyn=personDynService.showDyn(u_id, indexPage);
+		return personDyn;
+	}
+	@RequestMapping("/personDynf")
+	@ResponseBody
+	public List<DynPic> showDynPic(int pd_id){
+		List<DynPic> dynPic=personDynService.showDynPic(pd_id);
+		return dynPic;
+	}
+	@RequestMapping("/personDyng")
+	@ResponseBody
+	public PersonDyn selectOneDynById(int pd_id){
+		PersonDyn personDyn=personDynService.selectOneDynById(pd_id);
+		return personDyn;
+	}
+	@RequestMapping("/personDynh")
+	@ResponseBody
+    public List<PersonDyn> showSpare(int u_id,int pageIndex){
+		List<PersonDyn> personDyn=personDynService.showSpare(u_id, pageIndex);
+		return personDyn;
+	}
+	@RequestMapping("/personDyni")
+	@ResponseBody
+	public int createComments(Comments comments){
+		int row=personDynService.createComments(comments);
+		return row;
+	}
+	@RequestMapping("/personDynj")
+	@ResponseBody
+	public int createReply(Reply reply){
+		int row=personDynService.createReply(reply);
+		return row;
+	}
+	@RequestMapping("/personDynk")
+	@ResponseBody
+	public List<Comments> showAllComments(int pd_id){
+		List<Comments> comments=personDynService.showAllComments(pd_id);
+		return comments;
+	}
+	@RequestMapping("/personDynl")
+	@ResponseBody
+	public List<Reply> showAllReply(int com_id){
+		List<Reply> reply=personDynService.showAllReply(com_id);
+		return reply;
+	}
+	@RequestMapping("/personDynm")
+	@ResponseBody
+	public Comments showCommentsById(int com_id){
+		Comments comments=personDynService.showCommentsById(com_id);
+		return comments;
+	}
+	@RequestMapping("/personDynn")
+	@ResponseBody
+	public List<Reply> showNewReply(){
+		 List<Reply> reply=personDynService.showNewReply();
+		 return reply;
+	}
+	@RequestMapping("/personDyno")
+	@ResponseBody
+	public List<Comments> showNewComments(){
+		List<Comments> comments=personDynService.showNewComments();
+		return comments;
+	}
+	@RequestMapping("/personDynp")
+	@ResponseBody
+	public int updateReply(int rp_id){
+		int row=personDynService.updateReply(rp_id);
+		return row;
+	}
+	@RequestMapping("/personDynq")
+	@ResponseBody
+	public int updateComments(int com_id){
+		int row=personDynService.updateComments(com_id);
+		return row;
+	}
+	@RequestMapping("/personDynr")
+	@ResponseBody
+	public int deleteComments(int com_id){
+		int row=personDynService.deleteComments(com_id);
+		return row;
+	}
+	@RequestMapping("/personDyns")
+	@ResponseBody
+	public int deleteReply(int com_id){
+		int row=personDynService.deleteReply(com_id);
+		return row;
+	}
+}

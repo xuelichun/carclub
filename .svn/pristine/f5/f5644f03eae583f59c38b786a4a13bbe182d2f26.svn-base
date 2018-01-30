@@ -1,0 +1,58 @@
+package com.zeepn.controller;
+
+import java.util.HashMap;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.service.BackActivityService;
+
+@Controller
+@RequestMapping("/backActivity")
+public class BackActivtityController {
+	/**
+	 * 自动注入dao
+	 */
+	@Resource(name="backActivityService")
+	private BackActivityService backActivityService;
+	
+	@RequestMapping("/selectAllAct")
+	@ResponseBody
+	public HashMap<Integer, Object> selectAllAct(int actType,int pageIndex){
+		HashMap<Integer, Object> anMap=backActivityService.selectAllAct(actType,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectAnBySTime")
+	@ResponseBody
+	public HashMap<Integer, Object> selectAnBySTime(int actType,String startTime,int pageIndex){
+		HashMap<Integer, Object> anMap=backActivityService.selectAnBySTime(actType,startTime,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectAnByETime")
+	@ResponseBody
+	public HashMap<Integer, Object> selectAnByETime(int actType,String endTime,int pageIndex){
+		HashMap<Integer, Object> anMap=backActivityService.selectAnByETime(actType,endTime,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectAnByAId")
+	@ResponseBody
+	public HashMap<Integer, Object> selectAnByAId(int actType,int act_id,int pageIndex){
+		HashMap<Integer, Object> anMap=backActivityService.selectAnByAId(actType,act_id,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectAnBySETime")
+	@ResponseBody
+	public HashMap<Integer, Object> selectAnBySETime(int actType,String startTime,String endTime,int pageIndex){
+		HashMap<Integer, Object> anMap=backActivityService.selectAnBySETime(actType,startTime,endTime,pageIndex);
+		return anMap;
+	}
+	@RequestMapping("/selectAn")
+	@ResponseBody
+	public Object selectOneAn(int actType,int act_id){
+		Object anMap=backActivityService.selectOneAn(actType,act_id);
+		return anMap;
+	}
+}

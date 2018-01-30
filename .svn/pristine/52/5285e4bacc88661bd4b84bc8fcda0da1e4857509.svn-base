@@ -1,0 +1,36 @@
+package com.zeepn.service;
+
+import java.util.List;
+
+
+
+import com.zeepn.bean.Comments;
+import com.zeepn.bean.DynPic;
+import com.zeepn.bean.PersonDyn;
+import com.zeepn.bean.Reply;
+
+public interface PersonDynService {
+	
+	public int createPersonDyn(PersonDyn personDyn);
+	public int selectPIdByTime(int u_id,String pd_time);
+	public int createDynPicture(DynPic dynPic);
+	public int deletePersonDyn(int pd_id);
+	public int deleteDynPic(int pd_id);
+	public List<PersonDyn> showDyn(int u_id,int indexPage);
+	public List<DynPic> showDynPic(int pd_id);
+	public PersonDyn selectOneDynById(int pd_id);
+    public List<PersonDyn> showSpare(int u_id,int pageIndex);
+	public int createComments(Comments comments);
+	public int createReply(Reply reply);
+	public List<Comments> showAllComments(int pd_id);
+	public List<Reply> showAllReply(int com_id);
+	public Comments showCommentsById(int com_id);
+	public List<Reply> showNewReply();
+	public List<Comments> showNewComments();
+	public int updateReply(int rp_id);
+	public int updateComments(int com_id);
+	public int deleteComments(int com_id);
+	public int deleteReply(int com_id);
+}
+
+

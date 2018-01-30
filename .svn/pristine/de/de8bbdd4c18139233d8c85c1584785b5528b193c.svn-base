@@ -1,0 +1,35 @@
+package com.zeepn.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.ClubAlbum;
+import com.zeepn.bean.PhotoAlbum;
+
+@Repository("clubAlbumDao")
+public interface ClubAlbumDao {
+	
+	public int createClubAlbum(ClubAlbum clubAlbum);
+	
+	public List<ClubAlbum> selectClubAlbum(int club_id);
+	
+	public int updateClubAlbum(ClubAlbum clubAlbum);
+	
+	public int insertPicture(PhotoAlbum photoAlbum);
+	
+	public void updateClubAlbumOnCaCount(Map<String, Integer> map);
+	
+	public List<PhotoAlbum> selectPhotoAlbum(int ca_id);
+	
+	public int deletePhotoAlbum(int pa_id);
+	
+	public int deleteClubAlbum(int ca_id);
+	
+	public void deletePhotoAlbumByCaId(int ca_id);
+	
+	public int updatePhotoAlbumOnPaName(@Param("pa_id")int pa_id,@Param("pa_name")String pa_name);
+
+}

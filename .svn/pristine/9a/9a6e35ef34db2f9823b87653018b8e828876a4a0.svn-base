@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.UserDao">
+
+<insert id="userReg">
+	insert into userinfo (u_id,u_head,u_sex,u_pro,u_city,u_level,u_nick,u_pwd,u_email,u_phone,u_grade,u_exp,u_money,u_con,u_del) values 
+	(userinfo_seq.nextval,#{u_head},#{u_sex},#{u_pro},#{u_city},1,#{u_nick},#{u_pwd},#{u_email},#{u_phone},0,0,0,0,0)
+</insert>
+<update id="perfectUser">
+	update userinfo set u_name=#{u_name},u_sex=#{u_sex},u_head=#{u_head},u_pro=#{u_pro},u_city=#{u_city},u_nick=#{u_nick},
+	u_sign=#{u_sign},u_addr=#{u_addr},u_qq=#{u_qq},u_email=#{u_email},cd_id=#{cd_id},u_zip=#{u_zip},
+	u_idcard=#{u_idcard},u_alipy=#{u_alipy} where u_id=#{u_id}
+	
+</update>
+<update id="updateUserPwd">
+	update userinfo set u_pwd=#{u_pwd} where u_id=#{u_id}
+</update>
+
+<select id="countPhone" resultType="java.lang.Integer">
+	select count(u_id) from userinfo where u_phone=#{u_phone}
+</select>
+<select id="countEmail" resultType="java.lang.Integer">
+	select count(u_id) from userinfo where u_email=#{u_email} 
+</select>
+<select id="countId" resultType="java.lang.Integer">
+	select count(cl_id) from click_like where u_id=#{u_id} and pd_id=#{pd_id}
+</select>
+<insert id="insertCLickLike">
+	insert into click_like values(click_like_seq.nextval,#{u_id},#{u_nick},#{pd_id})
+</insert>
+<delete id="deleteCLickLike">
+	delete from click_like where u_id=#{u_id} and pd_id=#{pd_id}
+</delete>
+<insert id="insertCar">
+	insert into car values(car_seq.nextval,#{u_id},#{c_pic},#{c_brand},#{c_model})
+</insert>
+<update id="updateCar">
+	update car set c_pic=#{c_pic},c_brand=#{c_brand},c_model=#{c_model} where c_id=#{c_id}
+</update>
+<insert id="insertAccountLog">
+	insert into account_log values(account_log_seq.nextval,#{u_id},#{al_trans},#{al_time})
+</insert>
+<select id="sumValue" resultType="java.lang.Integer">
+	select sum(uc_value) from user_chacon where u_id=#{u_id}
+</select>
+<select id="countuser" resultType="java.lang.Integer">
+	select count(u_id) from userinfo
+</select>
+<select id="selectHeadAndNick" resultType="UserInfo">
+	select u_id,u_head,u_nick from userinfo where u_id=#{u_id}
+
+</select>
+<select id="selectFriends" resultMap="user">
+select * from(select s.*,rownum as rn from(select * from userinfo where u_id in(select fu_id from friends where u_id=#{u_id})) s) 
+	where rn between (#{pageIndex}-1)*8+1 and #{pageIndex}*8
+</select>
+<resultMap type="UserInfo" id="user">
+	<id column="Id" property="id"/>
+	<id column="u_name" property="u_name"/>
+	<id column="club_id" property="club_id"/>
+	<id column="u_head" property="u_head"/>
+	<id column="u_sex" property="u_sex"/>
+	<id column="u_pro" property="u_pro"/>
+	<id column="u_city" property="u_city"/>
+	<id column="u_level" property="u_level"/>
+	<id column="u_nick" property="u_nick"/>
+	<id column="u_pwd" property="u_pwd"/>
+	<id column="u_sign" property="u_sign"/>
+	<id column="u_addr" property="u_addr"/>
+	<id column="u_qq" property="u_qq"/>
+	<id column="u_email" property="u_email"/>
+	<id column="cd_id" property="cd_id"/>
+	<id column="u_phone" property="u_phone"/>
+	<id column="u_zip" property="u_zip"/>
+	<id column="u_grade" property="u_grade"/>
+	<id column="u_idcard" property="u_idcard"/>
+	<id column="u_exp" property="u_exp"/>
+	<id column="u_del" property="u_del"/>
+	<id column="u_money" property="u_money"/>
+	<id column="u_alipy" property="u_alipy"/>
+	<id column="u_con" property="u_con"/>
+	<id column="u_total" property="u_total"/>
+	
+</resultMap>
+</mapper>

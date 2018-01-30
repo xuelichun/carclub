@@ -1,0 +1,56 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import com.zeepn.bean.FunCharge;
+
+public interface FunChargeDao {
+	/**
+	 * 添加功能收费记录
+	 * @param funCharge
+	 * @return
+	 */
+	public int insertFunCharge(FunCharge funCharge);
+	/**
+	 * 查询所有功能收费记录
+	 * @return 功能收费集合
+	 */
+	public List<FunCharge> selectAllFunCharge();
+	/**
+	 * 根据车友会编号查询功能缴费集合
+	 * @param club_id 车友会编号
+	 * @return 功能缴费集合
+	 */
+	public List<FunCharge> selectFunCharge(int club_id);
+	/**
+	 * 根据车友会编号和功能缴费时间 查询功能缴费对象
+	 * @param club_id 车友会编号
+	 * @param fc_paytime 功能缴费时间
+	 * @return 功能缴费对象
+	 */
+	public FunCharge selectOneFunChargeBCT(int club_id,String fc_paytime);
+	/**
+	 * 根据功能缴费编号查询功能缴费对象
+	 * @param fc_id 缴费编号
+	 * @return 功能缴费对象
+	 */
+	public FunCharge selectOneFunCharge(int fc_id);
+	/**
+	 * 更新功能收费表记录
+	 * @param funCharge 功能收费对象
+	 * @return 影响数据库表的行数
+	 */
+	public int updateFunCharge(FunCharge funCharge);
+	/**
+	 * 根据车友会编号查询功能收费缴费时间
+	 * @param club_id 车友会编号
+	 * @return 收费缴费时间
+	 */
+	public String selectFcPaytime(int club_id);
+	/**
+	 * 根据车友会编号查询功能收费到期时间
+	 * @param club_id 车友会编号
+	 * @return 收费到期时间
+	 */
+	public String selectFcMattime(int club_id);
+}	

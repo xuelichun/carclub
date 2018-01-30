@@ -1,0 +1,47 @@
+package com.zeepn.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.Adm;
+import com.zeepn.bean.GenAdm;
+import com.zeepn.dao.GenAdmDao;
+import com.zeepn.dao.SupAdmDao;
+import com.zeepn.service.AdmService;
+
+@Service("admService")    	
+public class AdmServiceImpl implements AdmService{
+	private boolean flag=false;
+	private int count=0;
+	/**
+	 * 自动注入dao
+	 */
+	@Autowired
+	SupAdmDao supAdmDao;
+	GenAdmDao genAdmDao;
+	@Override
+	public boolean admLogin(Adm adm) {
+		System.out.println(adm);
+		if(adm.getAdm_level().equals("1")){
+			count=supAdmDao.selectSupAdm(adm.getAdm_name(),adm.getAdm_pwd());
+			if(count>0){
+				flag=true;
+			}
+		}else if(adm.getAdm_level().equals("2")){
+			count=genAdmDao.selectGenAdm(adm.getAdm_name(),adm.getAdm_pwd());
+			if(count>0){
+				flag=true;
+			}
+		}
+		return flag;
+	}
+	@Override
+	public boolean insertGenAdm(GenAdm genAdm) {
+		int count=genAdmDao.insertGenAdm(genAdm);
+		if(count>0){
+			flag=true;
+		}
+		return flag;
+	}
+	
+}

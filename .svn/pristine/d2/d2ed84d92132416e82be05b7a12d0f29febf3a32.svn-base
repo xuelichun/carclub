@@ -1,0 +1,91 @@
+package com.zeepn.controller;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.zeepn.bean.ClubFee;
+import com.zeepn.bean.JoinAppli;
+import com.zeepn.bean.PayCon;
+import com.zeepn.bean.PreInfo;
+import com.zeepn.service.ClubFeeService;
+import com.zeepn.service.JoinAppliService;
+import com.zeepn.service.PreInfoService;
+import com.zeepn.utils.TransCoding;
+
+@Controller
+public class ClubAdminController {
+	@Autowired
+	JoinAppliService joinAppliService;
+	@Autowired
+	PreInfoService preInfoService;
+	@Autowired
+	ClubFeeService clubFeeService;
+	
+	@RequestMapping("/clubAdmina")
+	@ResponseBody
+	public int insertJoinAppli(JoinAppli joinAppli){
+		int row=joinAppliService.insertJoinAppli(joinAppli);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminb")
+	@ResponseBody
+	public List<JoinAppli> selectJoinAppli(int club_id){
+		List<JoinAppli> joinAppli=joinAppliService.selectJoinAppli(club_id);
+		return joinAppli;
+	}
+	
+	@RequestMapping("/clubAdminc")
+	@ResponseBody
+	public int updateJoinAppli(int ja_id,String ja_status){
+		ja_status=TransCoding.transCoding(ja_status);
+		int row=joinAppliService.updateJoinAppli(ja_id, ja_status);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdmind")
+	@ResponseBody
+	public PreInfo selectPreInfo(int p_id){
+		PreInfo preInfo=preInfoService.selectPreInfo(p_id);
+		return preInfo;
+	}
+	
+	@RequestMapping("/clubAdmine")
+	@ResponseBody
+	public int updatePreInfoAdd(int p_id,int vp_id){
+		int row=preInfoService.updatePreInfoAdd(p_id, vp_id);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminf")
+	@ResponseBody
+	public int updatePreInfoDelete(int p_id,int vp_id){
+		int row=preInfoService.updatePreInfoDelete(p_id, vp_id);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdming")
+	@ResponseBody
+	public int updateClubFee(int club_id,int cf_money,int cf_grade){
+		int row=clubFeeService.updateClubFee(club_id, cf_money, cf_grade);
+		return row;
+	}
+	
+	@RequestMapping("/clubAdminh")
+	@ResponseBody
+	public ClubFee selectClubFee(int club_id){
+		ClubFee clubFee=clubFeeService.selectClubFee(club_id);
+		return clubFee;
+	}
+	
+	@RequestMapping("/clubAdmini")
+	@ResponseBody
+	public int insertPayCon(PayCon payCon){
+		int row=clubFeeService.insertPayCon(payCon);
+		return row;
+	}
+	
+
+}

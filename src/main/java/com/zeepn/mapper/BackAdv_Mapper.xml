@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.BackAdvDao">
+	<resultMap type="Adv" id="adv">
+		<id column="av_id" property="av_id"/>
+		<id column="av_an" property="av_an"/>
+		<id column="av_a" property="av_a"/>
+		<id column="av_price" property="av_price"/>
+		<id column="av_content" property="av_content"/>
+		<id column="av_click" property="av_click"/>
+	</resultMap>
+	<select id="selectAdvRank" resultMap="adv">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,
+		ad_price as av_price,ad_content as av_content,ad_click as av_click from adv_type at,adv_desc ad,
+		advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+	<select id="selectCountAdv" resultType="int">
+		<![CDATA[ 
+		select count(ad_id) from adv_type at,adv_desc ad,advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id 
+		]]>
+	</select>
+	<select id="selectAdvRankByAT" resultMap="adv">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,
+		ad_price as av_price,ad_content as av_content,ad_click as av_click from adv_type at,adv_desc ad,
+		advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10 and av_an=#{av_an}
+		]]>
+	</select>
+	<select id="selectCountAdvByAT" resultType="int">
+		<![CDATA[ 
+		select count(av_id) from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,ad_price as av_price,ad_content 
+		as av_content,ad_click as av_click from adv_type at,adv_desc ad,advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where  av_an=#{av_an}
+		]]>
+	</select>
+	<select id="selectAdvRankByAD" resultMap="adv">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,
+		ad_price as av_price,ad_content as av_content,ad_click as av_click from adv_type at,adv_desc ad,
+		advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10 and av_a=#{av_a}
+		]]>
+	</select>
+	<select id="selectCountAdvByAD" resultType="int">
+		<![CDATA[ 
+		select count(av_id) from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,ad_price as av_price,ad_content 
+		as av_content,ad_click as av_click from adv_type at,adv_desc ad,advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where  av_a=#{av_a}
+		]]>
+	</select>
+	<select id="selectAdvRankByADId" resultMap="adv">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,
+		ad_price as av_price,ad_content as av_content,ad_click as av_click from adv_type at,adv_desc ad,
+		advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10 and av_id=#{av_id}
+		]]>
+	</select>
+	<select id="selectCountAdvByADId" resultType="int">
+		<![CDATA[ 
+		select count(av_id) from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,ad_price as av_price,ad_content 
+		as av_content,ad_click as av_click from adv_type at,adv_desc ad,advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where  av_id=#{av_id}
+		]]>
+	</select>
+	<select id="selectAdvRankByAA" resultMap="adv">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,
+		ad_price as av_price,ad_content as av_content,ad_click as av_click from adv_type at,adv_desc ad,
+		advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10 and av_an=#{av_an} and av_a=#{av_a}
+		]]>
+	</select>
+	<select id="selectCountAdvByAA" resultType="int">
+		<![CDATA[ 
+		select count(av_id) from(select s.*,rownum as rn from(select ad_id as av_id,at_name as av_an,adv_name as av_a,ad_price as av_price,ad_content 
+		as av_content,ad_click as av_click from adv_type at,adv_desc ad,advertiser adv where at.at_id=ad.at_id and ad.adv_id=adv.adv_id order by ad_click desc) s) 
+		where  av_an=#{av_an} and av_a=#{av_a}
+		]]>
+	</select>
+</mapper>

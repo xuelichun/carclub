@@ -1,0 +1,55 @@
+package com.zeepn.bean;
+
+public class PhotoAlbum {
+	private int pa_id;
+	private int alb_id;
+	private String pa_img;
+	private UserInfo u_id;
+	private String pa_uptime;
+	public PhotoAlbum() {
+	}
+	public PhotoAlbum(int pa_id, int alb_id, String pa_img, UserInfo u_id,
+			String pa_uptime) {
+		this.pa_id = pa_id;
+		this.alb_id = alb_id;
+		this.pa_img = pa_img;
+		this.u_id = u_id;
+		this.pa_uptime = pa_uptime;
+	}
+	public int getPa_id() {
+		return pa_id;
+	}
+	public void setPa_id(int pa_id) {
+		this.pa_id = pa_id;
+	}
+	public int getAlb_id() {
+		return alb_id;
+	}
+	public void setAlb_id(int alb_id) {
+		this.alb_id = alb_id;
+	}
+	public String getPa_img() {
+		return pa_img;
+	}
+	public void setPa_img(String pa_img) {
+		this.pa_img = pa_img;
+	}
+	public UserInfo getU_id() {
+		return u_id;
+	}
+	public void setU_id(UserInfo u_id) {
+		this.u_id = u_id;
+	}
+	public String getPa_uptime() {
+		return pa_uptime;
+	}
+	public void setPa_uptime(String pa_uptime) {
+		this.pa_uptime = pa_uptime;
+	}
+	@Override
+	public String toString() {
+		return "PhotoAlbum [pa_id=" + pa_id + ", alb_id=" + alb_id
+				+ ", pa_img=" + pa_img + ", u_id=" + u_id + ", pa_uptime="
+				+ pa_uptime + "]";
+	}
+}

@@ -1,0 +1,27 @@
+$(function(){
+	$.getJSON("../clubRank/showRankIndex.do",{},function(data){
+		var test="";
+		for(var j=1;j<6;j++){
+			if(j<4){
+				test+="<li><span class='sp sp"+j+"'>"+j+"</span>\n<span class='zhic'><img alt=''src=../"+data[j].club_img+" width='20px' height='20px'/></span>\n<span class='name'><a href=carClub.html?club_id="+data[j].club_id+">"+data[j].club_name+"</a></span>\n<span class='oil'>"+data[j].club_tcon+"L</span>\n</li>";
+			}else{
+				test+="<li><span class='sp sp'>"+j+"</span>\n<span class='zhic'><img alt=''src=../"+data[j].club_img+" width='20px' height='20px'/></span>\n<span class='name'><a href="+data[j].club_id+">"+data[j].club_name+"</a></span>\n<span class='oil'>"+data[j].club_tcon+"L</span>\n</li>";
+			}
+		}
+		$("#clubRank").html(test);
+	});
+	
+	$.getJSON("../user/userRank.do",{},function(data){
+		
+		var users="";
+		for(var i=1;i<6;i++){
+			if(i<4){
+				users+="<li><span class='sp sp"+i+"'>"+i+"</span>\n<span class='zhic'><img alt=''src=../"+data[i].u_head+" width='20px' height='20px'/></span>\n<span class='name'><a href=friendsShow.html?u_id="+data[i].u_id+">"+data[i].u_nick+"</a></span>\n<span class='oil'>"+data[i].u_con+"L</span>\n</li>";
+			}else{
+				users+="<li><span class='sp sp'>"+i+"</span>\n<span class='zhic'><img alt=''src=../"+data[i].u_head+" width='20px' height='20px'/></span>\n<span class='name'><a href=friendsShow.html?u_id="+data[i].u_id+">"+data[i].u_nick+"</a></span>\n<span class='oil'>"+data[i].u_con+"L</span>\n</li>";
+			}
+		}
+		$("#userRank").html(users);
+	});
+	
+});

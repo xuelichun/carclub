@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ActivityDao">
+
+<insert id="insertActivity">
+	insert into activity values(activity_seq.nextval,#{act_name},#{act_content},#{act_img},#{act_pro},#{act_city},
+	#{act_money},#{act_dis},#{act_applitime},#{act_starttime},#{act_stoptime},#{club_id},0)
+</insert>
+
+<select id="selectActivities" resultType="Activity">
+	select * from activity where club_id=#{club_id} and act_del=0 order by act_starttime desc
+</select>
+
+<select id="selectActivity" resultType="Activity">
+	select * from activity where act_id=#{act_id} and act_del=0
+</select>
+
+<update id="updateActivity">
+	update activity set act_name=#{act_name},act_content=#{act_content},act_img=#{act_img},
+	act_pro=#{act_pro},act_city=#{act_city},act_money=#{act_money},act_dis=#{act_dis},act_applitime=#{act_applitime},
+	act_starttime=#{act_starttime},act_stoptime=#{act_stoptime} where act_id=#{act_id}
+</update>
+
+<update id="deleteActivity">
+	update activity set act_del=1 where act_id=#{act_id}
+</update>
+
+<select id="selectActivitiesByPage" resultType="Activity">
+	select * from (select a.* , rownum as rn from (select * from activity
+	 where club_id=#{club_id} and act_del=0 order by act_starttime desc) 
+	 a where rownum &lt;=#{page}*4) where rn &gt;=1+(#{page}-1)*4 
+</select>
+
+<select id="selectActivityPage" resultType="int">
+	select count(act_id) from activity where club_id=#{club_id} and act_del=0
+</select>
+
+</mapper>

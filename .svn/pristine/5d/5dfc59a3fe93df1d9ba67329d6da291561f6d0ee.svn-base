@@ -1,0 +1,70 @@
+package com.zeepn.controller;
+
+
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.sun.org.apache.regexp.internal.recompile;
+import com.zeepn.bean.FnetAnt;
+import com.zeepn.service.FnetAntService;
+@Controller
+
+public class FnetAntController {
+
+	
+		@Autowired
+		FnetAntService fnetAntService;
+		@RequestMapping("/FnetAnta")
+		@ResponseBody
+		public int relesAnt(FnetAnt fnetAnt){
+			System.out.println(fnetAnt);
+			int row=fnetAntService.relesAnt(fnetAnt);
+			System.out.println(row);
+			return row;
+		}
+		
+		@RequestMapping("/FnetAntb")
+		@ResponseBody
+		public List<FnetAnt> selectFnetAnt(HttpServletRequest request,int page){
+			Map<String, Integer> map=new HashMap<String, Integer>();
+			System.out.println(page);
+			map.put("page",page);
+			
+		List<FnetAnt> fnetAnt= fnetAntService.selectFnetAntByPage(map);
+				
+			System.out.println(fnetAnt);
+			return fnetAnt;	
+			}
+		
+		@RequestMapping("/FnetAntc")
+		@ResponseBody
+		public FnetAnt selectOneFnetAntById(int fa_id){
+			FnetAnt fnetAnt=fnetAntService.selectOneFnetAntById(fa_id);
+			return fnetAnt;
+		}
+		
+		@RequestMapping("/FnetAntd")
+		@ResponseBody
+		public int selectFnetAntPage(){
+			int page=fnetAntService.selectFnetAntPage()/2;
+			return page;
+		}
+		
+		@RequestMapping("/FnetAnte")
+		@ResponseBody
+		public int deleteFnetAnt(int fa_id){
+			int row=fnetAntService.deleteFnetAnt(fa_id);
+			System.out.println(row);
+			return row;
+		}
+		
+	}

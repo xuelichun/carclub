@@ -1,0 +1,9 @@
+$(function (){
+	$.getJSON("../user/islogin.do",{},function(data){
+		$("#u_head").prop("src","../"+data.u_head);
+		$("#u_id").val(data.u_id);
+	});
+});
+function show(){
+	$('#h2').form('load',"../user/islogin.do");
+}

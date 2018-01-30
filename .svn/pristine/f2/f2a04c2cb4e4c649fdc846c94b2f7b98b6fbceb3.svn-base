@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.BackPreInfoDao">
+	<resultMap type="PiPayRecord" id="PI">
+		<id column="club_id" property="club_id"/>
+		<id column="p_id" property="p_id"/>
+		<id column="pr_time" property="pr_time"/>
+		<id column="pr_day" property="pr_day"/>
+	</resultMap>
+	<select id="selectPiAfList" resultMap="PI">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.club_id,pi.p_id,as.as_time as pr_time,as.as_day as pr_day from anf_sta as,pre_info pi where as.club_id=pi.club_id order by pr_time desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+	<select id="selectPiFcList" resultMap="PI">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.club_id,pi.p_id,nfs.ns_time as pr_time,nfs.ns_day as pr_day from nlf_sta nfs,pre_info pi where nfs.club_id=pi.club_id order by pr_time desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+	<select id="selectPiNlfList" resultMap="PI">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select pi.club_id,pi.p_id,fcs.fs_time as pr_time,fcs.fs_day as pr_day from fc_sta fcs,pre_info pi where fcs.club_id=pi.club_id order by pr_time desc) s)
+			where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+		]]>
+	</select>
+	<select id="selectCountPiAf" resultType="int">
+		<![CDATA[
+		select count(club_id) from anf_sta as,pre_info pi where as.club_id=pi.club_id
+		]]>
+	</select>
+	<select id="selectCountPiFc" resultType="int">
+		<![CDATA[ 
+		select count(club_id) from nlf_sta nfs,pre_info pi where nfs.club_id=pi.club_id
+		]]>
+	</select>
+	<select id="selectCountPiNlf" resultType="int">
+		<![CDATA[ 
+		select count(club_id) from fc_sta fcs,pre_info pi where fcs.club_id=pi.club_id
+		]]>
+	</select>
+</mapper>

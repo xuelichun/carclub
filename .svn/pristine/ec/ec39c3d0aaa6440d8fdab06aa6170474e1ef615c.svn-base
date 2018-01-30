@@ -1,0 +1,35 @@
+package com.zeepn.controller;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.zeepn.bean.Adm;
+import com.zeepn.service.AdmService;
+
+@Controller
+@RequestMapping("/adm")
+public class AdmController {
+	private boolean flag=false;
+
+	/**
+	 * 自动注入dao 
+	 */
+	@Resource(name="admService")
+	private AdmService admService;
+	
+	@RequestMapping("/login")
+	public String admLogin(Adm adm){
+		System.out.println(adm);
+		flag=admService.admLogin(adm);
+		String str="";
+		if(flag){
+			str+= "back/index";
+		}else{
+			str+="back/login";
+		}
+		System.out.println(str);
+		return str;
+	}
+}

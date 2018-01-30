@@ -1,0 +1,82 @@
+package com.zeepn.service;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Select;
+
+import com.zeepn.bean.Album;
+import com.zeepn.bean.AlbumPic;
+
+public interface UserAlbumService {
+	/**
+	 * 用户新建相册
+	 * @param album 相册对象
+	 * @return  影响数据库行数
+	 */
+	public int insertAlbum(Album album);
+	
+	/**
+	 * 向相册里添加图片
+	 * @param albumPic  相册图片对象
+	 * @return  影响数据库行数
+	 */
+	public int insertAlbumPic(AlbumPic albumPic);
+	
+
+	/**
+	 * 跟新相册里图片的数量
+	 * @param a_id  相册id
+	 * @param a_num  图片数量
+	 * @return  影响数据库行数
+	 */
+
+	public int updateAblumNum(int a_id);
+	
+	/**
+	 * 删除相册
+	 * @param a_id 相册id
+	 * @return 成功返回true 失败返回false
+	 */
+
+	public boolean deleteAblum(int a_id);
+	
+
+	
+	/**
+	 * 查询相册下所有图片
+	 * @param a_id  相册id
+	 * @return  list集合，装有该相册下的所有图片对象
+	 */
+	
+	public List<AlbumPic> selectAllAlbumPic(int a_id);
+	
+	/**
+	 * 删除相册里的具体图片
+	 * @param ap_id
+	 * @return 影响数据库行数
+	 */
+	
+	public int deleteAlbumPicById(int ap_id);
+	
+	/**
+	 * 查询用户的所有相册
+	 * @param u_id 用户id 
+	 * @return list集合，里面装有相册对象
+	 */
+	public List<Album> selectAlbum(int u_id);
+	
+	/**
+	 * 根据id查询一个相册对象
+	 * @param a_id 相册id
+	 * @return 相册对象
+	 */
+	public Album selectOneAlbumById(int a_id);
+	
+	/**
+	 * 更改相册信息
+	 * @param albumPic  相册对象
+	 * @return 影响数据库行数
+	 */
+	public int updateAlbum(AlbumPic albumPic);
+	
+}

@@ -1,0 +1,656 @@
+package com.zeepn.controller;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.annotations.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.zeepn.bean.AddFriends;
+import com.zeepn.bean.ChaEvent;
+import com.zeepn.bean.Club;
+import com.zeepn.bean.DraTravel;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.bean.Visitor;
+import com.zeepn.service.ChaEventService;
+import com.zeepn.service.DraTravelService;
+import com.zeepn.service.PreInfoService;
+import com.zeepn.service.UserDynService;
+import com.zeepn.service.UserService;
+import com.zeepn.utils.DateFormat;
+import com.zeepn.utils.TransCoding;
+import com.zeepn.utils.Upload;
+@Controller
+@RequestMapping("/user")
+public class UserController {
+	@Autowired
+	UserService userService;
+	@Autowired
+	PreInfoService preInfoService;
+	@Autowired
+	ChaEventService chaEventService;
+	@Autowired
+	DraTravelService draTravelService;
+	@Autowired
+	UserDynService userDynService; 
+	/**
+	 * 用户电话号和密码登录
+	 * @param u_phone  电话号
+	 * @param u_pwd 密码
+	 * @param request 
+	 * @return  
+	 */
+	@RequestMapping("/loginbyphone")
+	@ResponseBody
+	public UserInfo loginByPhone(String u_phone,String u_pwd,HttpServletRequest request){
+		HttpSession session=request.getSession();
+		UserInfo user =userService.userLoginByPhone(u_phone,u_pwd);
+		if(user!=null){
+			session.setAttribute("user", user);
+		}
+		return user;
+	}
+	
+	/**  用户邮箱和密码登录
+	 * 
+	 * @param u_email 邮箱
+	 * @param u_pwd 密码
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/loginbyemail")
+	@ResponseBody
+	public UserInfo loginByEmail(String u_email,String u_pwd,HttpServletRequest request){
+		HttpSession session=request.getSession();
+		UserInfo user=userService.userLoginByEmail(u_email, u_pwd);
+		if(user!=null){
+			session.setAttribute("user", user);	
+		}
+		return user;
+	}
+	/**
+	 * 用户注册
+	 * @param head  头像
+	 * @param request
+	 * @param userinfo 用户的其他信息
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/reg",method=RequestMethod.POST)
+	@ResponseBody
+	public Object  userReg(@RequestParam MultipartFile[] head,HttpServletRequest request,UserInfo userinfo) throws IOException{
+		String u_head="";
+		for(MultipartFile file:head){
+			u_head=Upload.uploadPicture(file, request,"head");
+			}
+			if(u_head!=null){
+				userinfo.setU_head(u_head);
+				if(userService.userReg(userinfo)>0){
+					return "{\"rs\":\"ok\"}";
+				}else{
+					Upload.deletePicture(u_head);
+					return "{\"rs\":\"no\"}";
+				}
+			}else{
+				return "{\"rs\":\"no\"}";
+			}
+	}
+	/**
+	 * 计算邮箱是否已被使用
+	 * @param u_email
+	 * @return
+	 */
+	@RequestMapping("/countEmail")
+	@ResponseBody
+	public Object countEmail(String u_email){
+		int countEmail=userService.countEmail(u_email);
+		if(countEmail>0){
+			return "{\"rs\":\"no\"}";
+		}else{
+			return "{\"rs\":\"ok\"}";
+		}
+	}
+	
+	/**
+	 * 修改资料时用到的邮箱验证
+	 * @param u_email
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/cEmail")
+	@ResponseBody
+	public Object cEmail(String u_email,HttpServletRequest request){
+		HttpSession session =request.getSession();
+		UserInfo userinfo=(UserInfo) session.getAttribute("user");
+		if(u_email.equals(userinfo.getU_email())){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			int countEmail=userService.countEmail(u_email);
+			if(countEmail>0){
+				return "{\"rs\":\"no\"}";
+			}else{
+				return "{\"rs\":\"ok\"}";
+			}
+		}
+	}
+	/**
+	 * 计算电话号码是否已被使用
+	 * @param u_phone
+	 * @return
+	 */
+	@RequestMapping("/countPhone")
+	@ResponseBody
+	public Object countPhone(String u_phone){
+		int countPhone=userService.countPhone(u_phone);
+		if(countPhone>0){
+			return "{\"rs\":\"no\"}";
+		}else{
+			return "{\"rs\":\"ok\"}";
+		}
+	}
+	/**
+	 * 判断是否登录
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/islogin")
+	@ResponseBody
+	public UserInfo isLogin(HttpServletRequest request){
+		HttpSession session=request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		return user;
+	}
+	
+	/**
+	 * 退出登录
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/exit")
+	@ResponseBody
+	public Object exit(HttpServletRequest request){
+		HttpSession session=request.getSession();
+		session.removeAttribute("user");
+		return "{\"rs\":\"ok\"}";
+	}
+	@RequestMapping("/isPresident")
+	@ResponseBody
+	public Object isPresident(int u_id){
+		int a=preInfoService.isPresident(u_id);
+		//System.out.println(a);
+		return "{\"rs\":\""+a+"\"}";
+	}
+	@RequestMapping(value="/change",method=RequestMethod.POST)
+	@ResponseBody
+	public Object change(@RequestParam MultipartFile[] head,HttpServletRequest request,UserInfo userinfo) throws IOException{
+		HttpSession session=request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		if(head[0].isEmpty()){
+			System.out.println(1);
+			userinfo.setU_head(user.getU_head());
+		}else{
+			String u_head=Upload.uploadPicture(head[0], request, "head");
+			Upload.deletePicture(user.getU_head());
+			//System.out.println(u_head);
+			userinfo.setU_head(u_head);
+			//System.out.println(userinfo);
+		}
+		if(userService.perfectUser(userinfo)>0){
+			UserInfo us=userService.selectUserById(userinfo.getU_id());
+			session.setAttribute("user", us);
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}	
+	}
+	/**
+	 * 创建车友会完善个人信息
+	 * @param request
+	 * @param userinfo
+	 * @return
+	 */
+	@RequestMapping("/createCarClub")
+	@ResponseBody
+	public Object createCarClub(HttpServletRequest request,UserInfo userinfo){
+		HttpSession session=request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		if(userService.createCarClub(user,userinfo.getU_id())>0){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+	}
+	
+	/**
+	 * 查询用户头像，昵称，
+	 * @param u_id 用户id
+	 * @return 
+	 */
+	@RequestMapping("/selectHeadAndNick")
+	@ResponseBody
+	public UserInfo selectHeadAndNick(int u_id){
+		UserInfo user=userService.selectHeadAndNick(u_id);
+		//System.out.println(user);
+		return user;
+	}
+	
+	@RequestMapping("/changePwd")
+	@ResponseBody
+	public Object changePwd(int u_id ,String u_pwd,HttpServletRequest request){
+		UserInfo user=new UserInfo(u_id, u_pwd);
+		HttpSession session=request.getSession();
+		if(userService.updateUserPwd(user)>0){
+			session.removeAttribute("user");
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+	}
+	/**
+	 * 找回密码
+	 * @param u_phone
+	 * @return
+	 */
+	@RequestMapping("/findPwd")
+	@ResponseBody
+	public Object findPwd(String u_phone,String u_pwd){
+		if(userService.updateUserPwdByPhone(u_phone, u_pwd)>0){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+	}
+	
+	@RequestMapping("/updateTotal")
+	@ResponseBody
+	public Object updateTotal(int u_id) {
+		if(userService.updateTotal(u_id)>0){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+	}
+
+	@RequestMapping("/insertVisitor")
+	@ResponseBody
+	public Object insertVisitor(int v_uid1,int v_uid2,String u_nick){
+		String v_time=DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMATS);
+		u_nick=TransCoding.transCoding(u_nick);
+		Visitor visitor =new Visitor(v_uid1, u_nick, v_uid2, v_time);
+		if(userService.insertVisitor(visitor)>0){
+			return "{\"rs\":\"ok\"}";	
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+	}
+	
+	/**
+	 * 分页查询用户参加的慈善活动
+	 * @param u_id
+	 * @param pageIndex
+	 * @return
+	 */
+	@RequestMapping("/selectChaEventByUId")
+	@ResponseBody
+	public List<ChaEvent> selectChaEventByUId(HttpServletRequest request,int pageIndex){
+		HttpSession session=request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		List<ChaEvent> list=new ArrayList<ChaEvent>();
+		if(user!=null){
+			int u_id=user.getU_id();
+			list=chaEventService.selectChaEventByUId(u_id, pageIndex);
+		}
+		return list;
+	}
+	
+	/**
+	 * 计算一个慈善活动下人数
+	 * @param ce_id
+	 * @return
+	 */
+	@RequestMapping("/countNum")
+	@ResponseBody
+	public Object countNum(int ce_id){
+		int a=chaEventService.countNum(ce_id);
+		return "{\"rs\":\""+a+"\"}";
+	}
+	/*
+	 * 查询慈善活动总页数
+	 */
+	@RequestMapping("/selectChaEventPage")
+	@ResponseBody
+	public Object selectChaEventPage(HttpServletRequest request){
+		HttpSession session=request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		if(user!=null){
+			int u_id=user.getU_id();
+			int a=chaEventService.selectChaEventPage(u_id);
+			
+			return "{\"rs\":\""+a+"\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+		
+	}
+	/**
+	 * 分页查询用户参加的自驾旅游
+	 * @param u_id  用户id
+	 * @param pageIndex   页数
+	 * @return
+	 */
+	@RequestMapping("/selectDraTravelBuUId")
+	@ResponseBody
+	public List<DraTravel> selectDraTravelBuUId(int u_id,int pageIndex){
+		List<DraTravel> list=draTravelService.selectDraTravelBuUId(u_id, pageIndex);
+		return list;
+	}
+	/*
+	 * 查询自驾旅游活动总页数
+	 */
+	@RequestMapping("/selectDraTravelPage")
+	@ResponseBody
+	public Object selectDraTravelPage(int u_id){
+		int a=draTravelService.selectDraTravelPage(u_id);
+		return "{\"rs\":\""+a+"\"}";
+	}
+	
+	@RequestMapping("/countNumhis")
+	@ResponseBody
+	public Object countNumhis(int ts_id){
+		int a=draTravelService.countNum(ts_id);
+		return "{\"rs\":\""+a+"\"}";
+	}
+	
+	
+	/**
+	 * 检查用户是否加对方为好友
+	 * @param u_id  用户id
+	 * @param fu_id   好友id 
+	 * @return 
+	 */
+	@RequestMapping("/checkFriends")
+	@ResponseBody
+	public Object checkFriends(int u_id,int fu_id){
+		//System.out.println(u_id+"----"+fu_id);
+		int a=userService.checkFriends(u_id, fu_id);
+		//System.out.println(a);
+			if(a>=1){
+				return "{\"rs\":\"no\"}";
+			}else{
+				return "{\"rs\":\"ok\"}";
+			}
+	}
+	
+	/**
+	 * 增加一条用户添加好友信息
+	 * @param addfriends  添加好友信息对象
+	 * @return   影响数据库行数
+	 */
+	@RequestMapping("/addFriendMsg")
+	@ResponseBody
+	public Object addFriendMsg(int ad_uid ,int ad_fid,String ad_unick,String ad_fnick){
+		ad_unick=TransCoding.transCoding(ad_unick);
+		ad_fnick=TransCoding.transCoding(ad_fnick);
+		String ad_time=DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_SEC);
+		AddFriends addfriends=new AddFriends(ad_uid, ad_unick, 0, 2, ad_fid, ad_fnick, 0, ad_time);
+		if(userService.addFriendMsg(addfriends)>0){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+	}
+	
+	/**
+	 * 查询用户未读的添加好友通知,并将未读修改为已读
+	 * @param ad_fid  用户的id
+	 * @param pageIndex   页数
+	 * @return
+	 */
+	@RequestMapping("/selectNewAddFriendsMsg")
+	@ResponseBody
+	public List<AddFriends> selectNewAddFriendsMsg(HttpServletRequest request,int pageIndex){
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		List<AddFriends> list=new ArrayList<AddFriends>();
+		if(user!=null){
+			int ad_fid=user.getU_id();
+			list=userService.selectNewAddFriendsMsg(ad_fid, pageIndex);
+		}
+		return list;
+	}
+	
+	/**
+	 * 查询所有好友添加通知
+	 * @param ad_fid  用户id
+	 * @param pageIndex  页数
+	 * @return
+	 */
+	@RequestMapping("/selectAllAddFriendsMsg")
+	@ResponseBody
+	public List<AddFriends> selectAllAddFriendsMsg(HttpServletRequest request,int pageIndex){
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		List<AddFriends> list=new ArrayList<AddFriends>();
+		if(user!=null){
+			int ad_fid=user.getU_id();
+			list=userService.selectAllAddFriendsMsg(ad_fid, pageIndex);
+		}
+		
+		return list;
+	}
+	
+	
+	
+	/**
+	 * 查询用户未读添加好友信息的总条数
+	 * @param ad_fid
+	 * @return
+	 */
+	@RequestMapping("/countNewAddFriendsMsg")
+	@ResponseBody
+	public Object countNewAddFriendsMsg(HttpServletRequest request){
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		int a=0;
+		if(user!=null){
+			int ad_fid=user.getU_id();
+			 a=userService.countNewAddFriendsMsg(ad_fid);
+		}
+		return "{\"rs\":\""+a+"\"}";
+	}
+	
+	/**
+	 * 查询用户未读添加好友信息的总页数
+	 * @param ad_fid
+	 * @return
+	 */
+	@RequestMapping("/countNewAddFriendsMsgPage")
+	@ResponseBody
+	public Object countNewAddFriendsMsgPage(HttpServletRequest request) {
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		int a=0;
+		if(user!=null){
+			int ad_fid=user.getU_id();
+			a=userService.countNewAddFriendsMsgPage(ad_fid);
+		}
+		return "{\"rs\":\""+a+"\"}";
+	}
+	/**
+	 * 查询用户添加好友信息的总页数 10条一页
+	 * @param ad_fid
+	 * @return
+	 */
+	@RequestMapping("/countAddFriendsMsgPage")
+	@ResponseBody
+	public Object countAddFriendsMsgPage(HttpServletRequest request) {
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		int a=0;
+		if(user!=null){
+			int ad_fid=user.getU_id();
+			a=userService.countAddFriendsMsg(ad_fid);
+		}
+		return "{\"rs\":\""+a+"\"}";
+	}
+	
+
+	/**
+	 * 用户删除添加好友通知
+	 * @param ad_id 通知id
+	 * @return
+	 */
+	@RequestMapping("/noMsg")
+	@ResponseBody
+	public Object noMsg(int ad_id) {
+		if(userService.updateNo(ad_id)>0){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+	
+	}
+	
+	@RequestMapping("/addFriends")
+	@ResponseBody
+	 public Object addFriends(int u_id,int fu_id,int ad_id){
+		 if(userService.addFriends(u_id, fu_id)>0){
+			 userService.addFriends(fu_id, u_id);
+			 userService.updateAgree(ad_id);
+			 return "{\"rs\":\"ok\"}";
+			 
+		 }else{
+			 return "{\"rs\":\"no\"}";
+		 }
+		 
+	 }
+	
+	@RequestMapping("/selectNewAddFriendsReply")
+	@ResponseBody
+	public List<AddFriends> selectNewAddFriendsReply(int pageIndex,HttpServletRequest request){
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		List<AddFriends> list=new ArrayList<AddFriends>();
+		int a=0;
+		if(user!=null){
+			int ad_uid=user.getU_id();
+			list=userService.selectNewAddFriendsReply(ad_uid, pageIndex);
+		}
+		return list;
+	}
+	
+	@RequestMapping("/selectAllAddFriendsMsgReply")
+	@ResponseBody
+	public List<AddFriends> selectAllAddFriendsMsgReply(int pageIndex,HttpServletRequest request){
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		List<AddFriends> list=new ArrayList<AddFriends>();
+		int a=0;
+		if(user!=null){
+			int ad_uid=user.getU_id();
+			list=userService.selectAllAddFriendsMsgReply(ad_uid, pageIndex);
+		}
+		return list;
+	}
+	
+
+	/*
+	 * 所有的回复分页
+	 */
+	@RequestMapping("/countAddFriendsMsgReplyPage")
+	@ResponseBody
+	public Object countAddFriendsMsgReplyPage(HttpServletRequest request) {
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		int a=0;
+		if(user!=null){
+			int ad_uid=user.getU_id();
+			a=userService.countAddFriendsMsgReply(ad_uid);
+		}
+		return "{\"rs\":\""+a+"\"}";
+	}
+	
+
+	/*
+	 * 新的回复总条数
+	 */
+	@RequestMapping("/countNewAddFriendsReply")
+	@ResponseBody
+	public Object countNewAddFriendsReply(HttpServletRequest request) {
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		int a=0;
+		if(user!=null){
+			int ad_uid=user.getU_id();
+			a=userService.countNewAddFriendsReply(ad_uid);
+		}
+		return "{\"rs\":\""+a+"\"}";
+	}
+	
+	/*
+	 * 新的回复分页
+	 */
+	@RequestMapping("/countNewAddFriendsReplyPage")
+	@ResponseBody
+	public Object countNewAddFriendsReplyPage(HttpServletRequest request) {
+		HttpSession session =request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		int a=0;
+		if(user!=null){
+			int ad_uid=user.getU_id();
+			a=userService.countNewAddFriendsReplyPage(ad_uid);
+		}
+		return "{\"rs\":\""+a+"\"}";
+	}
+	@RequestMapping("/addMoney")
+	@ResponseBody
+	public Object addMoney(int u_id,double u_money){
+		if(userService.addMoney(u_id, u_money)){
+			return "{\"rs\":\"ok\"}";
+		}else{
+			return "{\"rs\":\"no\"}";
+		}
+		
+	}
+	@RequestMapping("/selectOneUser")
+	@ResponseBody
+	public UserInfo selectOneUser(int u_id){
+		UserInfo user =userService.selectUserById(u_id);
+		return user;
+	}
+	
+	@RequestMapping("/countNewMsg")
+	@ResponseBody
+	public List<Integer> countNewMsg(HttpServletRequest request){
+		HttpSession session=request.getSession();
+		UserInfo user=(UserInfo) session.getAttribute("user");
+		List<Integer> list=new ArrayList<Integer>();
+		if(user!=null){
+			int u_id=user.getU_id();
+			int countNewAddFriendsMsg=userService.countNewAddFriendsMsg(u_id);
+			int countNewAddFriendsReply=userService.countNewAddFriendsReply(u_id);
+			int countNewComments=userDynService.countNewComments(u_id);
+			int countNewReply=userDynService.countNewReply(u_id);
+			int allMsg=countNewAddFriendsMsg+countNewAddFriendsReply;
+			int all=countNewComments+countNewReply+allMsg;
+//			list.add(countNewAddFriendsMsg);
+//			list.add(countNewAddFriendsReply);
+			list.add(all);
+			list.add(countNewComments);
+			list.add(countNewReply);
+			list.add(allMsg);
+			System.out.println(countNewAddFriendsMsg);
+		}
+		return list;
+	}
+	
+}

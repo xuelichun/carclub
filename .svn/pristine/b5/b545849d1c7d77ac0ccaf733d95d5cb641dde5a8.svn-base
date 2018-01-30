@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.JoinAppliDao">
+
+<insert id="insertJoinAppli">
+	insert into join_appli values (join_appli_seq.nextval,#{u_id},#{club_id},#{ja_applitime},#{ja_status})
+</insert>
+
+<select id="selectJoinAppli" resultType="JoinAppli">
+	select * from join_appli where club_id=#{club_id}
+</select>
+
+<update id="updateJoinAppli">
+	update join_appli set ja_status=#{ja_status} where ja_id=#{ja_id}
+</update>
+
+<update id="updateClubOnClubPnum">
+	update club set club_pnum=club_pnum+1 where club_id=#{club_id}
+</update>
+
+<select id="selectClubIdByJaId" resultType="int">
+	select club_id from join_appli where ja_id=#{ja_id}
+</select>
+
+<select id="selectClubPnum" resultType="int">
+	select club_pnum from club where club_id=#{club_id}
+</select>
+
+<select id="selectClubMaxNum" resultType="int">
+	select club_maxnum from club where club_id=#{club_id}
+</select>
+
+<select id="selectClubAddress" resultType="String">
+	select club_city from club where club_id=#{club_id}
+</select>
+
+
+</mapper>

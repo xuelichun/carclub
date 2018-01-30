@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>user</title>
+<link href="./css/public.css" rel="stylesheet" type="text/css" />
+<link href="./css/user.css" rel="stylesheet" type="text/css" />
+<link href="./css/message.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/jquery.Xslider.js"></script>
+<script type="text/javascript" src="./js/userDyn.js"></script>
+<link rel="stylesheet" type="text/css" href="css/icon.css"/>
+<link rel="stylesheet" type="text/css" href="css/easyui.css"/>
+<script src="js/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./js/userShow.js"></script>
+<script type="text/javascript" src="./js/user.js"></script>
+</head>
+
+<body onload="shows()">
+<div class="top11" id="top11" >
+	
+</div>
+<div id="denglu">
+	</div>
+	<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="index.html">首页</a></li>
+                   <li class="navthis1"><a href="#"  rel='dropmenu1' id="allMag">消息</a>
+                       <ul>
+                           <li><a href="userMessage.html" id="xitong">系统消息</a></li>
+                           <li><a href="userNewComments.html" id="newComments">未读的评论</a></li>
+                           <li><a href="userNewReply.html" id="newReply">未读的回复</a></li>
+                           <li><a href="newAddFriends.html" id="newAddFriends">好友申请</a></li>
+                       
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>设置</a>
+                       <ul>
+                           <li><a href="userShow.html">个人资料</a></li>
+                           <li><a href="changePwd.html">修改密码</a></li>
+                       </ul>
+                   </li> 
+                   
+             	</ul>
+		</div>
+  	</div>
+ </div>
+<div id='cc'></div>
+<div class="user clearfix">
+    	<div class="u_l">
+        	<div class="u_la">
+        		<form action="" id="h2">
+	            	<div class="box_h"><span>我的账户</span></div>
+	                <div class="box_m">
+	                	<div style="float:left;padding-right:10px;" >
+	          				<input type="hidden" name="u_id" id="u_id"/>
+	                		<img alt="" id="u_head"  alt="" style="width:70px; height:70px;"/>
+	                		<!--  <img src="./images/qq.jpg" alt="" style="width:70px; height:70px;"/>-->
+	                	</div>
+	                	<div >昵称:<input type="text" name="u_nick"  id="u_nick" style="border:0px; width:50px;" readonly="readonly"/><br/>
+	                	 	等级:<input type="text" name="u_level"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 	积分:<input type="text" name="u_grade" style="border:0px; width:50px;"readonly="readonly"/><br/>
+	               			经验:<input type="text" name="u_exp"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	 </div>
+	                	<div>
+	                	总访客量:<input type="text" name="u_total"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                	账户余额:<input type="text" name="u_money"  style="border:0px; width:50px;"readonly="readonly"/><br/>
+	                   	个性签名:<input type="text" name="u_sign" style="border:0px; width:50px;" readonly="readonly"/>
+	                   	
+	                    </div>
+	                </div>
+                </form>
+            </div>
+            <div class="space_hx">&nbsp;</div>
+            <div class="u_lb">
+            	<div class="box_h"><span>个人中心</span></div>
+                <div class="box_m">
+                	<ul>
+                		<li class="now"><a href="user.html">个人动态</a></li>
+                        <li><a href="myPhoto.html">我的相册</a></li>
+                        <li><a href="myCar.html">我的爱车</a></li>
+                        <li><a href="javascript:myclub()">我的车友会</a></li>
+                        <li><a href="friends.html">我的好友</a></li>
+                        <li><a href="friendsDyn.html">好友圈</a></li>
+                        <li><a href="ClubfriendsDyn.html">车友圈</a></li>
+                        <li><a href="userActivity.html">我的活动</a></li>
+                        <li><a href="userVisitor.html">查看访客</a></li>
+                        <li id="hui" style="display:none;"><a href="javascript:tiaozhuan()">管理车友会</a></li>
+                        <li id="fu" style="display:none;"><a href="javascript:tiaozh()">管理车友会</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      
+		<div id="center">
+	        <div class="u_r" id="ur">
+	        	<div id="userdyn">
+		        <div class="content01"><input value="发布动态" type="button" onclick="pdyn()"/>|<input value="发表图片" type="button" onclick="imag()"/></div>
+		        
+		        <div class="content2" id="pdyn">
+		       		<form action="../userDyn/publishdyn.do" id="f1"  method="post">
+		        	<div class="inputLong" ><textarea name="pd_msg" cols="100" rows="10" id="pd_msg1" onblur="outdyn()" onfocus="indyn()">说点什么吧</textarea></div>
+		           	<div class="login" style="margin-left:87%; margin-top:1%;">
+		           	<a id="submit" class="easyui-linkbutton" >发表</a></div>
+		           	</form>
+		        </div>
+		       	<div class="content2" style="display:none;" id="imag">
+		       		<form action="../userDyn/publishimage.do" id="f2"  method="post" enctype="multipart/form-data">
+		        	<div class="inputLong" ><textarea name="pd_msg" cols="100" rows="10" id="pd_msg2" onblur="outdyn()" onfocus="indyn()">说点什么吧</textarea></div>
+		        	<div style='float:left; margin-left:2.5%;'id='img' > <a href='javascript:addimg()' ><img alt='' src='../front/images/imag.jpg' /></a>
+		        	<input type="file" name="img" style="float:right;"/></div>
+		           	<div class="login" style="margin-left:87%; margin-top:1%;">
+		           	<a id="submit2" class="easyui-linkbutton" >发表</a></div>
+		           	</form>
+		        </div>
+		        </div>
+		        <div class="liuyan" >
+		        	<div class="title">动态中心</div>
+		            <div class="recListS borderTop">
+				     	<ul id="ul">
+				         	<li>
+				                 
+				                 
+				                 
+				             </li> 
+				             
+				             </ul>
+				             <div  class="mblFunc mt10 f12 downWh">
+				             	<a href="javascript:goback()">上一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<span id="sss"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<span id="ss"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+				             	<a href="javascript:gofont()">下一页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				             
+				             </div>
+		             </div>
+		         </div>
+	        </div>
+        </div>
+</div>
+
+</body>
+</html>

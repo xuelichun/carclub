@@ -1,0 +1,141 @@
+package com.zeepn.service.impl;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.Comments;
+import com.zeepn.bean.DynPic;
+import com.zeepn.bean.PersonDyn;
+import com.zeepn.bean.Reply;
+import com.zeepn.dao.FnetAntDao;
+import com.zeepn.dao.PersonDynDao;
+import com.zeepn.service.PersonDynService;
+@Component("personDynService")
+public class PersonDynServiceImpl implements PersonDynService {
+	@Autowired
+	PersonDynDao personDynDao;
+	@Override
+	public int createPersonDyn(PersonDyn personDyn) {
+		personDyn.setPd_time(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+		int row=personDynDao.createPersonDyn(personDyn);
+		return row;
+	}
+	@Override
+	public int selectPIdByTime(int u_id,String pd_time){
+		int pd_id=personDynDao.selectPIdByTime(u_id, pd_time);
+		return pd_id;
+	}
+
+	@Override
+	public int createDynPicture(DynPic dynPic) {
+	    int row=personDynDao.createDynPicture(dynPic);
+		return row;
+	}
+
+	@Override
+	public int deletePersonDyn(int pd_id) {
+		int row=personDynDao.deletePersonDyn(pd_id);
+		return row;
+	}
+
+	@Override
+	public int deleteDynPic(int pd_id) {
+		int row=personDynDao.deleteDynPic(pd_id);
+		return row;
+	}
+
+	@Override
+	public List<PersonDyn> showDyn(int u_id, int indexPage) {
+		List<PersonDyn> personDyn=personDynDao.showDyn(u_id, indexPage);
+		return personDyn;
+	}
+
+	@Override
+	public List<DynPic> showDynPic(int pd_id) {
+		List<DynPic> dynPic=personDynDao.showDynPic(pd_id);
+		return dynPic;
+	}
+
+	@Override
+	public PersonDyn selectOneDynById(int pd_id) {
+		PersonDyn personDyn=personDynDao.selectOneDynById(pd_id);
+		return personDyn;
+	}
+
+	@Override
+	public List<PersonDyn> showSpare(int u_id, int pageIndex) {
+		List<PersonDyn> personDyn=personDynDao.showSpare(u_id, pageIndex); 
+		return personDyn;
+	}
+
+	@Override
+	public int createComments(Comments comments) {
+		int row=personDynDao.createComments(comments);
+		return row;
+	}
+
+	@Override
+	public int createReply(Reply reply) {
+		int row=personDynDao.createReply(reply);
+		return row;
+	}
+
+	@Override
+	public List<Comments> showAllComments(int pd_id) {
+		List<Comments> comments=personDynDao.showAllComments(pd_id);
+		return comments;
+	}
+
+	@Override
+	public List<Reply> showAllReply(int com_id) {
+		List<Reply> reply=personDynDao.showAllReply(com_id);
+		return reply;
+	}
+
+	@Override
+	public Comments showCommentsById(int com_id) {
+		Comments  comments=personDynDao.showCommentsById(com_id);
+		return comments;
+	}
+
+	@Override
+	public List<Reply> showNewReply() {
+		List<Reply> replay=personDynDao.showNewReply();
+		return replay;
+	}
+
+	@Override
+	public List<Comments> showNewComments() {
+		List<Comments> comments=personDynDao.showNewComments();
+		return comments;
+	}
+
+	@Override
+	public int updateReply(int rp_id) {
+		int row=personDynDao.updateReply(rp_id);
+		return row;
+	}
+
+	@Override
+	public int updateComments(int com_id) {
+		int row=personDynDao.updateComments(com_id);
+		return row;
+	}
+
+	@Override
+	public int deleteComments(int com_id) {
+		int row=personDynDao.deleteComments(com_id);
+		return row;
+	}
+
+	@Override
+	public int deleteReply(int com_id) {
+		int row=personDynDao.deleteReply(com_id);
+		return row;
+	}
+
+}

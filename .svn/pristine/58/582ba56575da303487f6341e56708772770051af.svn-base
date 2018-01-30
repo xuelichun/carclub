@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.CarDepDao">
+	<select id="selectAllCarDep" parameterType="int" resultType="CarDep">
+		select * from car_dep where cb_id=#{cb_id}
+	</select>
+	<select id="insertCarDep">
+		insert into car_dep values(car_dep.nextval,#{cd_name},#{cb_id})
+	</select>
+	<delete id="delCarDep">
+		delete from car_dep where cd_id=#{cd_id}
+	</delete>
+</mapper>

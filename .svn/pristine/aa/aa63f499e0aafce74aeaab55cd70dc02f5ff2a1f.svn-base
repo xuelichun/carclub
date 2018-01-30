@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.AppliNoticeDao">
+	<insert id="insertAppliNotice" parameterType="AppliNotice">
+		<![CDATA[ 
+		insert into appli_notice values(appli_notice.nextval
+			#{an_time},#{an_status},#{p_id},#{ga_id},#{club_name},
+			#{club_domname},#{club_city},#{club_del},#{cd_id})
+		]]>
+	</insert>
+	<!--  
+	<select id="selectAllAppliNotice" resultType="AppliNotice">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select * from appli_notice order by an_time desc) s) "
+			+ "where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10;
+		]]>
+	</select>
+	-->
+	<select id="selectAppliNoticeAfterRead" resultType="AppliNotice">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select * from appli_notice where read_sign=#{read_sign} order by an_time desc) s) "
+			+ "where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10;
+		]]>
+	</select>
+	<select id="selectAppliNoticeBeforeRead" resultType="AppliNotice">
+		<![CDATA[ 
+		select * from(select s.*,rownum as rn from(select * from appli_notice where read_sign=#{read_sign} order by an_time desc) s) "
+			+ "where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10;
+		]]>
+	</select>
+	<!--  
+	<select id="selectAnCount" resultType="int">
+		select count(an_id) from appli_notice
+	</select>
+	-->
+	<select id="selectAnCountBeforeRead" resultType="int">
+		select count(an_id) from appli_notice where read_sign=#{read_sign}
+	</select>
+	<select id="selectAnCountAfterRead" resultType="int">
+		select count(an_id) from appli_notice where read_sign=#{read_sign}
+	</select>
+</mapper>

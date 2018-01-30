@@ -1,0 +1,47 @@
+package com.zeepn.dao;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.GenAdm;
+
+@Repository("genAdmDao")
+public interface GenAdmDao {
+	/**
+	 * 查询二级管理员表中是否存在该管理员的方法
+	 * @param ga_level 管理员级别
+	 * @return 返回值>0，说明存在；返回值<=0，说明不存在
+	 */
+	public int selectGenAdmLevel(int ga_level);
+	/**
+	 * 二级管理员登录方法
+	 * @param ga_name 二级管理员账号
+	 * @param ga_pwd 二级管理员密码
+	 * @return 返回非空的二级管理员对象，登录成功；返回空的二级管理员对象，登录失败
+	 */
+	public int selectGenAdm(@Param("ga_name")String ga_name,@Param("ga_pwd")String ga_pwd);
+	/**
+	 * 超级管理员添加二级管理员方法
+	 * @param genAdm 二级管理员对象
+	 * @return 返回值>0，添加成功；返回值<=0，添加失败
+	 */
+	public int insertGenAdm(GenAdm genAdm);
+	/**
+	 * 二级管理员修改自己密码的方法
+	 * @param ga_pwd 二级管理员新密码
+	 * @return 返回值>0，说明修改成功；返回值<=0，说明修改失败
+	 */
+	public int updateGenAdmPwd(String ga_pwd);
+	/**
+	 * 根据二级管理员编号查询上级管理员编号
+	 * @param sa_id 二级管理员编号
+	 * @return  上级管理员编号
+	 */
+	public int selectGenAdmBySaid(int ga_id);
+	/**
+	 * 超级管理员删除二级管理员方法
+	 * @param ga_id 二级管理员编号
+	 * @return 返回值>0，说明删除成功；返回值<=0，说明删除失败
+	 */
+	public int delGenAdmByGaid(int ga_id);
+}

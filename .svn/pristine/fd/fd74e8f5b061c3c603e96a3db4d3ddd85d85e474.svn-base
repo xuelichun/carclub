@@ -1,0 +1,59 @@
+package com.zeepn.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.bean.Notice;
+import com.zeepn.service.NoticeService;
+
+@Controller
+public class NoticeController {
+	@Autowired
+	NoticeService noticeService;
+	
+	
+	@RequestMapping("/noticea")
+	@ResponseBody
+	public int createNotice(Notice notice){
+		int row=noticeService.createNotice(notice);
+		return row;
+	}
+	
+	@RequestMapping("/noticeb")
+	@ResponseBody
+	public List<Notice> selectNotice(int club_id,int page){
+		Map<String, Integer> map=new HashMap<String, Integer>();
+		map.put("club_id", club_id);
+		map.put("page", page);
+		List<Notice> notice= noticeService.selectNoticeByPage(map);
+		return notice;
+	}
+	
+	@RequestMapping("/noticec")
+	@ResponseBody
+	public Notice selectOneNoticeById(int noti_id){
+		Notice notice=noticeService.selectOneNoticeById(noti_id);
+		return notice;
+	}
+	
+	@RequestMapping("/noticed")
+	@ResponseBody
+	public int selectNoticePage(int club_id){
+		int page=noticeService.selectNoticePage(club_id)/2;
+		return page;
+	}
+	
+	@RequestMapping("/noticee")
+	@ResponseBody
+	public int deleteNotice(int noti_id){
+		int row=noticeService.deleteNotice(noti_id);
+		return row;
+	}
+	
+}

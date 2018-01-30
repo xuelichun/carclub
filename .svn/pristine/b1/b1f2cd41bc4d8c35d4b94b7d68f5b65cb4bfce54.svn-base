@@ -1,0 +1,41 @@
+package com.zeepn.service;
+
+import java.util.List;
+
+import com.zeepn.bean.DraTravel;
+
+public interface DraTravelService {
+	/**
+	 * 添加旅游项目
+	 * @param draTravel
+	 * @return	添加成功返回1，失败返回0
+	 */
+	int insertDraTravel(DraTravel draTravel);
+	
+	/**
+	 * 根据ID查询旅游项目
+	 * @param dt_id
+	 * @return 旅游项目详情
+	 */
+	DraTravel selectDraTravelById(int dt_id);
+	/**
+	 * 查看全部旅游项目
+	 * @param dt_id
+	 * @return 旅游项目列表
+	 */
+	List<DraTravel> selectDraTravel(int dt_id);
+	
+	/**
+	 * 修改旅游项目信息
+	 * @param draTravel
+	 * @return	修改成功返回1，失败返回0
+	 */
+	int updateDraTravel(DraTravel draTravel);
+	
+	/**
+	 * 删除旅游项目
+	 * @param dt_id
+	 * @return 删除成功返回1，失败返回0
+	 */
+	int deleteDraTravel(int dt_id);
+}

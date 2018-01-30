@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script>
+			// skin demo
+			(function() {
+				var _skin, _jQuery;
+				var _search = window.location.search;
+				if (_search) {
+					_skin = _search.split('demoSkin=')[1];
+					_jQuery = _search.indexOf('jQuery=true') !== -1;
+					if (_jQuery) document.write('<scr'+'ipt src="jquery-1.6.2.min.js"></sc'+'ript>');
+				};
+				
+				document.write('<scr'+'ipt src="artDialog.source.js?skin=' + (_skin || 'default') +'"></sc'+'ript>');
+				window._isDemoSkin = !!_skin;
+			})();
+		</script>
+		<script type="text/javascript" src="artDialog.js"></script>
+		<script type="text/javascript" src="basic/jquery.artDialog.basic.js" ></script>
+		<script type="text/javascript" src="jquery.artDialog.js"></script>
+		<script type="text/javascript" src="jquery.artDialog.source.js"></script>
+		<link rel="stylesheet" href="./_doc/highlight/styles/magula.css" />
+	</head>
+	<script type="text/javascript">
+		function dianji1 (){
+			dianji2('succeed',50,30,400,300,'我爱你',3);
+			dianji3(50,30,400,300,'我爱你',3);
+		}
+		/**
+		 * 消息框的弹出（宽度和高度等尺寸不能使用单位px，可以使用'30'或30或'3em'或'100%'这几种形式）
+		 * @param {Object} icon 消息提示图片（参数是）
+		 * @param {Object} width 消息框宽度
+		 * @param {Object} height 消息框高度
+		 * @param {Object} left 消息框离屏幕左边距离
+		 * @param {Object} top  消息框离屏幕上方距离
+		 * @param {Object} content 消息框的内容
+		 * @param {Object} time 设置消息框显示的时间，时间超出，消息框自动关闭
+		 */
+		function dianji2(icon,width,height,left,top,content,time){
+			art.dialog({
+			icon:icon,
+    		width:  width,
+    		height: height,
+    		left:left,
+    		top:top,
+    		content: content,
+    		okVal:'确定',
+		    init: function () {
+		    	var that = this, i = time;
+		        var fn = function () {
+		            that.title(i + '秒后关闭');
+		            !i && that.close();
+		            i --;
+		        };
+		        timer = setInterval(fn, 1000);
+		        fn();
+		    },
+		    close: function () {
+		    	clearInterval(timer);
+		    }
+			});
+		}
+		/**
+		 * 
+		 * @param {Object} id设定对话框唯一标识。用途：1、防止重复弹出;
+		 * 2、定义id后可以使用art.dialog.list[youID]获取扩展方法
+		 * 类型：number和String两种都行
+		 * @param {Object} title 消息框标题
+		 * @param {Object} content 消息框内容
+		 * @param {Object} width 消息框宽度
+		 * @param {Object} height 消息框高度
+		 * @param {Object} left 消息框离屏幕左侧的距离
+		 * @param {Object} top 消息框离消息框上方的距离
+		 * @param {Object} fixed true表示定位静止，即位置固定；false表示可以拖动消息框
+		 * @param {Object} drag true表示允许拖动消息框位置；false表示不可以拖动消息框位置
+		 * @param {Object} resize true表示允许调整消息框尺寸；false表示不可以调整消息框尺寸
+		 */
+		function gongGao(id,title,content,width,height,left,top,fixed,drag,resize){
+			art.dialog({
+			    id: 'msg',
+			    title: '公告',
+			    content: 'hello world!',
+			    width: 320,
+			    height: 240,
+			    left: '100%',
+			    top: '100%',
+			    fixed: true,
+			    drag: false,
+			    resize: false
+			});
+		}
+		/**
+		 * 含有确定按钮的消息框
+		 */
+		function tankuang(){
+			art.dialog({
+			content: '如果定义了回调函数才会出现相应的按钮',
+			ok: function () {
+			    return true;
+			}
+			});
+		}
+		/**
+		 * 含有确实能够和关闭按钮的消息框
+		 */
+		function tankuang2(){
+			art.dialog({
+			content: '如果定义了回调函数才会出现相应的按钮',
+			ok: function () {
+			    return true;
+			},
+			cancelVal: '关闭',
+			cancel: true //为true等价于function(){}
+			});
+		}
+	</script>
+	<body>
+		<input type="button" onclick="dianji1()" value="弹框"/>
+		<input type="button" onclick="gongGao()" value="弹框"/>
+		<input type="button" onclick="tankuang()" value="弹框"/>
+		<input type="button" onclick="tankuang2()" value="弹框"/>
+	</body>
+</html>

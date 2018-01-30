@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>活动详情</title>
+<link href="./css/public.css" rel="stylesheet" type="text/css" />
+<link href="./css/activity.css" rel="stylesheet" type="text/css" />
+<link href="./css/user.css" rel="stylesheet" type="text/css" />
+<link href="./css/message.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/jquery.Xslider.js"></script>
+<!--  <script type="text/javascript" src="./js/user.js"></script>-->
+<script type="text/javascript" src="./js/userScan.js"></script>
+<script type="text/javascript" src="./js/carClubActivityDetail.js"></script>
+
+<script type="text/javascript">
+$(function(){
+	$(".showbox").click(function(){
+		$("#TB_overlayBG").css({
+			display:"block",height:$(document).height()
+		});
+		$(".box").css({
+			left:($("body").width()-$(".box").width())/2-20+"px",
+			top:($(window).height()-$(".box").height())/2+$(window).scrollTop()+"px",
+			display:"block"
+		});
+	});
+	
+	$(".close").click(function(){
+		$("#TB_overlayBG").css("display","none");
+		$(".box ").css("display","none");
+	});
+});
+</script>
+</head>
+<body>
+<div class="top11" id="top11"></div>
+<div class="carclub">
+
+<div id="TB_overlayBG"></div>
+<div class="box" style="display:none">
+		<h2>网站登录<a href="#" class="close">关闭</a></h2>
+		<div class="mainlist">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">电话\邮箱：</td>
+                <td width="67%"><input type="text" name="u_account" id="u_account"  class="yanse" onblur="javascript:checkName()"></td>
+                <td width="6%">&nbsp;</td>          
+              </tr>
+    
+              <tr>
+                <td>&nbsp;</td>
+                <td align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">密 码：</td>
+                <td>
+                <input type="password" name="u_pwd" id="u_pwd" class="yanse"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><span id="span" style="color:#FF0000"></span></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="41"><div class="login"><a href="javascript:login()">登录</a></div></td>
+                    <td width="10">&nbsp;</td>
+                    <td width="69"><a href="findPwd.html" style="color:#999">忘记密码</a></td>
+                    <td width="14" align="center" style="color:#999">|</td>
+                    <td width="47"><a href="regUser.html" style="color:#999">注册</a></td>
+                    <td width="17">&nbsp;</td>
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+
+		</div>
+	</div>
+
+	<div class="clubtop">
+   		<div class="clubtop_left">
+   			<div class="clubtop_left001">
+   			<img src="images/qq.jpg" width="160px" height="160px"/></div>
+   		</div>
+   		<div class="clubtop_right">
+   			<div class="pro_dar">
+              <h2><span id="clubName">长春理工大学理工大学车友会</span></h2>
+              <table cellpadding="0" cellspacing="0" style="margin-top: 10px">
+                <tr>
+                  <td id="clubDesc"></td>
+                </tr>
+                <tr>
+                	<td id="clubDomnam"></td>
+                </tr>
+              </table>
+   			</div>
+          </div>
+	  </div>
+	  <div class="wrap_top001">
+	   	<div class="top001">
+               <UL class="menu2">
+                   <li ><a id="carClub" href="carClub.html">首页</a></li>
+                   <li ><a id="carClubActivity" href="carClubActivity.html">活动</a></li>
+                   <li ><a id="carClubMember" href="carClubMember.html" >会员</a></li>
+                   <li ><a id="carClubPhoto" href="carClubPhoto.html" >相册</a></li>
+                   <li ><a href="index.html" >返回网站首页</a></li>  
+               </ul>
+	  	</div>
+	 </div>
+	 
+	 <div class="allmain">
+		<div class="matter">
+    		<div class="left">
+            <div class="a01" id="clubActivities">
+            	<div class="biaoti">
+                	<h1>巴黎公主婚纱摄</h1>
+                    仅售3688元！价值15999元的巴黎公主婚纱摄3天2夜厦门海岛婚纱之旅，免费精品酒
+店住宿2晚，免费提供WiFi。成就一个永恒的幸福瞬间。
+                </div>
+                <div class="content">
+               	  <div class="m">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td><a href="carClubActivityDetail.html"><img src="images/img_22.jpg" width="206" height="61" /></a></td>
+                      </tr>
+                      <tr>
+                        <td height="10"></td>
+                      </tr>
+                      <tr>
+                        <td align="center" class="baomi">地点：上海</td>
+                      </tr>
+                      <tr>
+                        <td height="10"></td>
+                      </tr>
+                      <tr>
+                        <td align="center" class="baomi">报名时间：2016-06-15至2016-06-15</td>
+                      </tr>
+                      <tr>
+                        <td height="10"></td>
+                      </tr>
+                      <tr>
+                        <td align="center" class="baomi">截止时间：2016-06-15 10:00</td>
+                      </tr>
+                     <tr>
+                        <td height="10"></td>
+                      </tr>
+                      <tr>
+                        <td align="center" class="baomi">报名人数：40人</td>
+                      </tr>
+                      <tr>
+                        <td height="10"></td>
+                      </tr>
+                      <tr>
+                        <td align="center" class="shuzi">¥298 </td>
+                      </tr>
+                      <tr>
+                        <td>&nbsp;</td>
+                      </tr>
+                    </table>
+                    </div>
+                    <div class="n"><img src="tp/8.jpg" width="458" height="279" /></div>
+              </div>
+            </div>
+            <div class="allphoto">
+        		<div class="title1"><a href="#">活动说明</a></div>
+        		<div id="activityIntroduction"></div>
+			</div>
+        	</div>
+        	<div class="right">
+        		<div class="b001">
+	           	  <div class="info">活动发起人</div>
+	                <div class="content1">
+		                <div class="divcss" id="activityCreator">
+		                     <div class="tip11"><a href="user.html"><img src="images/qq.jpg" width="50px" height="50px"></a></div>
+		                     <div class="scrt11">
+	                        	<div class="zt11"><a href="#">收到名称</a></div>
+	                        	<div class="rq11">会长</div>
+	                    	</div>
+	              		</div>
+	              	</div>
+	              </div>
+        	
+		         <div class="b001">
+	           	  <div class="info">最近报名</div>
+	                <div class="content1" id="clubActivityAttendee">
+					</div>
+		         </div>
+	        </div>
+    	</div>
+ 	</div> 
+	 
+</div>
+</body>
+</html>

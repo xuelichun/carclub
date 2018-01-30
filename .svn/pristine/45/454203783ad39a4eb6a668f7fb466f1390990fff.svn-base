@@ -1,0 +1,100 @@
+package com.zeepn.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zeepn.bean.Activity;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.service.ActivityService;
+import com.zeepn.service.ClubHomeService;
+
+@Controller
+public class ClubHomeController {
+	@Autowired
+	ClubHomeService clubHomeService;
+	@Autowired
+	ActivityService activityService;
+	
+	@RequestMapping("/clubHomea")
+	@ResponseBody
+	public List<UserInfo> selectUserInfoByClubId(int club_id,int page){
+		List<UserInfo> userInfo=clubHomeService.selectUserInfoByClubId(club_id,page);
+		return userInfo;
+	}
+	
+	@RequestMapping("/clubHomeb")
+	@ResponseBody
+	public List<UserInfo> selectPresident(int club_id) {
+		List<UserInfo> userInfo=clubHomeService.selectPresident(club_id);
+		return userInfo;
+	}
+	
+	@RequestMapping("/clubHomec")
+	@ResponseBody
+	public List<UserInfo> selectUserInfoInClubRankByClubId(int club_id){
+		List<UserInfo> userInfo=clubHomeService.selectUserInfoInClubRankByClubId(club_id);
+		return userInfo;
+	}
+	
+	@RequestMapping("/clubHomed")
+	@ResponseBody
+	public List<UserInfo> selectUserInfosByUIds(int[] u_id){
+		List<UserInfo> userInfo=new ArrayList<UserInfo>();
+		userInfo=clubHomeService.selectUserInfosByUIds(u_id);
+		return userInfo;
+	}
+	
+	@RequestMapping("/clubHomee")
+	@ResponseBody
+	public UserInfo selectFirstPresident(int club_id){
+		UserInfo userInfo=clubHomeService.selectFirstPresident(club_id);
+		return userInfo;
+	}
+	
+	@RequestMapping("/clubHomef")
+	@ResponseBody
+	public List<UserInfo> selectUserInfoAttendee(int act_id){
+		List<UserInfo> userInfo=activityService.selectUserInfoAttendee(act_id);
+		return userInfo;
+	}
+	
+	@RequestMapping("/clubHomeg")
+	@ResponseBody
+	public List<UserInfo> selectUserInfoAttendeeByClubId(int club_id){
+		List<UserInfo> userInfo=activityService.selectUserInfoAttendeeByClubId(club_id);
+		return userInfo;
+	}
+	
+	@RequestMapping("/clubHomeh")
+	@ResponseBody
+	public List<Activity> selectActivitiesByPage(int club_id,int page){
+		List<Activity> activities=activityService.selectActivitiesByPage(club_id, page);
+		return activities;
+	}
+	
+	@RequestMapping("/clubHomei")
+	@ResponseBody
+	public int selectActivityPage(int club_id){
+		int page=activityService.selectActivityPage(club_id);
+		return page;
+	}
+	
+	@RequestMapping("/clubHomej")
+	@ResponseBody
+	public int countMembersPage(int club_id){
+		int page=clubHomeService.countMembersPage(club_id);
+		return page;
+	}
+	
+	@RequestMapping("/clubHomek")
+	@ResponseBody
+	public UserInfo selectUserInfo(int u_id){
+		UserInfo userInfo=clubHomeService.selectUserInfo(u_id);
+		return userInfo;
+	}
+}

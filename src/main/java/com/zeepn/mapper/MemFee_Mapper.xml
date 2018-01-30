@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.MemFeeDao">
+
+<insert id="insertMemFee">
+	insert into mem_fee values(mem_fee_seq.nextval,#{mf_money},#{mf_grade},#{club_id})
+</insert>
+
+<select id="selectMemFee" resultType="MemFee">
+	select * from mem_fee where club_id=#{club_id}
+</select>
+
+<update id="updateMemFee">
+	update mem_fee set mf_money=#{mf_money},mf_grade=#{mf_grade} where club_id=#{club_id}
+</update>
+
+</mapper>

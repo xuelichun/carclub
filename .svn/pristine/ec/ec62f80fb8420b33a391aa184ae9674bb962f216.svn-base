@@ -1,0 +1,152 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.NumLevelFee;
+import com.zeepn.utils.Page;
+
+@Repository("numLevelFeeDao")
+public interface NumLevelFeeDao {
+	/**
+	 * 判断车友会会主扩充人数上限是否成功
+	 * @param numLevelFee 人数级别收费对象
+	 * @return 扩充成功，返回人数级别收费对象；否则，返回空对象
+	 */
+	public NumLevelFee insertNumLevelFee(NumLevelFee numLevelFee);
+	/**
+	 * 查询人数级别收费集合（所有的人）
+	 * @param page 行数对象
+	 * @return 人数级别收费集合
+	 */
+	public List<NumLevelFee> selectAllNumLevelFee(int pageIndex);
+	/**
+	 * 查询所有的功能费用收费列表
+	 * @return 功能费用收费集合
+	 */
+	public List<NumLevelFee> selectAllNlf();
+	/**
+	 * 根据车友会编号查询人数级别缴费集合
+	 * @param club_id 车友会编号
+	 * @return 人数级别缴费集合
+	 */
+	public List<NumLevelFee> selectNumLevelFee(int club_id);
+	/**
+	 * 根据车友会编号和缴费时间查询人数级别缴费对象
+	 * @param club_id 车友会编号
+	 * @param nlf_paytime 缴费时间
+	 * @return 人数级别缴费对象
+	 */
+	public NumLevelFee selectOneNumLevelFeeBCT(int club_id,String nlf_paytime);
+	/**
+	 * 根据人数级别缴费编号查询人数级别缴费对象
+	 * @param nlf_id 人数级别缴费编号
+	 * @return 人数级别缴费对象
+	 */
+	@Select("select * from num_levelfee where nlf_id=#{nlf_id}")
+	public List<NumLevelFee> selectOneLevelFee(int nlf_id);
+	/**
+	 * 更新人数级别收费记录
+	 * @param numLevelFee 人数界别收费对象
+	 * @return 影响数据库表的行数
+	 */
+	public int updateNumLevelFee(NumLevelFee numLevelFee);
+	/**
+	 * 根据车友会编号查询会主扩充人数界别缴费时间
+	 * @param club_id 车友会编号
+	 * @return 缴费时间
+	 */
+	public String selectNlfPaytime(int club_id);
+	/**
+	 * 根据车友会编号查询人数级别收费到期时间
+	 * @param club_id 车友会编号
+	 * @return 收费到期时间
+	 */
+	public String selectNlfMattime(int club_id);
+	/**
+	 * 查询人数级别收费表的数据记录数
+	 * @return 数据记录数
+	 */
+	@Select("select count(nlf_id) from num_levelfee")
+	public int selectNfCount();
+	/**
+	 * 根据缴费时间查询人数级别收费的数据记录数
+	 * @param nlf_paytime 缴费时间
+	 * @return 数据记录数
+	 */
+	@Select("select count(nlf_id) from num_levelfee where nlf_paytime like #{nlf_paytime}")
+	public int selectNfCountByTime(String nlf_paytime);
+	/**
+	 * 按日期查询所有的人数级别收费记录
+	 * @param pageIndex 页数索引
+	 * @return 人数级别收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from num_levelfee order by nlf_paytime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<NumLevelFee> selectAllNumLevelFeeByTime(int pageIndex);
+	/**
+	 * 按编号查询所有的人数级别收费记录
+	 * @param pageIndex
+	 * @return 人数级别收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from num_levelfee order by nlf_id) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<NumLevelFee> selectAllNumLevelFeeById(int pageIndex);
+	/**
+	 * 按收费类型和收费日期查询人数级别费用收费记录
+	 * @param page 行数对象
+	 * @return 人数级别收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from num_levelfee where nlf_paytime like #{nlf_paytime} order by nlf_id) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<NumLevelFee> selectAllNumLevelFeeByPP(@Param("nlf_paytime")String nlf_paytime,@Param("pageIndex")int pageIndex);
+	/**
+	 * 按收费类型和到期日期查询所有的人数级别费用收费记录
+	 * @param page 行数对象
+	 * @return 人数级别收费集合
+	 */
+	public List<Object> selectAllNumLevelFeeByPM(Page page);
+	/**
+	 * 按类型、收费日期和到期日期查询所有的人数级别费用收费记录
+	 * @param page 行数对象
+	 * @return 人数级别收费集合
+	 */
+	public List<Object> selectAllNumLevelFeeByPPM(Page page);
+	/**
+	 * 根据车友会编号查询人数级别费用收费记录数
+	 * @param club_id 车友会编号
+	 * @return 人数级别收费记录数
+	 */
+	@Select("select count(nlf_id) from num_levelfee where club_id=#{club_id}")
+	public int selectNlfCountByClubId(int club_id);
+	/**
+	 * 根据车友会编号查询人数级别费用收费集合
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 人数级别费用收费集合`
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from num_levelfee where club_id=#{club_id} order by nlf_paytime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<NumLevelFee> selectNlfByClubId(@Param("club_id")int club_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车友会编号和缴费时间查询人数级别费用数据记录数
+	 * @param club_id 车友会编号
+	 * @param nlf_paytime 缴费时间
+	 * @return 人数级别费用数据记录数
+	 */
+	@Select("select count(nlf_id) from num_levelfee where club_id=#{club_id} and nlf_paytime like #{nlf_paytime}")
+	public int selectNlfCountByCidPtime(@Param("club_id")int club_id,@Param("nlf_paytime")String nlf_paytime);
+	/**
+	 * 根据车友会编号和缴费时间查询人数级别费用收费集合
+	 * @param club_id 车友会编号
+	 * @param nlf_paytime 缴费时间
+	 * @param pageIndex 页数索引
+	 * @return 人数级别费用收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from num_levelfee where club_id=#{club_id} and nlf_paytime like #{nlf_paytime} order by nlf_id) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<NumLevelFee> selectNlfByCidPtime(@Param("club_id")int club_id,@Param("nlf_paytime")String nlf_paytime,@Param("pageIndex")int pageIndex);
+}

@@ -1,0 +1,54 @@
+$(function(){
+	showNotice(100);
+	showPresident(1);
+	appliReshow(5);
+});
+function showNotice(club_id){
+	var content="<div class='info'>公告</div><div class='content1'>";
+	$.getJSON("../noticef.do",{"club_id":club_id},function(data){
+		content+=data.noti_content+"</div>";
+		$("#notice").html(content);
+	});
+	
+}
+
+function showPresident(club_id){
+	var content="";
+	$.getJSON("../clubHomeb.do",{"club_id":club_id},function(data){
+		for(var i=0;i<data.length;i++){
+			if(i==0){
+				content+=" <div class='divcss'><div class='tip11'><a href='user.html'><img src=../"+data[i].u_head+" width='50px' height='50px'></a></div><div class='scrt11'><div class='zt11'><a href='#'>"+data[i].u_nick+"</a></div><div class='rq11'>会长</div></div></div>";
+			}else{
+				content+=" <div class='divcss'><div class='tip11'><a href='user.html'><img src=../"+data[i].u_head+" width='50px' height='50px'></a></div><div class='scrt11'><div class='zt11'><a href='#'>"+data[i].u_nick+"</a></div><div class='rq11'>副会长</div></div></div>";
+			}
+		}
+		$("#president").html(content);
+	});
+}
+
+function appliReshow(u_id){
+	$.getJSON("../clubHomek.do",{"u_id":u_id},function(data){
+		alert(data.u_name);
+		$("input[name=u_name").val(data.u_name);
+		var u_sex=$("input[name=u_sex]");
+		for(var i=0;i<u_sex.length;i++){
+			if(u_sex[i].value==data.u_sex){
+				u_sex[i].checked="checked";
+			}
+		}
+		$("#u_pro").val(data.u_pro);
+		var objC = document.getElementById("u_city");
+		var pValue = document.getElementById("u_pro").value;
+		for ( var i = objC.length - 1; i > 0; i--) {
+			objC.remove(i);
+		}
+		var j=jQuery.inArray(pValue,pName);
+		if (j >= 0) {
+			for ( var i = 0; i < cName[j].length; i++) {
+				var op = new Option(cName[j][i], cName[j][i]);
+				objC.add(op);
+			}
+		}
+		$("#u_city").val(data.u_city);
+	});
+}

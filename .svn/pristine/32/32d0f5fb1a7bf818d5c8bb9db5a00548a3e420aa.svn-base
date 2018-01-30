@@ -1,0 +1,56 @@
+package com.zeepn.service;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.zeepn.bean.Club;
+import com.zeepn.bean.ClubVisitor;
+import com.zeepn.bean.UserInfo;
+
+public interface ClubHomeService {
+	
+	public List<UserInfo> selectUserInfoByClubId(int club_id,int page);
+	
+	public List<UserInfo> selectPresident(int club_id);
+	
+	public List<UserInfo> selectUserInfoInClubRankByClubId(int club_id);
+	
+	public List<UserInfo> selectUserInfosByUIds(int[] u_id);
+	
+	public UserInfo selectFirstPresident(int club_id);
+	
+	public int countMembersPage(int club_id);
+	
+	public UserInfo selectUserInfo(int u_id);
+	
+	public int countClubGrade(int club_id);
+	
+	public int[] isMember(int club_id,HttpServletRequest request);
+	
+	public int selectClubId(HttpServletRequest request);
+	
+	public int isExistClub(int club_id);
+	
+	public int isExistAct(int act_id);
+	
+	public int isExistClubAlbum(int ca_id);
+	
+	public Club selectClubIdForClubHome(int club_id);
+	
+	public int sign(int u_id,int club_id);
+	
+	public List<Club> selectClubByFuzzyName(String club_name);
+	
+	public void insertClubVisitor(ClubVisitor clubVisitor);
+	
+	public List<ClubVisitor> selectClubVisitors(int club_id);
+	
+	public int countClubVistors(int club_id);
+	
+	public List<UserInfo> selectUsersForClubVisitor(int[] u_id);
+
+	
+	
+
+}

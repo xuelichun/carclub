@@ -1,0 +1,68 @@
+package com.zeepn.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.CarBrand;
+import com.zeepn.bean.CarDep;
+import com.zeepn.dao.CarBrandDao;
+import com.zeepn.dao.CarDepDao;
+import com.zeepn.service.CarService;
+
+@Service("carService")
+public class CarServiceImpl implements CarService{
+
+	/**
+	 * 自动注入dao	
+	 */
+	@Autowired
+	CarBrandDao carBrandDao;
+	CarDepDao carDepDao;
+	
+	@Override
+	public List<CarBrand> selectAllCarB() {
+		List<CarBrand> cbList=carBrandDao.selectAllCarBrand();
+		return cbList;
+	}
+
+	@Override
+	public List<CarDep> selectAllCarD(int cb_id) {
+		List<CarDep> cdList=carDepDao.selectAllCarDep(cb_id);
+		return cdList;
+	}
+
+	@Override
+	public boolean insertCarB(CarBrand carBrand) {
+		int count=carBrandDao.insertCarBrand(carBrand);
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public boolean insertCarD(CarDep carDep) {
+		int count=carDepDao.insertCarDep(carDep);
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public boolean delCarB(String cbId) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean delCarD(String cdId) {
+		
+		return false;
+	}
+	
+}

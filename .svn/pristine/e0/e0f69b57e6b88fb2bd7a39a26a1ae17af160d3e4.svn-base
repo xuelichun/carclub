@@ -1,0 +1,9 @@
+package com.zeepn.service;
+
+import com.zeepn.bean.EcashRecord;
+
+public interface EcashRecordService {
+	
+	public int insertEcashRecord(EcashRecord ecashRecord);
+
+}

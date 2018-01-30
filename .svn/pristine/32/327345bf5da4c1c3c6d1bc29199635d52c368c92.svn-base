@@ -1,0 +1,66 @@
+package com.zeepn.bean;
+
+public class OpRecord {
+	private int or_id;
+	private String or_rec;
+	private UserInfo u_id;
+	private String orc_time;
+	private Club Club_id;
+	public OpRecord() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public OpRecord(int or_id, String or_rec, UserInfo u_id, String orc_time,
+			Club club_id) {
+		super();
+		this.or_id = or_id;
+		this.or_rec = or_rec;
+		this.u_id = u_id;
+		this.orc_time = orc_time;
+		Club_id = club_id;
+	}
+	public OpRecord(String or_rec, UserInfo u_id, String orc_time, Club club_id) {
+		super();
+		this.or_rec = or_rec;
+		this.u_id = u_id;
+		this.orc_time = orc_time;
+		Club_id = club_id;
+	}
+	@Override
+	public String toString() {
+		return "OpRecord [or_id=" + or_id + ", or_rec=" + or_rec + ", u_id="
+				+ u_id + ", orc_time=" + orc_time + ", Club_id=" + Club_id
+				+ "]";
+	}
+	public int getOr_id() {
+		return or_id;
+	}
+	public void setOr_id(int or_id) {
+		this.or_id = or_id;
+	}
+	public String getOr_rec() {
+		return or_rec;
+	}
+	public void setOr_rec(String or_rec) {
+		this.or_rec = or_rec;
+	}
+	public UserInfo getU_id() {
+		return u_id;
+	}
+	public void setU_id(UserInfo u_id) {
+		this.u_id = u_id;
+	}
+	public String getOrc_time() {
+		return orc_time;
+	}
+	public void setOrc_time(String orc_time) {
+		this.orc_time = orc_time;
+	}
+	public Club getClub_id() {
+		return Club_id;
+	}
+	public void setClub_id(Club club_id) {
+		Club_id = club_id;
+	}
+	
+}

@@ -1,0 +1,44 @@
+package com.zeepn.service;
+
+import java.util.List;
+
+import com.zeepn.bean.CarBrand;
+import com.zeepn.bean.CarDep;
+
+public interface CarService {
+	/**
+	 * 查询所有的车品牌
+	 * @return 车的品牌集合
+	 */
+	public List<CarBrand> selectAllCarB();
+	/**
+	 * 根据车的品牌编号查询车系
+	 * @param cb_id 车的品牌编号
+	 * @return 车系集合
+	 */
+	public List<CarDep> selectAllCarD(int cb_id);
+	/**
+	 * 添加车的品牌
+	 * @param carBrand 车的品牌对象
+	 * @return 添加成功，返回true；否则返回false
+	 */
+	public boolean insertCarB(CarBrand carBrand);
+	/**
+	 * 添加车系
+	 * @param carDep 车系对象
+	 * @return 添加成功，返回true；否则返回false
+	 */
+	public boolean insertCarD(CarDep carDep); 
+	/**
+	 * 根据车的品牌编号组成的字符串删除车品牌
+	 * @param cbId 车的品牌编号组成的字符串
+	 * @return 删除成功，返回true；删除失败，返回false
+	 */
+	public boolean delCarB(String cbId);
+	/**
+	 * 根据车系编号组成的字符串删除车系
+	 * @param cdId 车系编号组成的字符串
+	 * @return 删除成功，返回true；删除失败，返回false
+	 */
+	public boolean delCarD(String cdId);
+}

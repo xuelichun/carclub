@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.zeepn.dao.UserAlbumDao">
+  <insert id="insertAlbum">
+	insert into album values(album_seq.nextval,#{u_id},#{a_time},#{a_num},#{a_title},#{a_desc},#{a_main})
+</insert>
+<insert id="insertAlbumPic">
+	insert into album_pic values(album_pic_seq.nextval,#{a_id},#{ap_img},#{ap_time},#{ap_name})
+</insert>
+<select id="countNum" resultType="int">
+	select count(id) from album_pic where a_id=#{a_id}
+</select>
+<update id="updateAlbum">
+	update from album_pic set a_title=#{a_title},a_desc=#{a_desc},a_main=#{a_main} where a_id=#{a_id}
+</update>
+  
+  </mapper>

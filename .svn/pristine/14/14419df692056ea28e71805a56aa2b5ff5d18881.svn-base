@@ -1,0 +1,21 @@
+var club_id=0;
+$(function(){
+	club_id=1;
+	showYearFee();
+});
+
+function showYearFee(){
+	var content="<ul>";
+	$.getJSON("../clubAdminaj.do",{"club_id":club_id},function(data){
+		alert(data.af_mattime);
+		content+="<li>"+
+					"<table border='0'>"+
+				        "<tr>"+
+				        	"<td width='300px'><span style='text-align: center;'>到期日期:"+data.af_mattime+"</span></td>"+
+				        	"<td width='300px'><a href='#'>续费</a></td>"+
+				        "</tr>"+
+				 	"</table>" +
+				  "</li></ul>";
+		$("#yearFeeShow").html(content);
+	});
+}

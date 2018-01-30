@@ -1,0 +1,222 @@
+package com.zeepn.service;
+
+import java.util.HashMap;
+
+public interface BackUserInfoService {
+	
+	/**
+	 * 默认无条件查询用户集合
+	 * @param pageIndex 页数索引 
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectAllUI(int pageIndex);
+	/**
+	 * 根据省份查询用户集合
+	 * @param procince 省份
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByPro(String procince, int pageIndex);
+	/**
+	 * 根据城市查询用户集合
+	 * @param city 城市
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByCity(String city, int pageIndex);
+	/**
+	 * 根据性别查询用户集合
+	 * @param sex 性别
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIBySex(String sex, int pageIndex);
+	/**
+	 * 根据用户昵称查询用户集合
+	 * @param uname 用户昵称
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByUname(String uname, int pageIndex);
+	/**
+	 * 根据用户级别查询用户集合
+	 * @param ugrade 用户级别
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByUgrade(int ugrade, int pageIndex);
+	/**
+	 * 根据省份和用户性别查询用户集合
+	 * @param procince 省份
+	 * @param sex 用户性别
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByPS(String procince, String sex,
+			int pageIndex);
+	/**
+	 * 根据省份和用户昵称查询用户集合
+	 * @param procince 省份
+	 * @param uname 用户昵称
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByPUN(String procince, String uname,
+			int pageIndex);
+	/**
+	 * 根据省份和用户级别查询用户集合
+	 * @param procince 省份
+	 * @param ugrade 用户级别
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByPUG(String procince, int ugrade,
+			int pageIndex);
+	/**
+	 * 根据城市和用户性别查询用户集合
+	 * @param city 城市
+	 * @param sex 用户性别
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByCS(String city, String sex, int pageIndex);
+	/**
+	 * 根据城市和用户昵称查询用户集合
+	 * @param city 城市
+	 * @param uname 用户昵称
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合 
+	 */
+	HashMap<Integer, Object> selectUIByCUN(String city, String uname,
+			int pageIndex);
+	/**
+	 * 根据城市和用户级别查询用户集合
+	 * @param city 城市
+	 * @param ugrade 用户级别
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByCUG(String city, int ugrade,
+			int pageIndex);
+	/**
+	 * 根据用户性别和用户昵称查询用户集合
+	 * @param sex 用户性别
+	 * @param uname 用户昵称
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIBySUN(String sex, String uname,
+			int pageIndex);
+	/**
+	 * 根据用户性别和用户级别查询用户集合
+	 * @param sex 用户性别
+	 * @param ugrade 用户级别
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIBySUG(String sex, int ugrade,
+			int pageIndex);
+	/**
+	 * 根据用户昵称和用户等级查询用户集合
+	 * @param uname 用户昵称
+	 * @param ugrade 用户级别
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByUNUG(String uname, int ugrade,
+			int pageIndex);
+	/**
+	 * 根据省份、用户性别和用户昵称查询用户集合
+	 * @param procince 省份
+	 * @param sex 用户性别
+	 * @param uname 用户昵称
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByPSUN(String procince, String sex,
+			String uname, int pageIndex);
+	/**
+	 * 根据省份、用户性别和用户等级查询用户集合
+	 * @param procince 省份
+	 * @param sex 用户性别
+	 * @param ugrade 用户等级
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByPSUG(String procince, String sex,
+			int ugrade, int pageIndex);
+	/**
+	 * 根据省份、用户昵称和用户等级查询用户集合
+	 * @param procince 省份
+	 * @param uname 用户昵称
+	 * @param ugrade 用户等级
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByPUNUG(String procince, String uname,
+			int ugrade, int pageIndex);
+	/**
+	 * 根据城市、用户性别、用户昵称查询用户集合
+	 * @param city 城市
+	 * @param sex 用户性别
+	 * @param uname 用户昵称
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByCSUN(String city, String sex,
+			String uname, int pageIndex);
+	/**
+	 * 根据城市、用户性别和用户等级查询用户集合
+	 * @param city 城市
+	 * @param sex 用户性别
+	 * @param ugrade 用户等级
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByCSUG(String city, String sex,
+			int ugrade, int pageIndex);
+	/**
+	 * 根据城市、用户昵称和用户级别查询用户集合
+	 * @param city 城市
+	 * @param uname 用户昵称
+	 * @param ugrade 用户等级
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByCUNUG(String city, String uname,
+			int ugrade, int pageIndex);
+	/**
+	 * 根据用户性别、用户昵称和用户等级查询用户集合
+	 * @param sex 用户性别
+	 * @param uname 用户昵称
+	 * @param ugrade 用户等级
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIBySUNUG(String sex, String uname,
+			int ugrade, int pageIndex);
+	/**
+	 * 根据省份、用户性别、用户昵称和用户级别查询用户集合
+	 * @param province 省份
+	 * @param sex 用户性别
+	 * @param uname 用户昵称
+	 * @param ugrade 用户等级
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByPSUU(String province, String sex,
+			String uname, int ugrade, int pageIndex);
+	/**
+	 * 根据城市、用户性别、用户昵称和用户等级查询用户集合
+	 * @param city 城市
+	 * @param sex 用户性别
+	 * @param uname 用户昵称
+	 * @param ugrade 用户等级
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的用户集合
+	 */
+	HashMap<Integer, Object> selectUIByCSUU(String city, String sex,
+			String uname, int ugrade, int pageIndex);
+	
+	
+}

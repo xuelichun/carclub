@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.PayConDao">
+
+<insert id="insertPayCon">
+	insert into pay_con values(pay_con_seq.nextval,#{pc_money},#{pc_grade},#{u_id},#{club_id},#{pc_paytime},#{pc_mattime})
+</insert>
+
+<select id="selectPayCon" resultType="PayCon">
+	select * from pay_con where club_id=#{club_id}
+</select>
+
+<select id="selectPayConByUId" resultType="PayCon">
+	select * from pay_con where u_id=#{u_id}
+</select>
+
+<select id="countPayConByUId" resultType="int">
+	select count(pc_id) from pay_con where u_id=#{u_id}
+</select> 
+
+<update id="updatePayCon">
+	update pay_con set pc_money=pc_money+#{pc_money},pc_grade=pc_grade+#{pc_grade},pc_mattime=#{pc_mattime} where u_id=#{u_id}
+</update>
+
+<update id="updatePayConOutOfDate">
+	update pay_con set pc_money=#{pc_money},pc_grade=#{pc_grade},pc_paytime=#{pc_paytime},pc_mattime=#{pc_mattime} where u_id=#{u_id}
+</update>
+
+<select id="selectPcMattime">
+	select pc_mattime from pay_con where u_id=#{u_id}
+</select>
+
+<select id="countPayConPage" resultType="int">
+	select count(pc_id) from pay_con where club_id=#{club_id} and pc_mattime&gt;#{pc_mattime}
+</select>
+
+<select id="selectPayCons" resultType="PayCon">
+	select * from (select a.* , rownum as rn from (select * from pay_con where club_id=#{club_id} and pc_mattime&gt;#{pc_mattime} order by pc_paytime desc) a where rownum &lt;=#{page}*4) where rn &gt;=1+(#{page}-1)*4 
+</select>
+
+</mapper>

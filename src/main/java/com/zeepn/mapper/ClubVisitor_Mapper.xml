@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ClubVisitorDao">
+	
+	<insert id="insertClubVisitor">
+	insert into club_visitor values(club_visitor_seq.nextval,#{cv_uid},#{club_id},#{cv_time})
+	</insert>
+	
+	<select id="selectClubVisitors" resultType="ClubVisitor">
+	
+	select * from (select * from club_visitor where club_id=#{club_id} order by cv_time desc) where rownum&lt;19
+	</select>
+	
+	<select id="countClubVistors" resultType="int">
+	select count(cv_id) from club_visitor where club_id=#{club_id}
+	</select>
+	
+	<update id="updateClubVisitor">
+	update club_visitor set cv_time=#{cv_time} where cv_id=#{cv_id}
+	</update>
+	
+	<select id="selectClubVisitor" resultType="ClubVisitor">
+	select * from (select * from club_visitor where cv_uid=#{cv_uid} order by cv_time desc) where rownum=1
+	</select>
+
+</mapper>

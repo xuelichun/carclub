@@ -1,0 +1,59 @@
+$(function(){
+	inittime();
+});
+
+$(document).ready(function() { 
+    // bind 'myForm' and provide a simple callback function 
+    $('#clubActivityForm').ajaxForm(function(data) { 
+    	alert(发布成功);
+    	//location.href="uploadClubAlbum.html";
+    });    
+}); 
+
+function getNextDay(){
+	 var   today=new   Date();      
+     var   yesterday_milliseconds=today.getTime()+1000*60*60*24;    
+     var   yesterday=new   Date( yesterday_milliseconds); 
+     return yesterday;
+}
+
+function dateFormat(time){
+	var myYear = time.getFullYear();
+	var myMonth = time.getMonth()+1;
+	var myDay = time.getDate();
+	var myHour=time.getHours();
+	var myMinute=time.getMinutes();
+	var mySecond=time.getSeconds();
+	if(myMonth < 10){
+		myMonth = "0" + myMonth;
+	}
+	if(myDay<10){
+		myDay="0"+myHour;
+	}
+	if(myHour<10){
+		myHour="0"+myHour;
+	}
+	if(myMinute<10){
+		myMinute="0" + myMinute;;
+	}
+	if(mySecond<10){
+		mySecond="0"+mySecond;
+	}
+	return myYear + "-" + myMonth + "-" + myDay+" "+myHour+":"+myMinute+":"+mySecond
+}
+
+function inittime(){
+	$('#Calendar').val(dateFormat(new Date()));
+	$('#Calendar1').val(dateFormat(new Date()));
+	$('#Calendar2').val(dateFormat(getNextDay()));
+	//$("input[name=act_time]").val($('#Calendar1').val()+"--"+$('#Calendar2').val());
+	//alert($("input[name=act_time]").val());
+}
+
+function showActivity(){
+	$("#expressActivity").hide();
+	//$("#modifyactivity").show();
+}
+
+
+

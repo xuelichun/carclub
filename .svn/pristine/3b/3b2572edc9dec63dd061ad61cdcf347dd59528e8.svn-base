@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link href="./css/public.css" rel="stylesheet" type="text/css" />
+<link href="./css/activity.css" rel="stylesheet" type="text/css" />
+<link href="./css/user.css" rel="stylesheet" type="text/css" />
+<link href="./css/message.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript" src="./js/jquery.js"></script>
+<script type="text/javascript" src="./js/jquery.Xslider.js"></script>
+<script type="text/javascript" src="./js/user.js"></script>
+</head>
+<body>
+<div class="top11">
+	<ul>
+		<li class="top22" >
+		<a href='#' href="javascript:void(0);" class="showbox">登录</a><span>|</span>
+		<a href='regUser.html' >注册</a><span>|</span>
+		<a href='#' >消息</a>
+		</li>
+	</ul>
+</div>
+<div class="carclub">
+
+	<div class="clubtop">
+   		<div class="clubtop_left">
+   			<div class="clubtop_left001">
+   			<img src="images/qq.jpg" width="160px" height="160px"/></div>
+   		</div>
+   		<div class="clubtop_right">
+   			<div class="pro_dar">
+              <h2><a href="">长春理工大学理工大学车友会</a></h2>
+              <table cellpadding="0" cellspacing="0">
+                <tr>
+                  <td >简介：bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</td>
+                </tr>
+                <tr>
+                	<td>域名：aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                </tr>
+              </table>
+   			</div>
+          </div>
+	  </div>
+	  <div class="wrap_top001">
+	   	<div class="top001">
+               <UL class="menu2">
+                   <li ><a href="carClub.html">首页</a></li>
+                   <li ><a href="carClubActivity.html">活动</a></li>
+                   <li ><a href="carClubMember.html" >会员</a></li>
+                   <li ><a href="carClubPhoto.html" >相册</a></li>   
+               </ul>
+	  	</div>
+	 </div>
+</div>
+</body>
+</html>

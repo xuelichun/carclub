@@ -1,0 +1,67 @@
+package com.zeepn.bean;
+
+import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
+
+@Component
+@Alias("AnnualFee")
+public class AnnualFee {
+	private int af_id;
+	private double af_price;
+	private String af_paytime;
+	private int club_id;
+	private String af_mattime;
+	public AnnualFee() {
+	}
+	public AnnualFee(double af_price, String af_paytime, int club_id,
+			String af_mattime) {
+		this.af_price = af_price;
+		this.af_paytime = af_paytime;
+		this.club_id = club_id;
+		this.af_mattime = af_mattime;
+	}
+	public AnnualFee(int af_id, double af_price, String af_paytime,
+			int club_id, String af_mattime) {
+		this.af_id = af_id;
+		this.af_price = af_price;
+		this.af_paytime = af_paytime;
+		this.club_id = club_id;
+		this.af_mattime = af_mattime;
+	}
+	public int getAf_id() {
+		return af_id;
+	}
+	public void setAf_id(int af_id) {
+		this.af_id = af_id;
+	}
+	public double getAf_price() {
+		return af_price;
+	}
+	public void setAf_price(double af_price) {
+		this.af_price = af_price;
+	}
+	public String getAf_paytime() {
+		return af_paytime;
+	}
+	public void setAf_paytime(String af_paytime) {
+		this.af_paytime = af_paytime;
+	}
+	public int getClub_id() {
+		return club_id;
+	}
+	public void setClub_id(int club_id) {
+		this.club_id = club_id;
+	}
+	public String getAf_mattime() {
+		return af_mattime;
+	}
+	public void setAf_mattime(String af_mattime) {
+		this.af_mattime = af_mattime;
+	}
+	@Override
+	public String toString() {
+		return "AnnualFee [af_id=" + af_id + ", af_price=" + af_price
+				+ ", af_paytime=" + af_paytime + ", club_id=" + club_id
+				+ ", af_mattime=" + af_mattime + "]";
+	}
+}

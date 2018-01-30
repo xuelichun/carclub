@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.ClubDao">
+	<insert id="insertClub" parameterType="Club">
+		<![CDATA[ 
+		insert into club values(club_seq.nextval,club_no_seq,#{club_name},
+			#{club_domname},#{club_city},#{p_id},#{club_desc},
+			#{club_img},#{club_cretime},#{club_maxnum},#{club_tcon},#club_pnm)
+		]]>
+	</insert>
+	<update id="updateClubPNum">
+		<![CDATA[ 
+			update club set club_maxnum=#{club_maxnum} where club_id=#{club_id}
+		]]>
+	</update>
+	<select id="selectAllClubByPageRank" parameterType="com.zeepn.utils.Page" resultType="Club">
+		<![CDATA[ 
+		select b.* from (select c.*,rownum rn from club c order by club_tcon desc) b 
+			where b.rn between #{p_first} and #{p_end};
+		]]>
+	</select>
+	<select id="selectFrontClub" resultType="Club">
+		<![CDATA[ 
+		select * from  (select * from club order by club_tcon desc) where rownum<8
+		]]>
+	</select>
+	<select id="selectOneClub" resultType="Club">
+		<![CDATA[ 
+		select * from club where club_id=#{club_id}
+		]]>
+	</select>
+	<select id="selectClubCount" resultType="int">
+		<![CDATA[ 
+		select count(club_id) from club
+		]]>
+	</select>
+	<delete id="delClubById">
+		<![CDATA[ <![CDATA[ 
+			delete from club where club_id=#{club_id}
+		 ]]>
+	</delete>
+</mapper>

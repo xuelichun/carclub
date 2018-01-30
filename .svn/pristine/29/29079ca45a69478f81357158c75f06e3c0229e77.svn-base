@@ -1,0 +1,252 @@
+package com.zeepn.service.impl;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.zeepn.bean.Comments;
+import com.zeepn.bean.DynPic;
+import com.zeepn.bean.PersonDyn;
+import com.zeepn.bean.Reply;
+
+import com.zeepn.dao.PersonDynDao;
+import com.zeepn.service.PersonDynService;
+import com.zeepn.utils.DateFormat;
+@Component("personDynService")
+public class PersonDynServiceImpl implements PersonDynService {
+	@Autowired
+	PersonDynDao personDynDao;
+	@Transactional
+	@Override
+	public int createPersonDyn(PersonDyn personDyn) {
+		personDyn.setPd_time(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+		int row=personDynDao.createPersonDyn(personDyn);
+		return row;
+	}
+	@Override
+	public int selectPIdByTime(int u_id,String pd_time){
+		int pd_id=personDynDao.selectPIdByTime(u_id, pd_time);
+		return pd_id;
+	}
+
+	@Override
+	public int createDynPicture(DynPic dynPic) {
+	    int row=personDynDao.createDynPicture(dynPic);
+		return row;
+	}
+	@Transactional
+	@Override
+	public boolean deletePersonDyn(int pd_id) {
+		boolean flag=false;
+		personDynDao.deleteALLCLickLike(pd_id);
+		List<Comments> list=personDynDao.showAllComments(pd_id);
+		for (Comments comments : list) {
+			personDynDao.deleteAllReply(comments.getCom_id());
+		}
+		personDynDao.deleteAllComments(pd_id);
+		personDynDao.deletePersonDyn(pd_id);
+		int num=personDynDao.countPic(pd_id);
+		if(num==0){
+			flag=true;
+		}else{
+			if(personDynDao.deleteDynPic(pd_id)==num){
+				flag=true;
+			}
+		}
+		return flag;
+		
+	}
+	@Override
+	public Map<PersonDyn,List<DynPic>> showDyn(int u_id, int indexPage) {
+		Map<PersonDyn,List<DynPic>> map=new HashMap<PersonDyn, List<DynPic>>();
+		List<PersonDyn> list=personDynDao.showDyn(u_id, indexPage);
+		for (PersonDyn personDyn : list) {
+			List<DynPic> li=personDynDao.showDynPic(personDyn.getPd_id());
+			map.put(personDyn, li);
+		}
+		return map;
+	}
+
+	
+	@Override
+	public int deleteDynPic(int pd_id) {
+		int row=personDynDao.deleteDynPic(pd_id);
+		return row;
+	}
+
+	
+	
+
+	@Override
+	public List<DynPic> showDynPic(int pd_id) {
+		List<DynPic> dynPic=personDynDao.showDynPic(pd_id);
+		return dynPic;
+	}
+	@Transactional
+	@Override
+	public Map<PersonDyn,List<DynPic>> selectOneDynById(int pd_id) {
+		PersonDyn personDyn=personDynDao.selectOneDynById(pd_id);
+		Map<PersonDyn,List<DynPic>> map=new HashMap<PersonDyn, List<DynPic>>();
+		List<DynPic> list=personDynDao.showDynPic(pd_id);
+		map.put(personDyn, list);
+		return map;
+}
+	@Transactional
+	@Override
+	public Map<PersonDyn,List<DynPic>> showSpare(int u_id, int pageIndex) {
+		Map<PersonDyn,List<DynPic>> map=new HashMap<PersonDyn, List<DynPic>>();
+		List<PersonDyn> list=personDynDao.showSpare(u_id, pageIndex);
+		for (PersonDyn personDyn : list) {
+			List<DynPic> li=personDynDao.showDynPic(personDyn.getPd_id());
+			map.put(personDyn, li);
+		}
+		return map;
+	}
+
+	@Override
+	public int createComments(Comments comments) {
+		int user_id=personDynDao.selectUidByPdid(comments.getPd_id());
+		String com_time=DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_MSEC);
+		String u_nick=personDynDao.selectUserNameById(comments.getU_id());
+		comments.setUser_id(user_id);
+		comments.setU_nick(u_nick);
+		comments.setCom_time(com_time);
+		return personDynDao.createComments(comments);
+	}
+	
+	@Override
+	public int createReply(Reply reply) {
+		String rp_time=DateFormat.getCurrentTime(DateFormat.DEFAULT_DATE_FORMAT_MSEC);
+		String rp_nick=personDynDao.selectUserNameById(reply.getRp_pid());
+		String rp_rnick=personDynDao.selectUserNameById(reply.getRp_rpid());
+		reply.setRp_nick(rp_nick);
+		reply.setRp_rnick(rp_rnick);
+		reply.setRp_time(rp_time);
+		System.out.println(reply);
+		return personDynDao.createReply(reply);
+	}
+
+
+	@Override
+	public List<Comments> showAllComments(int pd_id) {
+		List<Comments> comments=personDynDao.showAllComments(pd_id);
+		return comments;
+	}
+	
+	@Override
+	public List<Reply> showAllReply(int com_id) {
+		List<Reply> reply=personDynDao.showAllReply(com_id);
+		return reply;
+	}
+	/**
+	 * 第一次为评论，所以只要有新的回复，那么就是该评论下的回复
+	 */
+	@Override
+	public Map<PersonDyn,List<Comments>>  showNewReply(int u_id) {
+		List<Reply> list=personDynDao.showNewReply(u_id);
+		List<Integer> listInteger=new ArrayList<Integer>();
+		List<Comments> listComments=new ArrayList<Comments>();
+		Map<PersonDyn,List<Comments>> map=new HashMap<PersonDyn, List<Comments>>();
+		//通过回复找到评论
+		for (Reply reply : list) {
+			for(Integer i:listInteger){
+				if(i!=reply.getCom_id()){
+					listComments.add(personDynDao.showCommentsById(reply.getCom_id()));
+					listInteger.add(reply.getCom_id());
+				}
+			}
+		}
+		//清空listInteger集合
+		for(int i=0;i<listInteger.size();i++){
+			listInteger.remove(i);
+		}
+		//通过评论找到动态
+		for(Comments c:listComments){
+			for(Integer i:listInteger){
+				if(i!=c.getPd_id()){
+					PersonDyn personDyn=personDynDao.selectOneDynById(c.getPd_id());
+					List<Comments> li=new ArrayList<Comments>();
+					li.add(c);
+					map.put(personDyn, li);
+					listInteger.add(c.getPd_id());
+				}else{
+					map.get(i).add(c);
+				}
+			}
+		}
+		return map;
+	}
+
+	@Override
+	public Map<PersonDyn,List<Comments>> showNewComments(int user_id) {
+		List<Comments> list=personDynDao.showNewComments(user_id);
+		List<Integer> listInteger=new ArrayList<Integer>();
+		Map<PersonDyn,List<Comments>> map=new HashMap<PersonDyn, List<Comments>>();
+		for(Comments c:list){
+			for(Integer i:listInteger){
+				if(i!=c.getPd_id()){
+					PersonDyn personDyn=personDynDao.selectOneDynById(c.getPd_id());
+					List<Comments> li=new ArrayList<Comments>();
+					list.add(c);
+					map.put(personDyn, li);
+				}else{
+					map.get(i).add(c);
+				}	
+			}
+		}
+		return map;
+	}
+	@Override
+	public Comments showCommentsById(int com_id) {
+		Comments  comments=personDynDao.showCommentsById(com_id);
+		return comments;
+	}
+
+	@Override
+	public boolean deleteComments(int com_id) {
+		boolean flag=false;
+		personDynDao.deleteAllReply(com_id);
+		if(personDynDao.deleteComments(com_id)>0){
+			flag=true;
+		}
+		return flag;
+	}
+
+	
+	@Override
+	public int updateReply(int rp_id) {
+		int row=personDynDao.updateReply(rp_id);
+		return row;
+	}
+
+	@Override
+	public int updateComments(int com_id) {
+		int row=personDynDao.updateComments(com_id);
+		return row;
+	}
+
+	@Override
+	public int deleteReply(int rp_id) {
+		
+		return personDynDao.deleteReply(rp_id);
+	}
+	@Override
+	public Map<Comments, List<Reply>> showAllCommentsAndReply(int pd_id) {
+		Map<Comments, List<Reply>> map =new HashMap<Comments, List<Reply>>();
+		List<Comments> list=personDynDao.showAllComments(pd_id);
+		for (Comments comments : list) {
+			List<Reply> li=personDynDao.showAllReply(comments.getCom_id());
+			map.put(comments, li);
+			}
+		return map;
+	}
+	
+
+}

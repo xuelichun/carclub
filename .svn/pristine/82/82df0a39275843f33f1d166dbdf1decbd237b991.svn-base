@@ -1,0 +1,27 @@
+var u_id=-1;
+$(function(){
+	var url=decodeURI(window.location.search);
+	var b=url.split("&");
+	var c=b[0].split("=")
+	u_id=c[1];
+	$.ajax({
+		type:'post',
+		url:'../user/selectHeadAndNick.do',
+		data:'u_id='+u_id,
+		async:false,
+		success:function(data){
+			$("#u_head").prop("src","../"+data.u_head);
+			head="../"+data.u_head;
+			nick=data.u_nick;
+			//alert(u_id);
+			//now=1;
+			//$("#sss").html("第"+now+"页");
+			//countPyn(data.u_id);
+		}
+	});
+	$('#h2').form('load',"../user/selectHeadAndNick.do?u_id="+u_id);
+	$('#f3').form('load',"../user/selectHeadAndNick.do?u_id="+u_id);
+	
+});
+
+

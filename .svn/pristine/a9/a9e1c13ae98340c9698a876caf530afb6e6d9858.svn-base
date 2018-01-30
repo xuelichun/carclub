@@ -1,0 +1,21 @@
+package com.zeepn.dao;
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.ActReg;
+import com.zeepn.bean.Activity;
+@Repository("activityDao")
+public interface ActivityDao {
+	
+	public int insertActivity(Activity activity);
+	
+	public List<Activity> selectActivities(int club_id);
+	
+	public Activity selectActivity(int act_id);
+	
+	public int updateActivity(Activity activity);
+	
+	public int deleteActivity(int act_id);
+	
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.FnetAntDao">
+<insert id="relesAnt"  >
+		insert into fnet_ant values(FNET_ANT_SEQ.NEXTVAL,#{fa_title},#{fa_msg},#{ga_id},#{p_time},#{fa_frec},#{fa_del})
+		
+</insert>
+<select id="selectFnetAntPage"  resultType="int">
+	select count(fa_id) from fnet_Ant where fa_del=0
+</select>
+ 	
+<select id="selectFnetAntByPage"  resultType="fnetAnt">
+		select * from (select a.* , rownum as rn from (select * from fnet_ant where fa_del=0 order by fa_id) a where rownum &lt;=#{page}*10) where rn &gt;=1+(#{page}-1)*10 	
+</select>
+
+<select id="selectOneFnetAntById"  resultType="fnetAnt">
+		select * from fnet_ant where fa_id=#{fa_id}
+</select>
+<update id="updateFnetAnt">
+	update fnet_ant set fa_title=#{fa_title}, fa_msg=#{fa_msg} where fa_id=#{fa_id}
+</update>
+
+
+<update id="deleteFnetAnt">
+	update fnet_ant set fa_del=1 where fa_id=#{fa_id}
+</update>
+<select id="selectOneFnetAntByTime" resultType="fnetAnt">
+	select * from (select * from fnet_ant where fa_del=0 order by p_time desc ) where rownum between 1 and 3
+
+</select>
+  
+</mapper>

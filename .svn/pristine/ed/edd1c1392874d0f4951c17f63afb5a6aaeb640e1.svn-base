@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.MessageDao">
+<insert id="createMessage"  >
+		insert into message values(MESSAGE_SEQ.NEXTVAL,#{ga_id},#{mu_id},#{mt_id},#{m_show},#{m_con},#{m_time})
+</insert>	
+
+<delete id="deleteMessage" >
+	delete from message where m_id=#{m_id}
+</delete>
+<select id="selectMessagePage" resultType="int">
+	select count(m_id) from message
+</select>
+ 	
+<select id="selectMessageByPage"  resultType="Message">
+		select * from(select s.*,rownum as rn from(select * from message ) s) "
+			+ "where rn between (#{page}-1)*10+1 and #{page}*10 
+</select>
+<select id="selectMessageByPageQian"  resultType="Message">
+		select * from(select s.*,rownum as rn from(select * from message where mu_id=#{mu_id}) s) "
+			+ "where  rn between (#{page}-1)*10+1 and #{page}*10 
+</select>
+
+<select id="selectOneMessageById"  resultType="Message">
+		select * from message where m_id=#{m_id}
+</select>
+<select id="selectMessageByType" resultType="Message">
+	
+        	select * from (select a.* , rownum as rn from (select * from message  where mt_id=#{mt_id} order by m_id) a where rownum &lt;=#{page}*4) where rn &gt;=1+(#{page}-1)*4 	
+</select>
+<insert id="createMessageType">
+
+	insert into  message_type values(MESSAGE_TYPE_SEQ.NEXTVAL,#{mt_title},#{mt_con},#{ga_id})
+</insert>
+<delete id="deleteMessageType">
+	delete from message_type where mt_id=#{mt_id}
+</delete>
+<update id="updateMessageType">
+    update message_type set mt_con=#{mt_con} where mt_id=#{mt_id}
+</update>
+<select id="selectMessageType" resultType="MessageType">
+	select * from message_type
+</select>
+<select id="selectMessageTypeById" resultType="MessageType">
+	select * from message_type where mt_id=#{mt_id}
+</select>
+<update id=" updateMessage">
+    update message set m_con=#{m_con} where m_id=#{m_id}
+</update>
+
+<select id="selectNewMessage" resultMap="userMessage">
+	select * from(select s.*,rownum as rn from ( select m.m_show,m.m_con,m.m_time ,m.mu_id,mt.mt_title 
+	from message m,message_type mt where m.mu_id=#{mu_id} and  m.m_show=0 and m.mt_id=mt.mt_id)s) 
+ 	where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10
+
+</select>
+<select id="countNewMessage">
+	select count(m_id) from message where mu_id=#{mu_id} and m_show=0
+</select>
+<resultMap type="UserMessage" id="userMessage">
+
+	<id column="mu_id" property="mu_id"/>
+	<id column="m_show" property="m_show"/>
+	<id column="m_con" property="m_con"/>
+	<id column="m_time" property="m_time"/>
+	<id column="mt_title" property="mt_title"/>
+</resultMap>
+
+<select id="selectMessagepageByid">
+	select  count(m_id) from message where mu_id=#{mu_id}
+ </select>
+ <update id="updateMessageShow">
+ 	update message set m_show=*{m_show} where m_id=#{m_id}
+ 
+ </update>
+ <select id="selectmessagepagebytype" resultType="int">
+ 
+     select count(m_id) from message where mt_id=#{mt_id}
+ </select>
+ <select id="selectmessagetypepage" resultType="int">
+ 	select count(mt_id) from message_type 
+ </select>
+</mapper>

@@ -1,0 +1,307 @@
+package com.zeepn.service;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import com.zeepn.bean.AppliNotice;
+import com.zeepn.bean.Club;
+import com.zeepn.bean.FindClubParam;
+import com.zeepn.bean.UserInfo;
+
+public interface BackClubService {
+	/**
+	 * 查询所有的车友会
+	 * @return 包含记录条数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubRank(int pageIndex);
+	/**
+	 * 查询前7位的车友会
+	 * @return 车友会集合
+	 */
+	public List<Club> seleFrontClub();
+	/**
+	 * 根据编号查询车友会
+	 * @param pageIndex 页数索引
+	 * @return 包含记录条数的车友会集合
+	 */
+	public HashMap<Integer, List<Object>> selectAllClubById(int pageIndex);
+	/**
+	 * 根据时间查询车友会
+	 * @param pageIndex 页数索引
+	 * @return 包含记录条数的车友会集合
+	 */
+	public HashMap<Integer, List<Object>> selectAllClubByTime(int pageIndex);
+	/**
+	 * 根据车友会编号查询车友会
+	 * @param club_id 车友会编号
+	 * @return 包含记录条数的车友会集合
+	 */
+	public HashMap<Integer, List<Object>> selectOneClub(int club_id);
+	/**
+	 * 根据省份、城市、车的品牌、车系查询车友会
+	 * @param pageIndex 页数索引
+	 * @return 包含记录条数的车友会集合
+	 */
+	public HashMap<Integer, List<Object>> selectAllClubLianDong(int pageIndex,FindClubParam findClubParam);
+	/**
+	 * 默认查询所有车友会
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClub(int pageIndex);
+	
+	/**
+	 * 根据省份查询车友会
+	 * @param province 省份
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByPro(String province,
+			int pageIndex);
+	/**
+	 * 根据城市查询车友会
+	 * @param city 城市
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCity(String city, int pageIndex);
+	/**
+	 * 根据车的品牌查询车友会
+	 * @param carBrand 车的品牌
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCarBrand(String carBrand,
+			int pageIndex);
+	/**
+	 * 根据车系查询车友会
+	 * @param cd_id 车系编号
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCarDep(String car_dep,
+			int pageIndex);
+	/**
+	 * 根据车友会编号查询车友会
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByClubId(int club_id,
+			int pageIndex);
+	/**
+	 * 根据省份和车的品牌查询车友会
+	 * @param province 省份
+	 * @param carBrand 车的品牌
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByProCB(String province,
+			String carBrand, int pageIndex);
+	/**
+	 * 根据省份和车系查询车友会
+	 * @param province 省份
+	 * @param carDep 车系
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByProCD(String province,
+			String carDep, int pageIndex);
+	/**
+	 * 根据城市和车友会编号查询车友会
+	 * @param city 城市
+	 * @param carBrand 车的品牌
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCityCB(String city,
+			String carBrand, int pageIndex);
+	/**
+	 * 根据城市和车系查询车友会
+	 * @param city 城市 
+	 * @param carDep 车系
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCityCD(String city,
+			String carDep, int pageIndex);
+	/**
+	 * 根据省份和车友会编号查询车友会
+	 * @param province 省份
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByProCID(String province,
+			int club_id, int pageIndex);
+	/**
+	 * 根据城市和车友会编号查询车友会
+	 * @param city 城市
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCityCID(String city,
+			int club_id, int pageIndex);
+	/**
+	 * 根据车的品牌和车友会编号查询车友会
+	 * @param carBrand 车的品牌
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCBCID(String carBrand,
+			int club_id, int pageIndex);
+	/**
+	 * 根据车系和车友会编号查询车友会
+	 * @param carDep 车系
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCDCID(String carDep,
+			int club_id, int pageIndex);
+	/**
+	 * 根据省份、车的品牌和车友会编号查询车友会
+	 * @param province 省份
+	 * @param carBrand 车的品牌
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByProCBCID(String province,
+			String carBrand, int club_id, int pageIndex);
+	/**
+	 * 根据省份、车系和车友会编号查询车友会
+	 * @param province 省份
+	 * @param carDep 车系
+	 * @param club_id 车友会编号
+	 * @param pageIndex
+	 * @return 车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByProCDCID(String province,
+			String carDep, int club_id, int pageIndex);
+	/**
+	 * 根据城市、车的品牌和车友会编号查询车友会
+	 * @param city 城市
+	 * @param carBrand 车的品牌
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCityCBCID(String city,
+			String carBrand, int club_id, int pageIndex);
+	/**
+	 * 根据城市、车系和车友会编号查询车友会
+	 * @param city 城市
+	 * @param carDep 车系
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 车友会集合
+	 */
+	public HashMap<Integer, Object> selectClubByCityCDCID(String city,
+			String carDep, int club_id, int pageIndex);
+	/**
+	 * 判断车友会名是否存在
+	 * @param club_name 车友会名
+	 * @return 存在，返回true；不存在，返回false
+	 */
+	public boolean unameIsExit(String club_name);
+	/**
+	 * 判断车友会域名是否存在
+	 * @param aj_clubdomn 车友会域名
+	 * @return 存在，返回true；不存在，返回false
+	 */
+	public boolean domnamIsExit(String aj_clubdomn);
+	/**
+	 * 车友会申请提交
+	 * @param aujson 创建车友会时提交信息对象
+	 * @return 提交成功，返回true；否则返回false
+	 */
+	public boolean subClubInfo(AppliNotice appliNotice,UserInfo userInfo,int u_id);
+	/**
+	 * 添加车友会表和会主记录
+	 * @param chk_value 申请通知编号数组
+	 * @return 添加成功和失败的个数数组
+	 */
+	public int[] insertClub(int[] chk_value);
+	
+	/**
+	 * 根据省份查询车友会
+	 * @param province 省份
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubByPro2(String province,
+			int pageIndex);
+	
+	/**
+	 * 根据城市查询车友会
+	 * @param city 城市
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubByCity2(String city,
+			int pageIndex);
+	
+	/**
+	 * 根据车牌查询车友会
+	 * @param carBrand 车牌
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubByCarBrand2(String carBrand,
+			int pageIndex);
+	
+	/**
+	 * 根据车系查询车友会
+	 * @param cd_dep 车系编号
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubByCarDep2(String carDep,
+			int pageIndex);
+	
+	/**
+	 * 根据省份和车的品牌查询车友会
+	 * @param province 省份
+	 * @param carBrand 车的品牌
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubByProCB2(String province,
+			String carBrand, int pageIndex);
+	/**
+	 * 根据省份和车系查询车友会
+	 * @param province 省份
+	 * @param carDep 车系
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubByProCD2(String province,
+			String carDep, int pageIndex);
+	/**
+	 * 根据城市和车友会编号查询车友会
+	 * @param city 城市
+	 * @param carBrand 车的品牌
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubByCityCB2(String city,
+			String carBrand, int pageIndex);
+	/**
+	 * 根据城市和车系查询车友会
+	 * @param city 城市 
+	 * @param carDep 车系
+	 * @param pageIndex 页数索引
+	 * @return 含有记录数的车友会集合
+	 */
+	public HashMap<Integer, Object> selectAllClubByCityCD2(String city,
+			String carDep, int pageIndex);
+	
+	
+	
+}

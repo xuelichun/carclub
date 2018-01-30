@@ -1,0 +1,11 @@
+package com.zeepn.service;
+
+import com.sun.tools.javac.util.List;
+import com.zeepn.bean.OpRecord;
+
+public interface OpRecordService {
+
+	public int insertOpRecord(OpRecord opRecord);
+	
+	public List<OpRecord> selectOpRecords(int club_id);
+}

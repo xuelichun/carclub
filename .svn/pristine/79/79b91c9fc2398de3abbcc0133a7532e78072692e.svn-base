@@ -1,0 +1,255 @@
+var head="";
+var nick="";
+var now=0;
+var count=0;
+var u_id=-1;
+var user_id=-1;
+var user_nick="";
+$(function(data){
+	var url=decodeURI(window.location.search);
+	var b=url.split("&");
+	var c=b[0].split("=")
+	u_id=c[1];
+	var cc=b[1].split("=")
+	user_nick=cc[1];
+	var ccc=b[2].split("=")
+	user_id=ccc[1];
+	//alert(u_id);
+	$('#h2').form('load',"../user/selectHeadAndNick.do?u_id="+u_id);
+	
+	$.getJSON("../user/updateTotal.do",{"u_id":u_id},function(data){
+		if(data.rs=='ok'){
+			
+		}	
+	});
+	$.getJSON("../user/insertVisitor.do",{"v_uid1":user_id,"v_uid2":u_id,"u_nick":user_nick},function(data){
+		if(data.rs=='ok'){
+			
+		}	
+	});
+	//$.getJSON("../user/selectHeadAndNick.do",{"u_id":u_id},function(data){
+	$.ajax({
+		type:'post',
+		url:'../user/selectHeadAndNick.do',
+		data:'u_id='+u_id,
+		async:false,
+		success:function(data){
+			$("#u_head").prop("src","../"+data.u_head);
+			head="../"+data.u_head;
+			nick=data.u_nick;
+			$("#u_total").val(data.u_total);
+			//alert(u_id);
+//			var a=data.u_total;
+//			//alert(data.u_total);
+//			a=parseInt(a);
+//			$("#u_total").val(a+1);
+			selectPyn(u_id,1);
+			now=1;
+			$("#sss").html("第"+now+"页");
+			countPyn(data.u_id);
+		}
+	});
+});
+function goback(){
+	var u_id=$("#u_id").val();
+	if(now==1){
+		alert("没有上一页");
+	}else{
+		now=parseInt(now);
+		now=now-1;
+		selectPyn(u_id,now);
+	}
+	$("#sss").html("第"+now+"页");
+}
+function gofont(){
+	var u_id=$("#u_id").val();
+	if(now==count){
+		alert("没有下一页");
+	}else{
+		now=parseInt(now);
+		now=now+1;
+		selectPyn(u_id,now);	
+	}
+	$("#sss").html("第"+now+"页");
+}
+function countPyn(u_id){
+	$.ajax({
+		type:'post',
+		url:'../userDyn/countDyn.do',
+		data:'u_id='+u_id,
+		async:false,
+		success:function(data){
+			var rss = $.parseJSON(data);
+			count=rss.rs;
+			$("#ss").html("总"+count+"页");
+	}
+	});
+}
+function selectPyn(u_id,indexPage){
+	var context="";
+//	$.getJSON("../userDyn/showDyn.do",{"u_id":u_id,"indexPage":indexPage},function(data){
+		$.ajax({
+			type:'post',
+			url:'../userDyn/showDyn.do',
+			data:'u_id='+u_id+'&indexPage='+indexPage,
+			async:false,
+			success:function(data){
+				if(data!=null){
+					for(var p in data){
+						//alert(p.person_dyn.u_id);
+//						alert($.parseJSON(p));
+						//alert(data[p][0].pd_time);
+						//alert(data[p].length);
+						context+=" <li> <div class='layout recListLeft f14'><a class='fLeft' target='_blank' >" +
+								"<img width='48' height='48' alt='"+nick+"' src='"+head+"'></a><div class='recDes'>" +
+								"<div class='vm bold c999'><a class='c4095ce' target='_blank'>"+nick+"</a>&nbsp;&nbsp;&nbsp;<span style='color:#ffa07a'>"+data[p][0].pd_time+"</span></div> " +
+								"<p class='recBox'>"+data[p][0].pd_msg+"</p>";
+						//alert(context);
+						if(data[p].length>1){
+							for(var i=1;i<data[p].length;i++){
+								if(i==3||i==6){
+									context+=" 	<img src='../"+data[p][i].dp_msg+"' class='a'/><br/>";
+								}else{
+								context+=" 	<img src='../"+data[p][i].dp_msg+"' class='a'/>";
+								}
+							}
+						}
+						var pd_id=data[p][0].pd_id;
+						$.ajax({
+							type:'post',
+							url:'../userDyn/showAllCommentsAndReply.do',
+							data:'pd_id='+pd_id,
+							async:false,
+							success:function(data){
+//								alert(1);
+								if(data!=null){
+									for(var s in data){
+										context+="<div><div  onmousemove='showdelete(a"+data[s][0].com_id+")' onmouseout='hidedelete(a"+data[s][0].com_id+")' >" +
+												"<a href='javascript:jump("+data[s][0].u_id+")'>"+data[s][0].u_nick+"</a>: "+data[s][0].com_msg+"&nbsp;&nbsp;&nbsp;<span style='color:#f08080'>"+data[s][0].com_time+"</span><br/></div>";
+												
+										
+										for(var j=1;j<data[s].length;j++){
+											context+="<a href='javascript:jump("+data[s][j].rp_pid+")'>"+data[s][j].rp_nick+"</a> 回复  <a href='javascript:jump("+data[s][j].rp_rpid+")'>"+data[s][j].rp_rnick+"</a>:"+data[s][j].rp_text+"<br/>";
+										}
+										var h=data[s].length-1;
+										if(h==0){
+											context+="<a href='javascript:showReply("+data[s][0].com_id+")'>回复</a><br/>"+
+											"<div style='display:none' id="+data[s][0].com_id+"> " +
+											"<textarea rows='' cols='' id='re"+data[s][0].com_id+"'>" +
+											"</textarea><br/><a  href='javascript:Reply(\""+data[s][h].u_id+"\",\""+data[s][h].u_nick+"\",\""+data[s][0].com_id+"\")'>提交回复</a></div>"
+										}else{
+											context+="<a href='javascript:showReply("+data[s][0].com_id+")'>回复</a><br/>"+
+											"<div style='display:none' id="+data[s][0].com_id+"> " +
+											"<textarea rows='' cols='' id='re"+data[s][0].com_id+"'>" +
+											"</textarea><br/><a  href='javascript:Reply(\""+data[s][h].rp_pid+"\",\""+data[s][h].u_nick+"\",\""+data[s][0].com_id+"\")'>提交回复</a></div>"
+										}
+										//alert(data[s].length);
+										
+										context+="</div>";							
+									}
+								}
+
+							}});
+							context+="<div class='mblFunc mt10 f12 downWh'><a  style='color:#4095ce' id='click"+data[p][0].pd_id+"' href='javascript:click("+data[p][0].pd_id+","+data[p][0].pd_num+")'>点赞("+data[p][0].pd_num+")</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+									"<a  style='color:#4095ce' href='javascript:com("+data[p][0].pd_id+")'>评论</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+									"</div></div></div><div style='display:none' id='s"+data[p][0].pd_id+"'> " +
+									"<textarea rows='' cols='' id='t"+data[p][0].pd_id+"'></textarea><br/>" +
+								"<a  href='javascript:comments(\""+data[p][0].pd_id+"\",\""+data[p][0].u_id+"\")'>评论</a></div></li>";
+					}	
+				}else{
+					context="没有动态";
+				}
+				$("#ul").html(context);			
+			}
+		});		
+//	});	
+}
+var o=1;
+function com(pd_id){
+	
+	if(o%2==0){
+		$("#s"+pd_id).hide();
+	}else{
+		$("#s"+pd_id).show();
+	}
+	o++;
+}
+var k=1;
+function showReply(id){
+	if(k%2==0){
+		$("#"+id).hide();
+	}else{
+		$("#"+id).show();
+	}
+	k++;
+}
+function click(pd_id,num){
+	$.getJSON("../userDyn/click.do",{"pd_id":pd_id,"u_id":user_id,"u_nick":user_nick},function(data){
+		if(data.rs=='ok'){
+			num=parseInt(num);
+			var a=num+1;
+			$("#click"+pd_id).html("点赞("+a+")");
+			
+		}else if(data.rs=='ch'){
+			alert("不能重复点赞！");
+		}else if(data.rs=='no'){
+			alert("点赞失败");
+		}
+	});	
+}
+function comments(pd_id,use_id){
+	var com_msg=$("#t"+pd_id).val();
+	if(com_msg.trim()==''){
+		alert("评论内容不能为空");
+		return ;
+	}else{
+//		var u_id=$("#u_id").val();
+//		var u_nick=$("#u_nick").val();
+		//alert($("#u_nick").val());
+		alert(user_id);
+		$.getJSON("../userDyn/comments.do",{"pd_id":pd_id,"u_id":user_id,"u_nick":user_nick,"com_msg":com_msg,"user_id":use_id},function(data){
+			if(data.rs=='ok'){
+				//alert("评论成功");
+				//var u_id=$("#u_id").val();
+				alert(u_id);
+				selectPyn(u_id,now);
+				
+			}else{
+				alert("评论失败");
+			}
+			
+		});
+	}	
+}
+function jump(id){
+	if(id==user_id){
+		location.href="user.html";
+	}else if(id!=u_id){
+		var url="friendsShow.html?u_id="+id+"&u_nick="+u_nick+"&user_id="+user_id;
+		window.location.assign(encodeURI(url));	
+	}
+//跳转到好友的个人中心
+}
+//rp_rpid  被回复人的id   rp_rnick 被回复人的昵称    com_id 评论的id
+function Reply(rp_rpid,rp_rnick,com_id){
+	var rp_text=$("#re"+com_id).val();
+	$.getJSON("../userDyn/reply.do",{"rp_rpid":rp_rpid,"rp_rnick":rp_rnick,"com_id":com_id,"rp_pid":user_id,"rp_nick":user_nick,"rp_text":rp_text},function(data){
+		if(data.rs=='ok'){		
+			selectPyn(u_id,now);
+		}else{
+			alert("回复失败");
+		}
+	});
+}
+function friendsCar(){
+	var url="friendsCar.html?u_id="+u_id;
+	window.location.assign(encodeURI(url));	
+}
+function friendsPhoto(){
+	var url="friendsPhoto.html?u_id="+u_id;
+	window.location.assign(encodeURI(url));	
+}
+function friendsInfo(){
+	var url="friendsInfo.html?u_id="+u_id;
+	window.location.assign(encodeURI(url));	
+}

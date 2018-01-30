@@ -1,0 +1,73 @@
+package com.zeepn.bean;
+
+import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
+@Component
+@Alias("PersonDyn")
+public class PersonDyn {
+	private int pd_id;
+	private int u_id;
+	private String pd_msg;
+	private String pd_time;
+	private int pd_num;
+	public PersonDyn() {
+	}
+	public PersonDyn(int pd_id, int u_id, String pd_msg, String pd_time,
+			int pd_num) {
+		this.pd_id = pd_id;
+		this.u_id = u_id;
+		this.pd_msg = pd_msg;
+		this.pd_time = pd_time;
+		this.pd_num = pd_num;
+	}
+	public PersonDyn(int u_id, String pd_msg, String pd_time, int pd_num) {
+		this.u_id = u_id;
+		this.pd_msg = pd_msg;
+		this.pd_time = pd_time;
+		this.pd_num = pd_num;
+	}
+	
+	
+	
+	public PersonDyn(int u_id, String pd_msg) {
+
+		this.u_id = u_id;
+		this.pd_msg = pd_msg;
+	}
+	public int getPd_id() {
+		return pd_id;
+	}
+	public void setPd_id(int pd_id) {
+		this.pd_id = pd_id;
+	}
+	public int getU_id() {
+		return u_id;
+	}
+	public void setU_id(int u_id) {
+		this.u_id = u_id;
+	}
+	public String getPd_msg() {
+		return pd_msg;
+	}
+	public void setPd_msg(String pd_msg) {
+		this.pd_msg = pd_msg;
+	}
+	public String getPd_time() {
+		return pd_time;
+	}
+	public void setPd_time(String pd_time) {
+		this.pd_time = pd_time;
+	}
+	public int getPd_num() {
+		return pd_num;
+	}
+	public void setPd_num(int pd_num) {
+		this.pd_num = pd_num;
+	}
+	@Override
+	public String toString() {
+		return "person_dyn [pd_id=" + pd_id + ", u_id=" + u_id + ", pd_msg="
+				+ pd_msg + ", pd_time=" + pd_time + ", pd_num=" + pd_num + "]";
+	}
+	
+}

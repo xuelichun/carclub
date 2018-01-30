@@ -1,0 +1,68 @@
+$(function(){
+	$.getJSON("../user/islogin.do",{},function(data){
+		$("#u_name").val(data.u_name);
+		$("#u_addr").val(data.u_addr);
+		$("#u_idcard").val(data.u_idcard);
+	});
+	
+	$("#submit2").click(function(){
+		if(checkName()&&checkIdCard()&&checkAddr()){
+			$("#createCarClub2").submit();
+		}
+	});
+	$("#createCarClub2").form({
+		success:function(data) {
+			var rss = $.parseJSON(data);
+			if(rss.result=='ok'){
+				location.href="./createCarClub3.html";
+				$("#u_name").val("");
+				$("#u_idcard").val("");
+				$("#u_addr").val("");
+				$("#uname").html("");
+				$("#uidCard").html("");
+				$("#uaddr").html("");
+			}
+		}
+	});
+});
+
+function checkName(){
+	var u_name=$("#u_name").val();
+	var reg=/^[\u4e00-\u9fa5]{2,5}$/;
+	if(reg.test(u_name)){
+		$("#uname").prop("style","color:#0f0;");
+		$("#uname").html("名称合法");
+		return true;
+	}else{
+		$("#uname").prop("style","color:#f00;");
+		$("#uname").html("名称必须是2-5个汉字");
+		return false;
+	}
+}
+
+function checkIdCard(){
+	var u_idCard=$("#u_idcard").val();
+	var reg=/^(\d{18})|(\d{17}x)$/;
+	if(reg.test(u_idCard)){
+		$("#uidCard").prop("style","color:#0f0;");
+		$("#uidCard").html("身份证合法");
+		return true;
+	}else{
+		$("#uidCard").prop("style","color:#f00;");
+		$("#uidCard").html("身份证不合法");
+		return false;
+	}
+}
+function checkAddr(){
+	var u_addr=$("#u_addr").val();
+	var reg=/^([A-Za-z0-9]|[\u4e00-\u9fa5]){5,20}$/;
+	if(reg.test(u_addr)){
+		$("#uaddr").prop("style","color:#0f0;");
+		$("#uaddr").html("地址合法");
+		return true;
+	}else{
+		$("#uaddr").prop("style","color:#f00;");
+		$("#uaddr").html("地址不合法");
+		return false;
+	}
+}

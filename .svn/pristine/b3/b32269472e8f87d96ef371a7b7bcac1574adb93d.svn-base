@@ -1,0 +1,59 @@
+package com.zeepn.bean;
+
+import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
+
+@Component
+@Alias("PreInfo")
+public class PreInfo {
+	private int pi_id;
+	private int p_id;
+	private int vp1_id;
+	private int vp2_id;
+	private int club_id;
+	public PreInfo() {
+	}
+	public PreInfo(int pi_id, int p_id, int vp1_id, int vp2_id, int club_id) {
+		this.pi_id = pi_id;
+		this.p_id = p_id;
+		this.vp1_id = vp1_id;
+		this.vp2_id = vp2_id;
+		this.club_id = club_id;
+	}
+	public int getPi_id() {
+		return pi_id;
+	}
+	public void setPi_id(int pi_id) {
+		this.pi_id = pi_id;
+	}
+	public int getP_id() {
+		return p_id;
+	}
+	public void setP_id(int p_id) {
+		this.p_id = p_id;
+	}
+	public int getVp1_id() {
+		return vp1_id;
+	}
+	public void setVp1_id(int vp1_id) {
+		this.vp1_id = vp1_id;
+	}
+	public int getVp2_id() {
+		return vp2_id;
+	}
+	public void setVp2_id(int vp2_id) {
+		this.vp2_id = vp2_id;
+	}
+	public int getClub_id() {
+		return club_id;
+	}
+	public void setClub_id(int club_id) {
+		this.club_id = club_id;
+	}
+	@Override
+	public String toString() {
+		return "PreInfo [pi_id=" + pi_id + ", p_id=" + p_id + ", vp1_id="
+				+ vp1_id + ", vp2_id=" + vp2_id + ", club_id=" + club_id + "]";
+	}
+	
+}

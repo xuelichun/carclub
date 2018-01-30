@@ -1,0 +1,294 @@
+package com.zeepn.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.UserInfo;
+import com.zeepn.dao.BackUserInfoDao;
+import com.zeepn.service.BackUserInfoService;
+import com.zeepn.utils.FeeUtils;
+import com.zeepn.utils.TransCoding;
+
+@Service("backUserInfoService")
+public class BackUserInfoServiceImpl implements BackUserInfoService{
+	
+	/**
+	 * 自动注入dao
+	 */
+	@Autowired
+	BackUserInfoDao backUserInfoDao;
+
+	@Override
+	public HashMap<Integer, Object> selectAllUI(int pageIndex) {
+		List<UserInfo> uiList=backUserInfoDao.selectAllUI(pageIndex);
+		int count=backUserInfoDao.selectCountUI();
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByPro(String procince, int pageIndex) {
+		procince=TransCoding.transCoding(procince);
+		List<UserInfo> uiList=backUserInfoDao.selectUIByPro(procince,pageIndex);
+		int count=backUserInfoDao.selectCountUIByPro(procince);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByCity(String city, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByCity(city,pageIndex);
+		int count=backUserInfoDao.selectCountUIbyCity(city);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIBySex(String sex, int pageIndex) {
+		sex=TransCoding.transCoding(sex);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIBySex(sex,pageIndex);
+		int count=backUserInfoDao.selectCountUIbySex(sex);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByUname(String uname, int pageIndex) {
+		uname=TransCoding.transCoding(uname);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByUname(uname,pageIndex);
+		int count=backUserInfoDao.selectCountUIByUname(uname);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByUgrade(String ugrade,int pageIndex) {
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByUgrade(ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByUgrade(ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByPS(String procince, String sex,
+			int pageIndex) {
+		procince=TransCoding.transCoding(procince);
+		sex=TransCoding.transCoding(sex);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByPS(procince,sex,pageIndex);
+		int count=backUserInfoDao.selectCountUIByPS(procince,sex);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByPUN(String procince,
+			String uname, int pageIndex) {
+		uname="%"+uname+"%";
+		procince=TransCoding.transCoding(procince);
+		uname=TransCoding.transCoding(uname);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByPUN(procince,uname,pageIndex);
+		int count=backUserInfoDao.selectCountUIByPUN(procince,uname);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByPUG(String procince,
+			String ugrade, int pageIndex) {
+		procince=TransCoding.transCoding(procince);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByPUG(procince,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByPUG(procince,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByCS(String city, String sex,
+			int pageIndex) {
+		city=TransCoding.transCoding(city);
+		sex=TransCoding.transCoding(sex);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByCS(city,sex,pageIndex);
+		int count=backUserInfoDao.selectCountUIByCS(city,sex);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByCUN(String city, String uname,
+			int pageIndex) {
+		uname="%"+uname+"%";
+		city=TransCoding.transCoding(city);
+		uname=TransCoding.transCoding(uname);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByCUN(city,uname,pageIndex);
+		int count=backUserInfoDao.selectCountUIByCUN(city,uname);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByCUG(String city, String ugrade,
+			int pageIndex) {
+		city=TransCoding.transCoding(city);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByCUG(city,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByCUG(city,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIBySUN(String sex, String uname,
+			int pageIndex) {
+		sex=TransCoding.transCoding(sex);
+		uname=TransCoding.transCoding(uname);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIBySUN(sex,uname,pageIndex);
+		int count=backUserInfoDao.selectCountUIBySUN(sex,uname);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIBySUG(String sex, String ugrade,
+			int pageIndex) {
+		sex=TransCoding.transCoding(sex);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIBySUG(sex,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIBySUG(sex,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByUNUG(String uname, String ugrade,
+			int pageIndex) {
+		uname=TransCoding.transCoding(uname);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByUNUG(uname,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByUNUG(uname,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByPSUN(String procince, String sex,
+			String uname, int pageIndex) {
+		uname="%"+uname+"%";
+		procince=TransCoding.transCoding(procince);
+		sex=TransCoding.transCoding(sex);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByPSUN(procince,sex,uname,pageIndex);
+		int count=backUserInfoDao.selectCountUIByPSUN(procince,sex,uname);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex,count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByPSUG(String procince, String sex,
+			String ugrade, int pageIndex) {
+		procince=TransCoding.transCoding(procince);
+		sex=TransCoding.transCoding(sex);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByPSUG(procince,sex,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByPSUG(procince,sex,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByPUNUG(String procince,
+			String uname, String ugrade, int pageIndex) {
+		uname=TransCoding.transCoding(uname);
+		procince=TransCoding.transCoding(procince);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByPUNUG(procince,uname,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByPUNUG(procince,uname,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByCSUN(String city, String sex,
+			String uname, int pageIndex) {
+		uname=TransCoding.transCoding(uname);
+		city=TransCoding.transCoding(city);
+		sex=TransCoding.transCoding(sex);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByCSCUN(city,sex,uname,pageIndex);
+		int count=backUserInfoDao.selectCountUIByCSCUN(city,sex,uname);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByCSUG(String city, String sex,
+			String ugrade, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		sex=TransCoding.transCoding(sex);
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByCSUG(city,sex,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByCSUG(city,sex,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByCUNUG(String city, String uname,
+			String ugrade, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		uname=TransCoding.transCoding(uname);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByCUNUG(city,uname,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByCUNUG(city,uname,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIBySUNUG(String sex, String uname,
+			String ugrade, int pageIndex) {
+		uname=TransCoding.transCoding(uname);
+		sex=TransCoding.transCoding(sex);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIBySUNUG(sex,uname,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIBySUNUG(sex,uname,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByPSUU(String province, String sex,
+			String uname, String ugrade, int pageIndex) {
+		uname=TransCoding.transCoding(uname);
+		sex=TransCoding.transCoding(sex);
+		province=TransCoding.transCoding(province);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByPSUU(province,sex,uname,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByPSUU(province,sex,uname,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIByCSUU(String city, String sex,
+			String uname, String ugrade, int pageIndex) {
+		uname=TransCoding.transCoding(uname);
+		sex=TransCoding.transCoding(sex);
+		city=TransCoding.transCoding(city);
+		uname="%"+uname+"%";
+		List<UserInfo> uiList=backUserInfoDao.selectAllUIByCSUU(city,sex,uname,ugrade,pageIndex);
+		int count=backUserInfoDao.selectCountUIByCSUU(city,sex,uname,ugrade);
+		HashMap<Integer, Object> anMap=new FeeUtils().packageUITotal(uiList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectUIRank(int pageIndex) {
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<UserInfo> uList=backUserInfoDao.selectUIRank(pageIndex);
+		int count=backUserInfoDao.selectCountUI();
+		anMap=new FeeUtils().packageUITotal(uList, pageIndex, count);
+		return anMap;
+	}
+	
+}

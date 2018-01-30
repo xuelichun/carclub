@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.zeepn.dao.UserSignDao">
+  
+  <select id="isFirst" resultType="int">
+	select count(s_id) from sign where u_id=#{u_id} and club_id=#{club_id}
+</select>
+<insert id="insertSign">
+	insert into sign values(sign_seq.nextval,#{club_id},#{u_id},#{s_time},#{s_num})
+</insert>
+
+<update id="updateSign">
+	update sign set s_time=#{s_time},s_num=#{s_num} where club_id=#{club_id} and u_id=#{u_id}
+</update>
+  </mapper>

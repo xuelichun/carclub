@@ -1,0 +1,12 @@
+$(function(){
+	alert("!!!");
+	$.getJSON("../advertiser/showDesc.do",{"ad_id":ad_id},function(data){
+		alert("???");
+		var con="<div class='conbox'>";
+		for(var i=0;i<data.length;i++){
+			con+="<div><a href="+data[i].ad_web+"title='' <img src=../"+data[i].ad_img+" width='1000' height='330' /></a></div>";
+		}
+		con+="</div>"
+		$("#slider1").html(con);
+	});
+});

@@ -1,0 +1,20 @@
+package com.zeepn.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.zeepn.bean.UserInfo;
+import com.zeepn.service.UserService;
+@Controller
+public class UserController {
+	@Autowired
+	UserService userService;
+	@RequestMapping("/login")
+	public String login(UserInfo userinfo){
+		
+		return null;
+		
+		
+	}
+}

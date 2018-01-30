@@ -1,0 +1,41 @@
+package com.zeepn.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.zeepn.bean.DraTravel;
+import com.zeepn.dao.DraTravelDao;
+import com.zeepn.service.DraTravelService;
+@Component("draTravelService")
+public class DraTravelServiceImpl implements DraTravelService {
+
+	@Autowired
+	DraTravelDao draTravelDao;
+	@Override
+	public int insertDraTravel(DraTravel draTravel) {
+		return draTravelDao.insertDraTravel(draTravel);
+	}
+
+	@Override
+	public DraTravel selectDraTravelById(int dt_id) {
+		return draTravelDao.selectDraTravelById(dt_id);
+	}
+
+	@Override
+	public List<DraTravel> selectDraTravel(int dt_id) {
+		return draTravelDao.selectDraTravel(dt_id);
+	}
+
+	@Override
+	public int updateDraTravel(DraTravel draTravel) {
+		return draTravelDao.updateDraTravel(draTravel);
+	}
+
+	@Override
+	public int deleteDraTravel(int dt_id) {
+		return draTravelDao.deleteDraTravel(dt_id);
+	}
+
+}

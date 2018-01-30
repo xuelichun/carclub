@@ -1,0 +1,157 @@
+package com.zeepn.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
+
+import com.zeepn.bean.FunCharge;
+import com.zeepn.utils.Page;
+
+@Repository("funChargeDao")
+public interface FunChargeDao {
+	/**
+	 * 添加功能收费记录
+	 * @param funCharge
+	 * @return
+	 */
+	@Insert("insert into fun_charge values(fun_charge_seq.nextval,#{fun_id},#{fc_paytime},#{fc_mattime},#{fc_monthtime},#{club_id})")
+	public int insertFunCharge(FunCharge funCharge);
+	/**
+	 * 查询所有的功能费用收费记录
+	 * @return 功能费用收费集合
+	 */
+	@Select("select * from fun_charge")
+	public List<FunCharge> selectAllFc();
+	/**
+	 * 查询所有功能收费记录
+	 * @param page 行数对象
+	 * @return 功能收费集合
+	 */
+	public List<FunCharge> selectAllFunCharge(int pageIndex);
+	/**
+	 * 根据车友会编号查询功能缴费集合
+	 * @param club_id 车友会编号
+	 * @return 功能缴费集合
+	 */
+	public List<FunCharge> selectFunCharge(int club_id);
+	/**
+	 * 根据车友会编号和功能缴费时间 查询功能缴费对象
+	 * @param club_id 车友会编号
+	 * @param fc_paytime 功能缴费时间
+	 * @return 功能缴费对象
+	 */
+	public FunCharge selectOneFunChargeBCT(int club_id,String fc_paytime);
+	/**
+	 * 根据功能缴费编号查询功能缴费对象
+	 * @param fc_id 缴费编号
+	 * @return 功能缴费对象
+	 */
+	@Select("select * from fun_charge where fc_id=#{fc_id}")
+	public List<FunCharge> selectOneFunCharge(int fc_id);
+	/**
+	 * 更新功能收费表记录
+	 * @param funCharge 功能收费对象
+	 * @return 影响数据库表的行数
+	 */
+	public int updateFunCharge(FunCharge funCharge);
+	/**
+	 * 根据车友会编号查询功能收费缴费时间
+	 * @param club_id 车友会编号
+	 * @return 收费缴费时间
+	 */
+	public String selectFcPaytime(int club_id);
+	/**
+	 * 根据车友会编号查询功能收费到期时间
+	 * @param club_id 车友会编号
+	 * @return 收费到期时间
+	 */
+	@Select("select fc_mattime from fun_charge where club_id=#{club_id} order by fun_charge")
+	public List<String> selectFcMattime(int club_id);
+	/**
+	 * 查询功能收费表数据记录数
+	 * @return 数据记录数
+	 */
+	@Select("select count(fc_id) from fun_charge")
+	public int selectFcCount();
+	/**
+	 * 根据时间查询功能收费表数据记录数
+	 * @param fc_paytime 缴费时间
+	 * @return 数据记录数
+	 */
+	@Select("select count(fc_id) from fun_charge where fc_paytime like #{fc_paytime}")
+	public int selectFcCountByTime(String fc_paytime);
+	/**
+	 * 按照日期查询所有的功能费用收费记录
+	 * @param pageIndex 页数索引
+	 * @return 功能费用收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from fun_charge order by fc_paytime desc) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<FunCharge> selectAllFunChargeByTime(int pageIndex);
+	/**
+	 * 按照编号查询所有的功能费用收费记录
+	 * @param pageIndex 页数索引
+	 * @return 功能费用收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from fun_charge order by fc_id) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<FunCharge> selectAllFunChargeById(int pageIndex);
+	/**
+	 * 按收费类型和收费日期查询功能费用收费记录
+	 * @param page 行数对象
+	 * @return 功能费用收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from fun_charge where fc_paytime like #{fc_paytime} order by fc_id) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<FunCharge> selectAllFunChargeByPP(@Param("fc_paytime")String fc_paytime,@Param("pageIndex")int pageIndex);
+	/**
+	 * 按收费类型和到期日期查询功能费用收费记录
+	 * @param page 行数对象
+	 * @return 功能费用收费集合
+	 */
+	public List<Object> selectAllFunChargeByPM(Page page);
+	/**
+	 * 按收费类型、收费日期和到期日期查询功能费用收费记录
+	 * @param page 行数对象
+	 * @return 功能费用收费集合
+	 */
+	public List<Object> selectAllFunChargeByPPM(Page page);
+	/**
+	 * 根据车友会编号查询功能收费集合
+	 * @param club_id 车友会编号
+	 * @param pageIndex 页数索引
+	 * @return 功能收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from fun_charge where club_id=#{club_id} order by fc_id) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<FunCharge> selectAllFunChargeByClubId(@Param("club_id")int club_id,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车友会编号和功能费用缴费时间查询功能费用收费集合
+	 * @param club_id 车友会编号
+	 * @param fc_paytime 功能费用缴费时间 
+	 * @param pageIndex 页数索引
+	 * @return 功能费用收费集合
+	 */
+	@Select("select * from(select s.*,rownum as rn from(select * from fun_charge where club_id=#{club_id} and fc_paytime like #{fc_paytime} order by fc_id) s)"
+			+"where rn between (#{pageIndex}-1)*10+1 and #{pageIndex}*10")
+	public List<FunCharge> selectAllFunChargeByCidPTime(@Param("club_id")int club_id,@Param("fc_paytime")String fc_paytime,@Param("pageIndex")int pageIndex);
+	/**
+	 * 根据车友会编号查询功能收费记录数
+	 * @param club_id 车友会编号
+	 * @return 功能收费记录数
+	 */
+	@Select("select count(fc_id) from fun_charge where club_id=#{club_id}")
+	public int selectFcCountByClubId(int club_id);
+	/**
+	 * 根据车友会编号和功能费用缴费时间查询数据记录数
+	 * @param club_id 车友会编号
+	 * @param fc_paytime 功能费用缴费时间
+	 * @return 数据记录数
+	 */
+	@Select("select count(fc_id) from fun_charge where club_id=#{club_id} and fc_paytime like #{fc_paytime}")
+	public int selectFcCountByCidPtime(@Param("club_id")int club_id,@Param("fc_paytime")String fc_paytime);
+}	
+

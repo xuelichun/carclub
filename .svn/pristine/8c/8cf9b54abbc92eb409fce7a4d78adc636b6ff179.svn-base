@@ -1,0 +1,357 @@
+package com.zeepn.service.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.zeepn.bean.AppliNotice;
+import com.zeepn.bean.Club;
+import com.zeepn.bean.FindClubParam;
+import com.zeepn.bean.PreInfo;
+import com.zeepn.bean.UserInfo;
+import com.zeepn.dao.AppliNoticeDao;
+import com.zeepn.dao.ClubDao;
+import com.zeepn.dao.UserDao;
+import com.zeepn.service.BackClubService;
+import com.zeepn.utils.FeeUtils;
+import com.zeepn.utils.PacketAppliNotice;
+import com.zeepn.utils.Page;
+import com.zeepn.utils.PageTool;
+import com.zeepn.utils.TransCoding;
+
+@Service("backClubService")
+public class BackClubServiceImpl implements BackClubService{
+
+	private PageTool pageTool=new PageTool();
+	/**
+	 * 自动注入dao	
+	 */
+	@Autowired
+	ClubDao clubDao;
+	@Autowired
+	AppliNoticeDao appliNoticeDao;
+	@Autowired
+	UserDao userDao;
+	
+	@Override
+	public HashMap<Integer, Object> selectAllClubRank(int pageIndex) {
+		List<Club> clubList=clubDao.selectAllClubByPageRank(pageIndex);
+		int count=clubDao.selectClubCount();
+		HashMap<Integer, Object> anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public List<Club> seleFrontClub() {
+		List<Club> clubList=clubDao.selectFrontClub();
+		return clubList;
+	}
+
+	@Override
+	public HashMap<Integer, List<Object>> selectAllClubById(int pageIndex) {
+		Page page=pageTool.selectPage(pageIndex);
+		List<Object> clubList=clubDao.selectAllClubByPageId(page);
+		int count=clubDao.selectClubCount();
+		HashMap<Integer,List<Object>> anMap=new FeeUtils().packageAn(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, List<Object>> selectAllClubByTime(int pageIndex) {
+		Page page=pageTool.selectPage(pageIndex);
+		List<Object> clubList=clubDao.selectAllClubByPageTime(page);
+		int count=clubDao.selectClubCount();
+		HashMap<Integer, List<Object>> anMap=new FeeUtils().packageAn(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, List<Object>> selectOneClub(int club_id) {
+		Club club=clubDao.selectOneClub(club_id);
+		List<Object> clubList=new ArrayList<Object>();
+		clubList.add(club);
+		int count=1;
+		HashMap<Integer, List<Object>> anMap=new FeeUtils().packageAn(clubList, 1, count);
+		return anMap;
+	}
+
+	
+	@Override
+	public HashMap<Integer, List<Object>> selectAllClubLianDong(int pageIndex,FindClubParam findClubParam) {
+		Page page=pageTool.selectPage(pageIndex);
+		List<Object> clubList=clubDao.selectAllClubByFCP(page,findClubParam);
+		int count=clubDao.selectClubCountByFCP(findClubParam);
+		HashMap<Integer, List<Object>> anMap=new FeeUtils().packageAn(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectAllClub(int pageIndex) {
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectAllClub(pageIndex);
+		int count=clubDao.selectCountClub();
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByPro(String province,
+			int pageIndex) {
+		province=TransCoding.transCoding(province);
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByPro(province,pageIndex);
+		int count=clubDao.selectCountClubByPro(province);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCity(String city, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCity(city,pageIndex);
+		int count=clubDao.selectCountClubByCity(city);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCarBrand(String carBrand,
+			int pageIndex) {
+		carBrand=TransCoding.transCoding(carBrand);
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCarBrand(carBrand,pageIndex);
+		int count=clubDao.selectCountClubByBrand(carBrand);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCarDep(String carDep,
+			int pageIndex) {
+		carDep=TransCoding.transCoding(carDep);
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCarDep(carDep,pageIndex);
+		int count=clubDao.selectCountClubByCarDep(carDep);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByClubId(int club_id,
+			int pageIndex) {
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByClubId(club_id,pageIndex);
+		int count=clubDao.selectCountClubByClubId(club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByProCB(String province,
+			String carBrand, int pageIndex) {
+		province=TransCoding.transCoding(province);
+		carBrand=TransCoding.transCoding(carBrand);
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByProCB(province,carBrand,pageIndex);
+		int count=clubDao.selectCountClubByProCB(province,carBrand);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByProCD(String province,
+			String carDep, int pageIndex) {
+		province=TransCoding.transCoding(province);
+		carDep=TransCoding.transCoding(carDep);
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByProCD(province,carDep,pageIndex);
+		int count=clubDao.selectCountClubByProCD(province,carDep);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCityCB(String city,
+			String carBrand, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		carBrand=TransCoding.transCoding(carBrand);
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCityCB(city,carBrand,pageIndex);
+		int count=clubDao.selectCountClubByCityCB(city,carBrand);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCityCD(String city,
+			String carDep, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		carDep=TransCoding.transCoding(carDep);
+		HashMap<Integer, Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCityCD(city,carDep,pageIndex);
+		int count=clubDao.selectCountClubByCityCD(city,carDep);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByProCID(String province,
+			int club_id, int pageIndex) {
+		province=TransCoding.transCoding(province);
+		HashMap<Integer,Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByProCID(province,club_id,pageIndex);
+		int count=clubDao.selectCountClubByProCID(province,club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCityCID(String city,
+			int club_id, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		HashMap<Integer,Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCityCID(city,club_id,pageIndex);
+		int count=clubDao.selectCountClubByCityCID(city,club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCBCID(String carBrand,
+			int club_id, int pageIndex) {
+		carBrand=TransCoding.transCoding(carBrand);
+		HashMap<Integer,Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCBCID(carBrand,club_id,pageIndex);
+		int count=clubDao.selectCountClubByCBCID(carBrand,club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCDCID(String carDep,
+			int club_id, int pageIndex) {
+		carDep=TransCoding.transCoding(carDep);
+		HashMap<Integer,Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCDCID(carDep,club_id,pageIndex);
+		int count=clubDao.selectCountClubByCDCID(carDep,club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByProCBCID(String province,
+			String carBrand, int club_id, int pageIndex) {
+		province=TransCoding.transCoding(province);
+		carBrand=TransCoding.transCoding(carBrand);
+		HashMap<Integer,Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByProCBCID(province,carBrand,club_id,pageIndex);
+		int count=clubDao.selectCountClubByProCBCID(province,carBrand,club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByProCDCID(String province,
+			String carDep, int club_id, int pageIndex) {
+		province=TransCoding.transCoding(province);
+		carDep=TransCoding.transCoding(carDep);
+		HashMap<Integer,Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByProCDCID(province,carDep,club_id,pageIndex);
+		int count=clubDao.selectCountClubByProCDCID(province,carDep,club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCityCBCID(String city,
+			String carBrand, int club_id, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		carBrand=TransCoding.transCoding(carBrand);
+		HashMap<Integer,Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCityCBCID(city,carBrand,club_id,pageIndex);
+		int count=clubDao.selectCountClubByCityCBCID(city,carBrand,club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public HashMap<Integer, Object> selectClubByCityCDCID(String city,
+			String carDep, int club_id, int pageIndex) {
+		city=TransCoding.transCoding(city);
+		carDep=TransCoding.transCoding(carDep);
+		HashMap<Integer,Object> anMap=new HashMap<Integer, Object>();
+		List<Club> clubList=clubDao.selectClubByCityCDCID(city,carDep,club_id,pageIndex);
+		int count=clubDao.selectCountClubByCityCDCID(city,carDep,club_id);
+		anMap=new FeeUtils().packageClubTotal(clubList, pageIndex, count);
+		return anMap;
+	}
+
+	@Override
+	public boolean unameIsExit(String club_name) {
+		club_name=TransCoding.transCoding(club_name);
+		int count=clubDao.unameIsExit(club_name);
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public boolean domnamIsExit(String club_domnam) {
+		int count=clubDao.domnamIsExit(club_domnam);
+		if(count>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public boolean subClubInfo(AppliNotice appliNotice,UserInfo userInfo,int u_id) {
+		AppliNotice appliNotice2=new PacketAppliNotice().packAn(appliNotice, userInfo, u_id);
+		String u_name=TransCoding.transCoding(userInfo.getU_name());
+		String u_addr=TransCoding.transCoding(userInfo.getU_addr());
+		int count1=appliNoticeDao.insertAppliNotice(appliNotice2);
+		int count2=userDao.createCarClub(u_name,u_addr,userInfo.getU_idcard(),u_id);
+		if(count1>0&&count2>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	@Override
+	public int[] insertClub(int[] chk_value) {
+		AppliNotice appliNotice=new AppliNotice();
+		Club club=new Club();
+		PreInfo preInfo=new PreInfo();
+		int count1=0;
+		int count2=0;
+		for(int i=0;i<chk_value.length;i++){
+			appliNotice=appliNoticeDao.selectOneAppliNotice(chk_value[i]);
+			club=new PacketAppliNotice().packageClub(appliNotice);
+			if(clubDao.insertClub(club)>0){
+				count1+=1;
+				int club_id=clubDao.selectClubIdByPId(club.getP_id());
+				preInfo=new PacketAppliNotice().packagePreInfo(club.getP_id(),club_id);
+				if(clubDao.insertPI(preInfo)>0){
+					count1+=1;
+				}else{
+					count2+=1;
+				}
+			}else{
+				count2+=1;
+			}
+		}
+		int[] arr=new int[2];
+		arr[0]=count1;
+		arr[1]=count2;
+		return arr;
+	}
+	
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.zeepn.dao.UserAlbumDao">
+  <insert id="insertAlbum">
+	insert into album values(album_seq.nextval,#{u_id},#{a_time},#{a_num},#{a_title},#{a_desc},#{a_main})
+</insert>
+<insert id="insertAlbumPic">
+	insert into album_pic values(album_pic_seq.nextval,#{a_id},#{ap_img},#{ap_time})
+</insert>
+  
+  </mapper>

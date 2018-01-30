@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>我的爱车</title>
+<link href="css/public.css" rel="stylesheet" type="text/css" />
+<link href="css/photo.css" rel="stylesheet" type="text/css" />
+<link href="css/user.css" rel="stylesheet" type="text/css" />
+<link href="css/message.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.Xslider.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".showbox").click(function(){
+		$("#TB_overlayBG").css({
+			display:"block",height:$(document).height()
+		});
+		$(".box").css({
+			left:($("body").width()-$(".box").width())/2-20+"px",
+			top:($(window).height()-$(".box").height())/2+$(window).scrollTop()+"px",
+			display:"block"
+		});
+	});
+	
+	$(".close").click(function(){
+		$("#TB_overlayBG").css("display","none");
+		$(".box ").css("display","none");
+	});
+})
+
+</script>
+</head>
+<body>
+
+<div class="wrap_top">
+   	<div class="top">
+       	<div class="logo"><a href="#"><img src="images/logo.jpg" width="200" height="74" /></a></div>
+           <div id="navMenu">
+               <UL class="menu1">
+                   <li class="onelink"><a href="user.html">首页</a></li>
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>消息</a>
+                       <ul>
+                           <li><a href="#">系统消息</a></li>
+                           <li><a href="#">查看私信</a></li>
+                           <li><a href="#">收到的回复</a></li>
+                           <li><a href="#">收到的赞</a></li>
+                           <li><a href="#">任务奖励</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis1"><a href="#"  rel='dropmenu1'>设置</a>
+                       <ul>
+                           <li><a href="#">个人资料</a></li>
+                           <li><a href="#">修改密码</a></li>
+                       </ul>
+                   </li> 
+                   <li class="navthis25"><a href="activity.html" >返回首页</a></li>
+             	</ul>
+		</div>
+  	</div>
+ </div>
+ 
+ <div id="TB_overlayBG"></div>
+	<div class="box" style="display:none">
+		<h2>创建相册<a href="#" class="close">关闭</a></h2>
+		<div class="mainlist">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="21%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">车辆品牌：</td>
+                <td width="67%"><input type="text" name="textfield" id="textfield" / class="yanse"></td>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">车辆型号：</td>
+                <td width="67%"><input type="text" name="textfield" id="textfield" / class="yanse"></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="6%">&nbsp;</td>
+                <td width="31%" align="right" style="color:#000; font-size:14px; line-height:50px; line-height:50px;">车辆图片：</td>
+                <td width="57%"><div style="height:0px; width:0;">
+					<input type="file" /></div>
+                <td width="6%">&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td><table width="205" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                <td>&nbsp;</td>
+                <td><label for="checkbox"></label></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+                
+                  <tr>
+                    <td width="41"><div class="login"><a href="#">提交</a></div></td>
+                    
+                  </tr>
+                </table></td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+	</div>
+</div>
+ 
+ <div class="user clearfix">
+    	<div class="u_l">
+        	<div class="u_la">
+            	<div class="box_h"><span>我的账户</span></div>
+                <div class="box_m">
+                	<img src="images/qq.jpg" alt=""/>
+                    <p>用户名：黄瓒</p>
+                    <p>关注</p>
+                </div>
+            </div>
+            <div class="space_hx">&nbsp;</div>
+            <div class="u_lb">
+            	<div class="box_h"><span>个人中心</span></div>
+                <div class="box_m">
+                	<ul>
+                    	<li class="now"><a href="user.html">个人资料</a></li>
+                        <li><a href="myPhoto.html">我的相册</a></li>
+                        <li><a href="myCar.html">我的爱车</a></li>
+                        <li><a href="myCarClub.html">我的车友会</a></li>
+                        <li><a href="friends.html">我的好友</a></li>
+                        <li><a href="address.html">我的活动</a></li>
+                        <li><a href="changePwd.html">修改密码</a></li>
+                    </ul>
+                </div>
+            </div>
+		</div>
+		<div class="u_r">
+        	<div class="r_name">我的爱车</div>
+        	<div class="matter2">
+                <div class="choose">
+                    <div class="select2">
+                   	  <ul>
+                            <li><a href="#" href="javascript:void(0);" class="showbox">添加爱车</a></li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+	      	<div class="r_name001"></div>
+	      	<div class="r_name007">
+	      		<div class="r_name007_left">
+	      			<div class="r_name007_left001">
+	      			<img src="images/qq.jpg" width="160px" height="160px"/></div>
+	      		</div>
+	      		<div class="r_name007_right">
+	      			<h3>车牌</h3>
+                    <h3>车系</h3>
+                  	<p><a href="">修改爱车</a></p>
+                    <p><a href="">删除爱车</a></p>
+                </div>
+	      	</div>
+	      	<div class="r_name001"></div>
+	      	<div class="r_name007">
+	      		<div class="r_name007_left">
+	      			<div class="r_name007_left001">
+	      				<img src="images/qq.jpg" width="160px" height="160px"/>
+	      			</div>
+	      		</div>
+	      		<div class="r_name007_right">
+	      			<h3>车牌</h3>
+                    <h3>车系</h3>
+                  	<p><a href="">修改爱车</a></p>
+                    <p><a href="">删除爱车</a></p>
+                </div>
+	      	</div>
+	      	<div class="r_name001"></div>
+	      	<div class="r_name007">
+	      		<div class="r_name007_left">
+	      			<div class="r_name007_left001">
+	      				<img src="images/qq.jpg" width="160px" height="160px"/>
+	      			</div>
+	      		</div>
+	      		<div class="r_name007_right">
+	      			<h3>车牌</h3>
+                    <h3>车系</h3>
+                  	<p><a href="">修改爱车</a></p>
+                    <p><a href="">删除爱车</a></p>
+                </div>
+	      	</div>
+	      	
+        </div>
+</div>
+
+</body>
+</html>

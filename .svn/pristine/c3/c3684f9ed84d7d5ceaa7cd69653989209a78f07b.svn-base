@@ -1,0 +1,27 @@
+package com.zeepn.dao;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository("supAdmDao")
+public interface SupAdmDao {
+	/**
+	 * 查询超级管理员表中是否存在该管理员的方法
+	 * @param sa_level 管理员级别
+	 * @return 返回值>0，说明存在；返回值<=0，说明不存在
+	 */
+	public int selectSupAdmLevel(int sa_level);
+	/**
+	 * 超级管理员登录方法
+	 * @param sa_name 超级管理员账号
+	 * @param sa_pwd 超级管理员密码
+	 * @return 返回非空的超级管理员对象，登录成功；返回空的超级管理员对象，登录失败
+	 */
+	public int selectSupAdm(@Param("sa_name")String sa_name,@Param("sa_pwd")String sa_pwd);
+	/**
+	 * 超级管理员修改自己密码的方法
+	 * @param sa_pwd 超级管理员新密码
+	 * @return 返回值>0，说明修改成功；返回值<=0，说明修改失败
+	 */
+	public int updateSupAdmPwd(String sa_pwd);
+}

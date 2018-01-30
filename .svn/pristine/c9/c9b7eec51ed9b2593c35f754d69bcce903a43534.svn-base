@@ -1,0 +1,25 @@
+package com.zeepn.service;
+
+import java.util.List;
+
+import com.zeepn.bean.UserInfo;
+
+public interface ClubHomeService {
+	
+	public List<UserInfo> selectUserInfoByClubId(int club_id,int page);
+	
+	public List<UserInfo> selectPresident(int club_id);
+	
+	public List<UserInfo> selectUserInfoInClubRankByClubId(int club_id);
+	
+	public List<UserInfo> selectUserInfosByUIds(int[] u_id);
+	
+	public UserInfo selectFirstPresident(int club_id);
+	
+	public int countMembersPage(int club_id);
+	
+	public UserInfo selectUserInfo(int u_id);
+	
+	
+
+}

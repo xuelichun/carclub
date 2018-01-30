@@ -1,0 +1,76 @@
+$(function (){
+	$.getJSON("../user/islogin.do",{},function(data){
+		if(data!=null){
+			loginsuccess();	
+		}		
+	});
+});
+function checkName(){
+	var name=$("#u_name").val();
+	var re=/^\w*@\w*.{0,}$/;
+	if(re.test(name)){
+		var reg=/^\w+@\w+.[a-zA-Z]{2,3}(.[a-zA-Z]{2,3})?$/;
+		if(reg.test(name)){
+			$("#span").prop("style","color:#0f0;");
+			$("#span").html("邮箱格式正确");
+		}else{
+			$("#span").prop("style","color:#f00;");
+			$("#span").html("邮箱格式错误");
+		}
+	}else{
+		var reg=/^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\d{8}$/;
+		if(reg.test(name)){
+			$("#span").prop("style","color:#0f0;");
+			$("#span").html("电话格式正确");
+		}else{
+			$("#span").prop("style","color:#f00;");
+			$("#span").html("电话格式错误");
+		}
+	}
+}
+function login(){
+	var name=$("#u_name").val();
+	var u_pwd=$("#u_pwd").val();
+	var msg=$("#span").html();
+	if(msg=="邮箱格式正确"){
+		$.getJSON("../user/loginbyemail.do",{"u_email":name,"u_pwd":u_pwd},function(data){
+			if(data.rs=="ok"){
+				loginsuccess();	
+			}else{
+				$("#span").prop("style","color:#f00;");
+				$("#span").html("邮箱或密码错误");
+			}		
+		});
+	}else if(msg=="电话格式正确"){
+		$.getJSON("../user/loginbyphone.do",{"u_phone":name,"u_pwd":u_pwd},function(data){
+			if(data.rs=="ok"){
+				loginsuccess();
+				
+			}else{
+				$("#span").prop("style","color:#f00;");
+				$("#span").html("电话号或密码错误");
+			}	
+		});
+	}
+}
+
+function loginsuccess(){
+	$("#span").html("");
+	$("#TB_overlayBG").css("display","none");
+	$(".box ").css("display","none");
+	$("#lo").hide();
+	$.getJSON("../user/islogin.do",{},function(data){	
+		var context="<li class='top22'>" +
+		"<a href=''>"+data.u_nick+"</a>" +"&nbsp;&nbsp;&nbsp;"+
+		"<a href='#'>个人中心</a>" +"&nbsp;&nbsp;&nbsp;"+
+		"<a href='javascript:exit()'> 退出</a></li>"
+		$("#log").html(context);
+		$("#log").show();
+	});	
+}
+function exit(){
+	$.getJSON("../user/exit.do",{},function(data){
+			$("#log").hide();
+			$("#lo").show();
+	});
+}

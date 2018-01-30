@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeepn.dao.AdvertiserDao">
+
+<select id="selectAdvertiserById"  resultType="Advertiser">
+	 <![CDATA[
+		select * from advertiser where adv_id=#{adv_id}
+	]]>
+</select>
+<!-- 有问题parameterMap -->
+<insert id="insertAdvertiser">
+	<![CDATA[
+		insert into advertiser values(advertiser_seq.nextval,#{adv_name},#{adv_adress},#{adv_img})
+	]]>
+</insert>
+<insert id="insertAdvDesc">
+	<![CDATA[
+		insert into adv_desc values(Adv_desc_seq.nextval,#{at_id},#{adv_id},#{ad_content},#{ad_img},#{ad_price},#{ad_web},0)
+	]]>
+</insert>
+<!-- 查询 广告商总数-->
+<select id="selectCount" resultType="int">
+	<![CDATA[
+		select count(adv_id) from advertiser
+	]]>
+</select>
+<select id="selectAdvertiserByPage"  resultType="Advertiser">
+	<![CDATA[
+	select b.* from (select s.*,rownum rn from advertiser a order by adv_id) b
+	 where b.rn between 1 and 8
+	]]>
+</select>
+<select id="selectAdvertiseByPage" resultType="advDesc">
+	select b.* from (select s.*,rownum rn from adv_desc a order by ad_id) b
+	 where b.rn between 1 and 8
+</select>
+<delete id="deleteAdvertiserById">
+	<![CDATA[
+		delete from advertiser where adv_id=#{adv_id}
+	]]>
+</delete>
+<delete id="deleteAdvertiseById">
+	<![CDATA[
+		delete from adv_desc where ad_id=#{ad_id}
+	]]>
+</delete>
+<update id="updateAdvertiser">
+	<![CDATA[
+		update advertiser set adv_name=#{adv_name},adv_adress=#{adv_adress},adv_img=#{adv_img} where adv_id=#{adv_id}
+	]]>
+</update>
+<update id="updateAdverDesc">
+	<![CDATA[
+		update adv_desc set ad_content=#{ad_content},ad_img=#{ad_img},ad_price=#{ad_price},ad_web=#{ad_web},ad_click=#{ad_click} where ad_id=#{ad_id}
+	]]>
+</update>
+<select id="selectAdverDesc" resultType="advDesc">
+	<![CDATA[
+		select * from adv_desc where adv_id=#{adv_id}
+	]]>
+</select>
+<insert id="insertAdvType">
+	<![CDATA[
+		insert into adv_type values(adv_type_seq.nextval,#{at_name})
+	]]>
+</insert>
+<delete id="deleteAdvType">
+	<![CDATA[
+		delete from adv_type where at_id=#{at_id}
+	]]>
+</delete>
+<update id="updateAdvType">
+	<![CDATA[
+		update adv_type set at_name=#{at_name} where at_id=#{at_id}
+	]]>
+</update>
+<select id="selectAllAdvType" resultType="advType">
+	<![CDATA[
+		select * from adv_type
+	]]>
+</select>
+<select id="selectAdvType" resultType="advType">
+	<![CDATA[
+		select * from adv_type where ad_id=#{ad_id}
+	]]>
+</select>
+
+<select id="advRank" resultType="advDesc">
+	select * from (select * from adv_desc order by ad_click desc) where rownum&lt;=7
+</select>
+
+
+<select id="selectAdvTypeById" resultType="advType">
+	select * from adv_type where at_id=#{at_id}
+</select>
+
+
+<select id="countAdvName" resultType="java.lang.Integer">
+	select count(adv_id) from advertiser where adv_name=#{adv_name}
+</select>
+</mapper>
